@@ -14,9 +14,26 @@ class CampaignController extends Controller
         return view('campaigns.index');
     }
 
+    public function information($id)
+    {
+        return view('campaigns.information', compact('id'));
+    }
+
+    public function create()
+    {
+        return view('campaigns.create');
+    }
+
     public function records(Request $request)
     {
         $records = GoogleAdsData::getCampaigns();
         return new CampaignCollection($records);
     }
+
+    public function store()
+    {
+        
+    }
+
+
 }

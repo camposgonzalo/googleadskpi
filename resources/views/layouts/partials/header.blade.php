@@ -144,10 +144,13 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="#"><i class="ti-user text-muted mr-2"></i> Profile</a>
                         <a class="dropdown-item" href="#"><i class="ti-wallet text-muted mr-2"></i> My Wallet</a>
-                        <a class="dropdown-item" href="#"><i class="ti-settings text-muted mr-2"></i> Settings</a>
-                        <a class="dropdown-item" href="#"><i class="ti-lock text-muted mr-2"></i> Lock screen</a>
+                        <a class="dropdown-item"href="{{ route('account.index') }}""><i class="ti-settings text-muted mr-2"></i> Mi Cuenta</a>
+                        {{--<a class="dropdown-item" href=""><i class="ti-lock text-muted mr-2"></i> Lock screen</a> --}}
                         <div class="dropdown-divider mb-0"></div>
-                        <a class="dropdown-item" href="#"><i class="ti-power-off text-muted mr-2"></i> Logout</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" ><i class="ti-power-off text-muted mr-2"></i> Logout</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     </div>
                 </li>
             </ul>

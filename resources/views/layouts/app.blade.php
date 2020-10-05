@@ -56,6 +56,8 @@
     <!-- App js -->
     <script src="{{ asset('crovex/assets/js/app.js') }}"></script>
     <script defer src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/manifest.js') }}"></script>
+    <script src="{{ asset('js/vendor.js') }}"></script>
 
 </body>
 <!-- Mirrored from mannatthemes.com/crovex/crovex_live/dashboard/analytics-index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Aug 2020 23:25:49 GMT -->

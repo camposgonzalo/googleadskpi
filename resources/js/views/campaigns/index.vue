@@ -10,7 +10,9 @@
                         <table class="table mb-0">
                             <thead class="thead-light">
                                 <tr>
-                                    <th class="border-top-0">Id</th>
+                                    <!--<th class="border-top-0">Id</th>-->
+                                    <th class="border-top-0">Estado</th>
+
                                     <th class="border-top-0">Name</th>
                                     <th class="border-top-0">Status</th>
 
@@ -22,8 +24,23 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(row, index) in records" :key="index + 'R'">
-                                    <td>
+                                    <!--<td>
                                         {{ row.id}}
+                                    </td>-->
+                                    <td>
+                                        <el-switch  v-model="row.status_2">
+                                        </el-switch>
+
+                                        <el-popover
+                                            placement="right"
+                                            width="200"
+                                            trigger="click">
+                                            <el-row>
+                                                <a :href="`/ads-campaign/information/${row.id}`" size="mini" plain>Información</a>
+                                            </el-row>
+
+                                            <el-button size="mini" slot="reference" icon="el-icon-menu" circle></el-button>
+                                        </el-popover>
                                     </td>
                                     <td>
                                         {{row.name}}
@@ -40,6 +57,8 @@
                         <!--end table-->
                     </div>
                     <!--end /div-->
+                    <br>
+                    <a href="/ads-campaign/create"  class="btn btn-sm btn-gradient-primary float-right" onclick="update()">Nueva Campaña</a>
                 </div>
                 <!--end card-body-->
             </div>
@@ -57,6 +76,7 @@ export default {
         return{
             resource: 'ads-campaign',
             records: [],
+            value1:true
         }
     },
     created(){
@@ -69,6 +89,10 @@ export default {
                     .then(response => {
                         this.records = response.data.data
                     })
+        },
+        viewInformation(id)
+        {
+            location.href
         }
     }
 

@@ -22,6 +22,7 @@ class CampaignCollection extends ResourceCollection
                 'servingStatus' => $row->getServingStatus(),
                 'advertisingChannelType' => $row->getAdvertisingChannelType(),
                 'advertisingChannelSubType' => $row->getAdvertisingChannelSubType(),
+                'status_2' => false
 
             ];
         });

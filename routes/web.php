@@ -15,14 +15,9 @@
  * limitations under the License.
  */
 
-Route::get(
-    '/',
-    function () {
-        return view('home.index');
-    }
-)->name('home');
 
-Route::match(
+
+/*Route::match(
     ['get', 'post'],
     'get-campaigns',
     'AdWordsApiController@getCampaignsAction'
@@ -31,17 +26,37 @@ Route::match(
     ['get', 'post'],
     'download-report',
     'AdWordsApiController@downloadReportAction'
-);
+);*/
 
-Route::prefix('ads-campaign')->group(function () {
+Route::group(['middleware' => 'auth'], function() {
 
-    Route::get('', 'CampaignController@index')->name('campaign.index');
-    Route::get('records', 'CampaignController@records');
+    Route::get(
+        '/',
+        function () {
+            return view('home.index');
+        }
+    )->name('home');
+
+    Route::prefix('ads-campaign')->group(function () {
+
+        Route::get('', 'CampaignController@index')->name('campaign.index');
+        Route::get('records', 'CampaignController@records');
+        Route::get('information/{id}', 'CampaignController@information');
+        Route::get('create', 'CampaignController@create');
+    });
+
+    Route::prefix('ads-dashboard')->group(function () {
+        Route::get('records', 'DashboardController@records');
+    });
+
+    Route::prefix('account')->group(function () {
+        Route::get('', 'AccountController@index')->name('account.index');
+    });
+
 
 });
 
-Route::prefix('ads-dashboard')->group(function () {
 
-    Route::get('records', 'DashboardController@records');
+Auth::routes();
 
-});
+//Route::get('/home', 'HomeController@index')->name('home');

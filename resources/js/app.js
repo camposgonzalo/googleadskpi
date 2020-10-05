@@ -10,6 +10,8 @@ require('./bootstrap');
 
 import Vue from 'vue'
 import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css';
+
 import Axios from 'axios'
 
 import lang from 'element-ui/lib/locale/lang/es'
@@ -39,7 +41,13 @@ Vue.prototype.$http = Axios
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('campaigns-index', require('./views/campaigns/index.vue').default);
+Vue.component('campaigns-information', require('./views/campaigns/information.vue').default);
+Vue.component('campaigns-form', require('./views/campaigns/form.vue').default);
+
+
 Vue.component('dashboard-index', require('./views/dashboard/index.vue').default);
+Vue.component('account-index', require('./views/account/index.vue').default);
+
 
 
 
