@@ -19,7 +19,12 @@ class CreateCampaignsTable extends Migration
             $table->string('description')->nullable();
             $table->string('objective');
             $table->string('url');
-            $table->string('phone');
+            $table->string('phone')->nullable();
+
+            $table->boolean('apply_billing')->default(false);
+            $table->string('ruc', 20)->nullable();
+            $table->string('business_name', 200)->nullable();
+
             $table->timestamps();
         });
     }

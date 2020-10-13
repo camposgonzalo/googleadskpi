@@ -16,12 +16,19 @@ class CampaignCollection extends ResourceCollection
     {
         return $this->collection->transform(function($row, $key) {
             return [
-                'id' => $row->getId(),
+                /*'id' => $row->getId(),
                 'name' => $row->getName(),
                 'status' => $row->getStatus(),
                 'servingStatus' => $row->getServingStatus(),
                 'advertisingChannelType' => $row->getAdvertisingChannelType(),
                 'advertisingChannelSubType' => $row->getAdvertisingChannelSubType(),
+                'status_2' => false*/
+                'id' => $row->id,
+                'name' => $row->name,
+                'description' => $row->description,
+                'objective' => $row->objective,
+                'url' => $row->url,
+                'phone' => $row->phone,
                 'status_2' => false
 
             ];

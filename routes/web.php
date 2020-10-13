@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('records', 'CampaignController@records');
         Route::get('information/{id}', 'CampaignController@information');
         Route::get('create', 'CampaignController@create');
+        Route::post('', 'CampaignController@store');
+
     });
 
     Route::prefix('ads-dashboard')->group(function () {

@@ -12,13 +12,12 @@
                                 <tr>
                                     <!--<th class="border-top-0">Id</th>-->
                                     <th class="border-top-0">Estado</th>
+                                    <th class="border-top-0">Nombre</th>
+                                    <th class="border-top-0">Objetivo</th>
 
-                                    <th class="border-top-0">Name</th>
-                                    <th class="border-top-0">Status</th>
-
-                                    <th class="border-top-0">ServingStatus</th>
-                                    <th class="border-top-0">AdvertisingChannelType</th>
-                                    <th class="border-top-0">AdvertisingChannelSubType</th>
+                                    <th class="border-top-0">Url</th>
+                                    <th class="border-top-0">Contacto</th>
+                                   <!-- <th class="border-top-0">AdvertisingChannelSubType</th>-->
                                 </tr>
                                 <!--end tr-->
                             </thead>
@@ -45,11 +44,11 @@
                                     <td>
                                         {{row.name}}
                                     </td>
-                                    <td>{{ row.status }}</td>
+                                    <td>{{ row.objective }}</td>
 
-                                    <td> {{ row.servingStatus}}</td>
-                                    <td> {{ row.advertisingChannelType}}</td>
-                                    <td> {{ row.advertisingChannelSubType}}</td>
+                                    <td> {{ row.url}}</td>
+                                    <td> {{ row.phone}}</td>
+                                    <!--<td> {{ row.advertisingChannelSubType}}</td>-->
 
                                 </tr>
                             </tbody>
