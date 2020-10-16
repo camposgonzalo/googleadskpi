@@ -11,7 +11,7 @@
                                 >
                                     Campañas activas
                                 </p>
-                                <h3 class="my-3">24k</h3>
+                                <h3 class="my-3">{{totalValues.campaigns}}</h3>
                                 <p class="mb-0 text-truncate">
                                     <span class="text-success"
                                         ><i class="mdi mdi-trending-up"></i
@@ -41,7 +41,7 @@
                                 >
                                     Total Clicks
                                 </p>
-                                <h3 class="my-3">24k</h3>
+                                <h3 class="my-3">{{totalValues.clicks}}</h3>
                                 <p class="mb-0 text-truncate">
                                     <span class="text-success"
                                         ><i class="mdi mdi-trending-up"></i
@@ -71,7 +71,7 @@
                                 >
                                     Total de Impresiones
                                 </p>
-                                <h3 class="my-3">24k</h3>
+                                <h3 class="my-3">{{totalValues.impressions}}</h3>
                                 <p class="mb-0 text-truncate">
                                     <span class="text-success"
                                         ><i class="mdi mdi-trending-up"></i
@@ -253,6 +253,22 @@
                 <!--end card-->
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <div class="card-body bg-light chart-report-card">
+                        <div class="row d-flex justify-content-center">
+                            <a href="https://www.youtube.com/" target="_blank"  class="btn btn-sm btn-gradient-primary float-right" onclick="update()">Visitar Blog</a>
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            
+        </div>
     </div>
 </template>
 
@@ -263,6 +279,11 @@ export default {
         return {
             resource: "ads-dashboard",
             records: [],
+            totalValues: {
+                campaigns: 0,
+                clicks: 0,
+                impressions: 0
+            },
             series: [
                 {
                     name: "Desktops",
@@ -313,7 +334,7 @@ export default {
                 width: 380,
                 type: 'pie',
                 },
-                labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+                labels: ['UNKNOWN', 'DESKTOP', 'HIGH_END_MOBILE', 'TABLET', 'CONNECTED_TV'],
                 responsive: [{
                 breakpoint: 480,
                 options: {
@@ -337,6 +358,16 @@ export default {
         getRecords() {
             this.$http.get(`/${this.resource}/records`).then(response => {
                 this.records = response.data.data;
+                let campaignsId = []
+                this.records.map(r => {
+                    this.totalValues.clicks += Number(r.clicks)
+                    this.totalValues.impressions += Number(r.impressions)
+                    console.log(campaignsId.indexOf(r.id))
+                    if (campaignsId.indexOf(r.id) <0) {
+                        campaignsId.push(r.id)
+                        this.totalValues.campaigns++
+                    }
+                })
             });
         }
     }

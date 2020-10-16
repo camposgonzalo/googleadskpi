@@ -15,20 +15,18 @@
  * limitations under the License.
  */
 
-
-
 /*Route::match(
-    ['get', 'post'],
-    'get-campaigns',
-    'AdWordsApiController@getCampaignsAction'
+['get', 'post'],
+'get-campaigns',
+'AdWordsApiController@getCampaignsAction'
 );
 Route::match(
-    ['get', 'post'],
-    'download-report',
-    'AdWordsApiController@downloadReportAction'
+['get', 'post'],
+'download-report',
+'AdWordsApiController@downloadReportAction'
 );*/
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get(
         '/',
@@ -41,7 +39,12 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::get('', 'CampaignController@index')->name('campaign.index');
         Route::get('records', 'CampaignController@records');
+        Route::get('record/{id}', 'CampaignController@record');
+        Route::get('record/{id}/keywords', 'CampaignController@keywords');
+        Route::get('record/{id}/ads', 'CampaignController@ads');
+        Route::get('record/{id}/search_terms', 'CampaignController@searchTerms');
         Route::get('information/{id}', 'CampaignController@information');
+        Route::get('details/{id}', 'CampaignController@details');
         Route::get('create', 'CampaignController@create');
         Route::post('', 'CampaignController@store');
 
@@ -51,13 +54,19 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('records', 'DashboardController@records');
     });
 
+    Route::prefix('ads-request')->group(function () {
+        Route::get('', 'RequestController@index')->name('request.index');
+    });
+
+    Route::prefix('ads-billing')->group(function () {
+        Route::get('', 'BillingController@index')->name('billing.index');
+    });
+
     Route::prefix('account')->group(function () {
         Route::get('', 'AccountController@index')->name('account.index');
     });
 
-
 });
-
 
 Auth::routes();
 

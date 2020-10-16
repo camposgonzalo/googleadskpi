@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Helpers\GoogleAdsReport;
+use App\Http\Resources\CampaignCollection;
+use App\Http\Resources\CampaignPerformanceCollection;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Helpers\GoogleAdsReport;
-use App\Http\Resources\CampaignPerformanceCollection;
-
 
 class DashboardController extends Controller
 {
@@ -17,7 +18,8 @@ class DashboardController extends Controller
 
     public function records(Request $request)
     {
-        $records = GoogleAdsReport::getCampaignPerformance();
+        $records = GoogleAdsReport::getCampaignsPerformance();
+        return new CampaignCollection($records);
         return $records;
         return new CampaignPerformanceCollection($records);
     }

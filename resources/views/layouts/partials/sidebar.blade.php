@@ -7,10 +7,10 @@
                 <a href="{{route('campaign.index')}}"><i class="ti-server"></i><span>Campañas</span><span
                         class="menu-arrow"></span></a>
 
-                <a href="javascript: void(0);"><i class="ti-server"></i><span>Solicitudes</span><span
+                <a href="{{route('request.index')}}"><i class="ti-server"></i><span>Solicitudes</span><span
                         class="menu-arrow"></span></a>
 
-                <a href="javascript: void(0);"><i class="ti-server"></i><span>Facturación</span><span
+                <a href="{{route('billing.index')}}"><i class="ti-server"></i><span>Facturación</span><span
                         class="menu-arrow"></span></a>
 
 

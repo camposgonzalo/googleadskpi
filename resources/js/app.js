@@ -24,7 +24,7 @@ Vue.use(VueApexCharts)
 Vue.component('apexchart', VueApexCharts)
 
 //Vue.use(ElementUI)
-Vue.use(ElementUI, {size: 'small'})
+Vue.use(ElementUI, { size: 'small' })
 Vue.prototype.$eventHub = new Vue()
 Vue.prototype.$http = Axios
 
@@ -42,11 +42,14 @@ Vue.prototype.$http = Axios
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('campaigns-index', require('./views/campaigns/index.vue').default);
 Vue.component('campaigns-information', require('./views/campaigns/information.vue').default);
+Vue.component('campaigns-details', require('./views/campaigns/details.vue').default);
 Vue.component('campaigns-form', require('./views/campaigns/form.vue').default);
 
 
 Vue.component('dashboard-index', require('./views/dashboard/index.vue').default);
 Vue.component('account-index', require('./views/account/index.vue').default);
+Vue.component('requests-index', require('./views/requests/index.vue').default);
+Vue.component('billings-index', require('./views/billings/index.vue').default);
 
 
 

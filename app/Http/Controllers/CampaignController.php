@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use App\Helpers\GoogleAdsData;
-use App\Http\Resources\CampaignCollection;
-use App\Http\Requests\CampaignRequest;
-use App\Models\Campaign;
 
+use App\Helpers\GoogleAdsData;
+use App\Helpers\GoogleAdsReport;
+use App\Http\Requests\CampaignRequest;
+use App\Http\Resources\AdPerformanceResource;
+use App\Http\Resources\CampaignCollection;
+use App\Http\Resources\CampaignResource;
+use App\Http\Resources\KeywordPerformanceResource;
+use App\Http\Resources\SearchTermPerformanceResource;
+use App\Models\Campaign;
+use Illuminate\Routing\Controller;
 
 class CampaignController extends Controller
 {
@@ -22,6 +26,11 @@ class CampaignController extends Controller
         return view('campaigns.information', compact('id'));
     }
 
+    public function details($id)
+    {
+        return view('campaigns.details', compact('id'));
+    }
+
     public function create()
     {
         return view('campaigns.create');
@@ -29,11 +38,36 @@ class CampaignController extends Controller
 
     public function records()
     {
-        /*$records = GoogleAdsData::getCampaigns();
-        return new CampaignCollection($records);*/
+        $records = GoogleAdsReport::getCampaignsPerformance();
+        return CampaignResource::collection($records);
+        $records = GoogleAdsData::getCampaigns();
+        return new CampaignCollection($records);
         $records = Campaign::all();
         return new CampaignCollection($records);
+    }
 
+    public function record($id)
+    {
+        $record = GoogleAdsReport::getCampaignPerformance($id);
+        return CampaignResource::make($record);
+    }
+
+    public function ads($id)
+    {
+        $records = GoogleAdsReport::getAdPerformanceByCampaignId($id);
+        return AdPerformanceResource::collection($records);
+    }
+
+    public function keywords($id)
+    {
+        $records = GoogleAdsReport::getKeywordsPerformance($id);
+        return KeywordPerformanceResource::collection($records);
+    }
+
+    public function searchTerms($id)
+    {
+        $records = GoogleAdsReport::getSearchTermPerformanceByCampaignId($id);
+        return SearchTermPerformanceResource::collection($records);
     }
 
     public function store(CampaignRequest $request)
@@ -45,10 +79,9 @@ class CampaignController extends Controller
 
         return [
             'success' => true,
-            'message' => ($id)?'Campaña editada con éxito':'Campaña registrada con éxito'
+            'message' => ($id) ? 'Campaña editada con éxito' : 'Campaña registrada con éxito',
         ];
 
     }
-
 
 }

@@ -4,23 +4,20 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CampaignPerformanceCollection extends ResourceCollection
+class KeywordCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return mixed
+     * @return array
      */
     public function toArray($request)
     {
+        // return parent::toArray($request);
         return $this->collection->transform(function ($row, $key) {
             return [
-                // 'id' => $row->CampaignId,
-                // 'clicks' => $row->Clicks,
-                'id' => $row['@attributes']['campaignID'],
-                'clicks' => $row['@attributes']['clicks'],
-                'impressions' => $row['@attributes']['impressions'],
+                'id' => $row->getCriterion()->getId(),
             ];
         });
     }

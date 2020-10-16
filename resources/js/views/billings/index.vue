@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title mt-0 mb-3">
-                        Campañas disponibles
+                        Resumen de facturación
                     </h4>
                     <div class="table-responsive browser_users">
                         <table class="table mb-0">

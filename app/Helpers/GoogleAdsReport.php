@@ -1,54 +1,218 @@
 <?php
 
 namespace App\Helpers;
-use App\Helpers\GoogleAdsSession;
-use Google\AdsApi\AdWords\Reporting\v201809\ReportDownloader;
-use Google\AdsApi\AdWords\Query\v201809\ReportQueryBuilder;
-use Google\AdsApi\AdWords\ReportSettingsBuilder;
-use Google\AdsApi\AdWords\Reporting\v201809\DownloadFormat;
 
+use App\Helpers\GoogleAdsSession;
+use Google\AdsApi\AdWords\Query\v201809\ReportQueryBuilder;
+use Google\AdsApi\AdWords\Reporting\v201809\DownloadFormat;
+use Google\AdsApi\AdWords\Reporting\v201809\ReportDownloader;
+use Google\AdsApi\AdWords\ReportSettingsBuilder;
+use Google\AdsApi\AdWords\v201809\cm\ReportDefinitionReportType;
 
 class GoogleAdsReport
 {
-    public static function getCampaignPerformance()
+    public static function getCampaignsPerformance()
     {
-        $reportDownloader = new  ReportDownloader(GoogleAdsSession::getSession());
-
-        $selectedFields = ["CampaignId","CampaignName","CampaignStatus","AccountDescriptiveName","Impressions","Clicks","Ctr","Cost","Conversions","CrossDeviceConversions"];
-
+        $session = GoogleAdsSession::getSession();
         $query = (new ReportQueryBuilder())
-        ->select($selectedFields)
-        ->from('CAMPAIGN_PERFORMANCE_REPORT')
-        ->duringDateRange('LAST_7_DAYS')->build();
-
-        $reportSettingsOverride = (new ReportSettingsBuilder())
-            ->includeZeroImpressions(false)
+            ->select([
+                'CampaignId',
+                'CampaignName',
+                'CampaignStatus',
+                'Clicks',
+                'Impressions',
+                'Ctr',
+                'Cost',
+                'AccountCurrencyCode',
+                'AverageTimeOnSite',
+                'CrossDeviceConversions',
+            ])
+            ->from(ReportDefinitionReportType::CAMPAIGN_PERFORMANCE_REPORT)
             ->build();
 
+        $reportDownloader = new ReportDownloader($session);
+        $reportSettingsOverride = (new ReportSettingsBuilder())
+            ->includeZeroImpressions(true)
+            ->skipReportSummary(false)
+            ->build();
         $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
-            "$query",
+            sprintf('%s', $query),
             DownloadFormat::XML,
             $reportSettingsOverride
         );
-
-        $json = json_encode(
-            simplexml_load_string($reportDownloadResult->getAsString())
-        );
-
-        $resultTable = json_decode($json, true)['table'];
-
-        return $resultTable;
-
-        if (array_key_exists('row', $resultTable)) {
-            $row = $resultTable['row'];
-            $row = count($row) > 1 ? $row : [$row];
-            return collect($row);
+        $cadena = $reportDownloadResult->getAsString();
+        $xml = simplexml_load_string($cadena);
+        $json = json_encode($xml->table);
+        $array = json_decode($json, true);
+        if (array_key_exists('row', $array)) {
+            return collect($array['row']);
+        } else {
+            return collect([]);
         }
-
-        return collect([]);
-
     }
 
+    public static function getCampaignPerformance($id)
+    {
+        $session = GoogleAdsSession::getSession();
+        $query = (new ReportQueryBuilder())
+            ->select([
+                'CampaignId',
+                'CampaignName',
+                'CampaignStatus',
+                'Clicks',
+                'Impressions',
+                'Ctr',
+                'Cost',
+                'AccountCurrencyCode',
+                'AverageTimeOnSite',
+                'CrossDeviceConversions',
+                'StartDate',
+                'EndDate',
+                'Labels',
+            ])
+            ->from(ReportDefinitionReportType::CAMPAIGN_PERFORMANCE_REPORT)
+            ->where('CampaignId')->in([$id])
+            ->build();
 
+        $reportDownloader = new ReportDownloader($session);
+        $reportSettingsOverride = (new ReportSettingsBuilder())
+            ->includeZeroImpressions(true)
+            ->skipReportSummary(false)
+            ->build();
+        $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
+            sprintf('%s', $query),
+            DownloadFormat::XML,
+            $reportSettingsOverride
+        );
+        $cadena = $reportDownloadResult->getAsString();
+        $xml = simplexml_load_string($cadena);
+        $json = json_encode($xml->table);
+        $array = json_decode($json, true);
+        if (array_key_exists('row', $array)) {
+            return collect($array['row']);
+        } else {
+            return collect([]);
+        }
+    }
+
+    public static function getKeywordsPerformance($id)
+    {
+        $session = GoogleAdsSession::getSession();
+        $query = (new ReportQueryBuilder())
+            ->select([
+                'AdGroupName',
+                'Clicks',
+                'Impressions',
+                'Ctr',
+                'Cost',
+                'AccountCurrencyCode',
+                'Id',
+                'AdGroupId',
+            ])
+            ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
+            ->where('CampaignId')->in([$id])
+            ->build();
+
+        $reportDownloader = new ReportDownloader($session);
+        $reportSettingsOverride = (new ReportSettingsBuilder())
+            ->includeZeroImpressions(true)
+            ->skipReportSummary(false)
+            ->build();
+        $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
+            sprintf('%s', $query),
+            DownloadFormat::XML,
+            $reportSettingsOverride
+        );
+        $cadena = $reportDownloadResult->getAsString();
+        $xml = simplexml_load_string($cadena);
+        $json = json_encode($xml->table);
+        $array = json_decode($json, true);
+        if (array_key_exists('row', $array)) {
+            return collect($array['row']);
+        } else {
+            return collect([]);
+        }
+    }
+
+    public static function getAdPerformanceByCampaignId($id)
+    {
+        $session = GoogleAdsSession::getSession();
+        $query = (new ReportQueryBuilder())
+            ->select([
+                'Status',
+                'Headline',
+                'HeadlinePart1',
+                'AdGroupName',
+                'Clicks',
+                'Impressions',
+                'Ctr',
+                'Cost',
+                'AccountCurrencyCode',
+                'HeadlinePart1',
+                'HeadlinePart2',
+            ])
+            ->from(ReportDefinitionReportType::AD_PERFORMANCE_REPORT)
+            ->where('CampaignId')->in([$id])
+            ->build();
+
+        $reportDownloader = new ReportDownloader($session);
+        $reportSettingsOverride = (new ReportSettingsBuilder())
+            ->includeZeroImpressions(true)
+            ->skipReportSummary(false)
+            ->build();
+        $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
+            sprintf('%s', $query),
+            DownloadFormat::XML,
+            $reportSettingsOverride
+        );
+        $cadena = $reportDownloadResult->getAsString();
+        $xml = simplexml_load_string($cadena);
+        $json = json_encode($xml->table);
+        $array = json_decode($json, true);
+        if (array_key_exists('row', $array)) {
+            return collect($array['row']);
+        } else {
+            return collect([]);
+        }
+    }
+
+    public static function getSearchTermPerformanceByCampaignId($id)
+    {
+        $session = GoogleAdsSession::getSession();
+        $query = (new ReportQueryBuilder())
+            ->select([
+                'AdGroupName',
+                'Clicks',
+                'Impressions',
+                'Ctr',
+                'Cost',
+                'AccountCurrencyCode',
+                'Query',
+            ])
+            ->from(ReportDefinitionReportType::SEARCH_QUERY_PERFORMANCE_REPORT)
+            ->where('CampaignId')->in([$id])
+            ->build();
+
+        $reportDownloader = new ReportDownloader($session);
+        $reportSettingsOverride = (new ReportSettingsBuilder())
+            ->skipReportSummary(false)
+            ->build();
+        $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
+            sprintf('%s', $query),
+            DownloadFormat::XML,
+            $reportSettingsOverride
+        );
+        $cadena = $reportDownloadResult->getAsString();
+        $xml = simplexml_load_string($cadena);
+        $json = json_encode($xml->table);
+        $array = json_decode($json, true);
+
+        if (array_key_exists('row', $array)) {
+            return collect($array['row']);
+        } else {
+            return collect([]);
+        }
+
+    }
 
 }
