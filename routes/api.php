@@ -18,7 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('records', 'CampaignController@records');
-Route::get('record/{id}', 'CampaignController@record');
+// Route::get('record/{id}', 'CampaignController@record');
 Route::get('record/{id}/keywords', 'CampaignController@keywords');
 Route::get('record/{id}/ads', 'CampaignController@ads');
 Route::get('record/{id}/search_terms', 'CampaignController@searchTerms');
+Route::get('record/{id}', 'RequestController@record');

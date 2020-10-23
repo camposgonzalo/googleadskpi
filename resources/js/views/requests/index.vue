@@ -8,39 +8,46 @@
                     </h4>
                     <div class="table-responsive browser_users">
                         Filtrar
-                        <select v-model="state" @change="filterTable">
-                            <option value="" disabled selected hidden
-                                >Estado</option
-                            >
-                            <option
+                        <el-select
+                            v-model="state"
+                            cleareable
+                            @change="filterTable"
+                            clearable
+                            placeholder="Estado"
+                        >
+                            <el-option
                                 v-for="(option, index) in states"
                                 v-bind:key="index"
                                 :value="option"
-                                >{{ option }}</option
+                                >{{ option }}</el-option
                             >
-                        </select>
-                        <select v-model="type" @change="filterTable">
-                            <option value="" disabled selected hidden
-                                >Tipo</option
-                            >
-                            <option
+                        </el-select>
+                        <el-select
+                            v-model="type"
+                            @change="filterTable"
+                            clearable
+                            placeholder="Tipo"
+                        >
+                            <el-option
                                 v-for="(option, index) in types"
                                 v-bind:key="index"
                                 :value="option"
-                                >{{ option }}</option
+                                >{{ option }}</el-option
                             >
-                        </select>
-                        <select v-model="level" @change="filterTable">
-                            <option value="" disabled selected hidden
-                                >Nivel</option
-                            >
-                            <option
+                        </el-select>
+                        <el-select
+                            v-model="level"
+                            @change="filterTable"
+                            clearable
+                            placeholder="Nivel"
+                        >
+                            <el-option
                                 v-for="(option, index) in levels"
                                 v-bind:key="index"
                                 :value="option"
-                                >{{ option }}</option
+                                >{{ option }}</el-option
                             >
-                        </select>
+                        </el-select>
                         <table class="table mb-0">
                             <thead class="thead-light">
                                 <tr>
@@ -66,11 +73,13 @@
                                             trigger="click"
                                         >
                                             <el-row>
-                                                <a size="mini" plain>- Ver</a>
-                                            </el-row>
-                                            <el-row>
-                                                <a size="mini" plain
-                                                    >- Editar</a
+                                                <a
+                                                    :href="
+                                                        `/ads-request/edit/${row.id}`
+                                                    "
+                                                    size="mini"
+                                                    plain
+                                                    >- Ver/Editar</a
                                                 >
                                             </el-row>
                                             <el-row>
@@ -86,13 +95,13 @@
                                                 circle
                                             ></el-button>
                                         </el-popover>
-                                        {{ row.name }}
+                                        {{ row.state }}
                                     </td>
                                     <td>
-                                        {{ row.name }}
+                                        {{ row.type }}
                                     </td>
-                                    <td>{{ row.currency }} {{ row.cost }}</td>
-                                    <td>{{ row.clicks }}</td>
+                                    <td>{{ row.level }}</td>
+                                    <td>{{ row.created_at }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -101,7 +110,7 @@
                     <!--end /div-->
                     <br />
                     <a
-                        href="/ads-campaign/create"
+                        href="/ads-request/create/Anuncio"
                         class="btn btn-sm btn-gradient-primary float-right"
                         onclick="update()"
                         >Crear Nueva Solicitud</a
@@ -138,8 +147,8 @@ export default {
     methods: {
         getRecords() {
             this.$http.get(`/${this.resource}/records`).then(response => {
-                this.records = response.data.data;
-                this.filterRecords = response.data.data;
+                this.records = response.data;
+                this.filterRecords = response.data;
             });
         },
         viewInformation(id) {

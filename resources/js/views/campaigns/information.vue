@@ -7,25 +7,35 @@
                         Información de la Campaña
                     </h4>
                     <div class="media-body align-self-center">
-                        <p class="mb-0 text-muted font-14"> Nombre de la Campaña : {{ form.name}} </p>
+                        <p class="mb-0 text-muted font-14">
+                            Nombre de la Campaña : {{ record.name }}
+                        </p>
                     </div>
                     <div class="media-body align-self-center">
-                        <p class="mb-0 text-muted font-14"> {{ form.url}}</p>
+                        <p class="mb-0 text-muted font-14">{{ record.url }}</p>
                     </div>
                     <div class="media-body align-self-center">
-                        <p class="mb-0 text-muted font-14"> {{ form.phone}}</p>
+                        <p class="mb-0 text-muted font-14">
+                            Contacto :{{ record.phone }}
+                        </p>
                     </div>
 
                     <div class="media-body align-self-center">
-                        <p class="mb-0 text-muted font-14"> Objetivo de la campaña: {{ form.objective}}</p>
+                        <p class="mb-0 text-muted font-14">
+                            Objetivo de la campaña: {{ record.objective }}
+                        </p>
                     </div>
                     <div class="media-body align-self-center">
-                        <p class="mb-0 text-muted font-14"> Modo: Administrado</p>
+                        <p class="mb-0 text-muted font-14">
+                            Modo: {{ record.mode }}
+                        </p>
                     </div>
-                    <br>
-                    <br>
-                     <div class="media-body align-self-center">
-                        <p class="mb-0 text-muted font-14"> Servicio Facturado</p>
+                    <br />
+                    <br />
+                    <div class="media-body align-self-center">
+                        <p class="mb-0 text-muted font-14">
+                            Servicio Facturado
+                        </p>
                     </div>
                     <!--end /div-->
                 </div>
@@ -38,31 +48,24 @@
 
 <script>
 export default {
-    props:['campaignId'],
-    data(){
-        return{
-            resource: 'ads-campaign',
-            form:{}
-        }
+    props: ["campaignId"],
+    data() {
+        return {
+            resource: "ads-campaign",
+            record: {}
+        };
     },
-    created(){
-        this.getRecord()
+    created() {
+        this.getRecord();
     },
-    methods:{
-        getRecord()
-        {
-            /*this.$http.get(`/${this.resource}/record`)
-                    .then(response => {
-                        this.records = response.data.data
-                    })*/
-            this.form.name = "Campaña 1"
-            this.form.url = "www.demo.com"
-            this.form.phone = "999-999-333"
-            this.form.objective = 'Más llamadas'
-
-
+    methods: {
+        getRecord() {
+            this.$http
+                .get(`/${this.resource}/record/${this.campaignId}`)
+                .then(response => {
+                    this.record = response.data;
+                });
         }
     }
-
-}
+};
 </script>

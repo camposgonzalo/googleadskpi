@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CampaignRequest extends FormRequest
 {
@@ -20,16 +19,34 @@ class CampaignRequest extends FormRequest
             'name' => [
                 'required',
             ],
-            'description' => [
+            'objective' => [
                 'required',
             ],
             'url' => [
                 'required',
             ],
-            'objective' => [
+            'phone' => [
                 'required',
             ],
-            'phone' => [
+            'ad_schedule' => [
+                'required',
+            ],
+            'locations' => [
+                'required',
+            ],
+            'apply_billing' => [
+                'required',
+            ],
+            'mode' => [
+                'required',
+            ],
+            'type' => [
+                'required',
+            ],
+            'monthly_cost' => [
+                'required',
+            ],
+            'daily_cost' => [
                 'required',
             ],
 
@@ -37,9 +54,9 @@ class CampaignRequest extends FormRequest
     }
 
     /* public function messages()
-    {
-        return [
-        ];
-    }*/
+{
+return [
+];
+}*/
 
 }

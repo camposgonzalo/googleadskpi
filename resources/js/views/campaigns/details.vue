@@ -5,7 +5,40 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row d-flex justify-content">
-                            <h2>Campaña: {{ record.name }}</h2>
+                            <h2>
+                                <el-popover
+                                    placement="right"
+                                    width="200"
+                                    trigger="click"
+                                >
+                                    <el-row>
+                                        <a
+                                            :href="
+                                                `/ads-campaign/information/${record.id}`
+                                            "
+                                            size="mini"
+                                            plain
+                                            >- Ver informacion</a
+                                        >
+                                    </el-row>
+                                    <el-row>
+                                        <a
+                                            :href="
+                                                `/ads-campaign/configuration/${record.id}`
+                                            "
+                                            size="mini"
+                                            plain
+                                            >- Ver configuracion</a
+                                        >
+                                    </el-row>
+                                    <el-button
+                                        size="mini"
+                                        slot="reference"
+                                        icon="el-icon-menu"
+                                        circle
+                                    ></el-button> </el-popover
+                                >Campaña: {{ record.name }}
+                            </h2>
                         </div>
                         <!--end row-->
                     </div>
@@ -294,10 +327,12 @@
                                 trigger="click"
                             >
                                 <el-row>
-                                    <a size="mini" plain>- Opcion1</a>
-                                </el-row>
-                                <el-row>
-                                    <a size="mini" plain>- Ver Opcion2</a>
+                                    <a
+                                        :href="`/ads-request/create/Anuncio`"
+                                        size="mini"
+                                        plain
+                                        >- Crear nuevo</a
+                                    >
                                 </el-row>
                                 <el-button
                                     size="mini"
@@ -371,11 +406,16 @@
                                 trigger="click"
                             >
                                 <el-row>
-                                    <a size="mini" plain>- Opcion1</a>
+                                    <a
+                                        :href="
+                                            `/ads-request/create/Palabra%20Clave`
+                                        "
+                                        size="mini"
+                                        plain
+                                        >- Crear nuevo</a
+                                    >
                                 </el-row>
-                                <el-row>
-                                    <a size="mini" plain>- Ver Opcion2</a>
-                                </el-row>
+
                                 <el-button
                                     size="mini"
                                     slot="reference"
@@ -457,24 +497,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title mt-0 mb-3">
-                            <el-popover
-                                placement="right"
-                                width="200"
-                                trigger="click"
-                            >
-                                <el-row>
-                                    <a size="mini" plain>- Opcion1</a>
-                                </el-row>
-                                <el-row>
-                                    <a size="mini" plain>- Ver Opcion2</a>
-                                </el-row>
-                                <el-button
-                                    size="mini"
-                                    slot="reference"
-                                    icon="el-icon-more"
-                                    circle
-                                ></el-button>
-                            </el-popover>
                             Terminos de busqueda
                         </h4>
                         <div class="table-responsive browser_users">
@@ -709,35 +731,26 @@ export default {
     },
     methods: {
         getRecord() {
-            console.log(this.campaignId);
             this.$http
-                .get(`/${this.resource}/record/${this.campaignId}`)
+                .get(`/${this.resource}/api/record/${this.campaignId}`)
                 .then(response => {
-                    console.log(response.data.data);
                     this.record = response.data.data;
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/keywords`)
                 .then(response => {
-                    console.log(response.data.data);
                     this.keywords = response.data.data;
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/ads`)
                 .then(response => {
-                    console.log(response.data.data);
                     this.ads = response.data.data;
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/search_terms`)
                 .then(response => {
-                    console.log(response.data.data);
                     this.searchTerms = response.data.data;
                 });
-            this.form.name = "Campaña 2";
-            this.form.url = "www.demo.com";
-            this.form.phone = "999-999-333";
-            this.form.objective = "Más llamadas";
         }
     }
 };

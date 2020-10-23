@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <campaigns-form ></campaigns-form>
+    <users-index></users-index>
 
 @endsection

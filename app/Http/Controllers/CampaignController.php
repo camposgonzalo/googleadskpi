@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\GoogleAdsData;
 use App\Helpers\GoogleAdsReport;
 use App\Http\Requests\CampaignRequest;
 use App\Http\Resources\AdPerformanceResource;
-use App\Http\Resources\CampaignCollection;
+use App\Http\Resources\CampaignModelResource;
 use App\Http\Resources\CampaignResource;
 use App\Http\Resources\KeywordPerformanceResource;
 use App\Http\Resources\SearchTermPerformanceResource;
@@ -26,6 +25,11 @@ class CampaignController extends Controller
         return view('campaigns.information', compact('id'));
     }
 
+    public function configuration($id)
+    {
+        return view('campaigns.configuration', compact('id'));
+    }
+
     public function details($id)
     {
         return view('campaigns.details', compact('id'));
@@ -40,16 +44,21 @@ class CampaignController extends Controller
     {
         $records = GoogleAdsReport::getCampaignsPerformance();
         return CampaignResource::collection($records);
-        $records = GoogleAdsData::getCampaigns();
-        return new CampaignCollection($records);
+        // $records = GoogleAdsData::getCampaigns();
+        // return new CampaignCollection($records);
         $records = Campaign::all();
-        return new CampaignCollection($records);
+        return CampaignModelResource::collection($records);
+    }
+
+    public function recordApi($id)
+    {
+        $record = GoogleAdsReport::getCampaignPerformance($id);
+        return CampaignResource::make($record);
     }
 
     public function record($id)
     {
-        $record = GoogleAdsReport::getCampaignPerformance($id);
-        return CampaignResource::make($record);
+        return Campaign::whereCampaign_id($id)->first();
     }
 
     public function ads($id)
@@ -79,6 +88,7 @@ class CampaignController extends Controller
 
         return [
             'success' => true,
+            'record' => $record,
             'message' => ($id) ? 'Campaña editada con éxito' : 'Campaña registrada con éxito',
         ];
 

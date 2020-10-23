@@ -39,11 +39,13 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('', 'CampaignController@index')->name('campaign.index');
         Route::get('records', 'CampaignController@records');
+        Route::get('api/record/{id}', 'CampaignController@recordApi');
         Route::get('record/{id}', 'CampaignController@record');
         Route::get('record/{id}/keywords', 'CampaignController@keywords');
         Route::get('record/{id}/ads', 'CampaignController@ads');
         Route::get('record/{id}/search_terms', 'CampaignController@searchTerms');
         Route::get('information/{id}', 'CampaignController@information');
+        Route::get('configuration/{id}', 'CampaignController@configuration');
         Route::get('details/{id}', 'CampaignController@details');
         Route::get('create', 'CampaignController@create');
         Route::post('', 'CampaignController@store');
@@ -56,10 +58,22 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('ads-request')->group(function () {
         Route::get('', 'RequestController@index')->name('request.index');
+        Route::get('records', 'RequestController@records');
+        Route::get('create/{level}', 'RequestController@create');
+        Route::get('edit/{id}', 'RequestController@edit');
+        Route::get('record/{id}', 'RequestController@record');
+        Route::post('', 'RequestController@store');
+        Route::post('keyword', 'KeywordController@store');
+        Route::post('ad', 'AdController@store');
     });
 
     Route::prefix('ads-billing')->group(function () {
         Route::get('', 'BillingController@index')->name('billing.index');
+    });
+
+    Route::prefix('ads-user')->group(function () {
+        Route::get('', 'UserController@index')->name('user.index');
+        Route::get('records', 'UserController@records');
     });
 
     Route::prefix('account')->group(function () {

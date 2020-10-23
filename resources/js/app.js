@@ -42,6 +42,7 @@ Vue.prototype.$http = Axios
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('campaigns-index', require('./views/campaigns/index.vue').default);
 Vue.component('campaigns-information', require('./views/campaigns/information.vue').default);
+Vue.component('campaigns-configuration', require('./views/campaigns/configuration.vue').default);
 Vue.component('campaigns-details', require('./views/campaigns/details.vue').default);
 Vue.component('campaigns-form', require('./views/campaigns/form.vue').default);
 
@@ -49,6 +50,9 @@ Vue.component('campaigns-form', require('./views/campaigns/form.vue').default);
 Vue.component('dashboard-index', require('./views/dashboard/index.vue').default);
 Vue.component('account-index', require('./views/account/index.vue').default);
 Vue.component('requests-index', require('./views/requests/index.vue').default);
+Vue.component('users-index', require('./views/users/index.vue').default);
+Vue.component('requests-form', require('./views/requests/form.vue').default);
+Vue.component('requests-edit', require('./views/requests/edit.vue').default);
 Vue.component('billings-index', require('./views/billings/index.vue').default);
 
 
