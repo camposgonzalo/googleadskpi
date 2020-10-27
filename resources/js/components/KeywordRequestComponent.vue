@@ -38,10 +38,20 @@
                     </div>
                     <div
                         class="col-md-12"
-                        v-for="(item, index) in keywords"
+                        v-for="(item, index) in form.keyword"
                         :key="index"
                     >
-                        <label class="control-label">{{ item }} </label>
+                        <el-input
+                            :placeholder="item"
+                            v-model="form.keyword[index]"
+                            class="input-with-select"
+                        >
+                            <el-button
+                                slot="append"
+                                icon="el-icon-delete"
+                                @click="form.keyword.splice(index, 1)"
+                            ></el-button>
+                        </el-input>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -87,6 +97,7 @@
                     </div>
                 </div>
                 <div
+                    v-if="showButtons"
                     class="col-md-12"
                     style="display: flex; justify-content: flex-end"
                 >
@@ -101,7 +112,7 @@
 </template>
 <script>
 export default {
-    props: ["type", "groups", "campaigns"],
+    props: ["type", "groups", "campaigns", "form", "showButtons"],
     data() {
         return {
             keyword: "",
@@ -112,26 +123,30 @@ export default {
             },
             resource: "ads-request",
             records: [],
-            errors: {},
-            form: {},
-            active: 2
+            errors: {}
         };
     },
     created() {
-        //this.getRecords()
-        this.initForm();
+        // console.log(this.form);
+        // if (this.form.keyword != null) this.form.keyword = this.form.keyword;
     },
     methods: {
         addKeyword() {
-            if (this.keyword != "") this.keywords.push(this.keyword);
+            if (this.keyword != "") {
+                this.form.keyword.push(this.keyword);
+            }
             this.keyword = "";
         },
         initForm() {
             this.form = {
-                type: this.type
+                keyword: []
             };
-            this.keywords = [];
+            // this.keywords = [];
             this.errors = {};
+            this.formRequest = {
+                type: "Crear",
+                level: `Palabra ${this.type}`
+            };
         },
         getRecords() {
             this.$http.get(`/${this.resource}/records`).then(response => {
@@ -147,18 +162,23 @@ export default {
             this.saveKeyword();
         },
         saveKeyword() {
-            if (this.keywords.length)
-                this.form.keyword = JSON.stringify(this.keywords);
+            this.form.type = this.type;
+            // if (this.keywords.length) {
+            this.form.keyword = JSON.stringify(this.form.keyword);
+            this.formRequest.request = JSON.stringify(this.form);
+            // }
             this.$http
                 .post(`/${this.resource}/keyword`, this.form)
                 .then(response => {
                     this.formRequest.keyword_id = response.data.record.id;
                     this.saveRequest();
-                    this.initForm();
+                    this.$message({
+                        message: response.data.message,
+                        type: "success"
+                    });
                 })
                 .catch(error => {
                     this.errors = error.response.data.errors;
-                    console.log(this.errors);
                     this.$message.error("Sucedió un error.");
                 });
         },
@@ -166,13 +186,13 @@ export default {
             this.$http
                 .post(`/${this.resource}`, this.formRequest)
                 .then(response => {
+                    this.initForm();
                     this.$message({
                         message: response.data.message,
                         type: "success"
                     });
                 })
                 .catch(error => {
-                    console.log(error.response.data.errors);
                     this.$message.error("Sucedió un error.");
                 });
         }

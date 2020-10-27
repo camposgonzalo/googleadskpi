@@ -110,8 +110,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["type", "groups", "campaigns"],
+  props: ["type", "groups", "campaigns", "form", "showButtons"],
   data: function data() {
     return {
       keyword: "",
@@ -122,26 +133,30 @@ __webpack_require__.r(__webpack_exports__);
       },
       resource: "ads-request",
       records: [],
-      errors: {},
-      form: {},
-      active: 2
+      errors: {}
     };
   },
-  created: function created() {
-    //this.getRecords()
-    this.initForm();
+  created: function created() {// console.log(this.form);
+    // if (this.form.keyword != null) this.form.keyword = this.form.keyword;
   },
   methods: {
     addKeyword: function addKeyword() {
-      if (this.keyword != "") this.keywords.push(this.keyword);
+      if (this.keyword != "") {
+        this.form.keyword.push(this.keyword);
+      }
+
       this.keyword = "";
     },
     initForm: function initForm() {
       this.form = {
-        type: this.type
-      };
-      this.keywords = [];
+        keyword: []
+      }; // this.keywords = [];
+
       this.errors = {};
+      this.formRequest = {
+        type: "Crear",
+        level: "Palabra ".concat(this.type)
+      };
     },
     getRecords: function getRecords() {
       var _this = this;
@@ -161,16 +176,22 @@ __webpack_require__.r(__webpack_exports__);
     saveKeyword: function saveKeyword() {
       var _this2 = this;
 
-      if (this.keywords.length) this.form.keyword = JSON.stringify(this.keywords);
+      this.form.type = this.type; // if (this.keywords.length) {
+
+      this.form.keyword = JSON.stringify(this.form.keyword);
+      this.formRequest.request = JSON.stringify(this.form); // }
+
       this.$http.post("/".concat(this.resource, "/keyword"), this.form).then(function (response) {
         _this2.formRequest.keyword_id = response.data.record.id;
 
         _this2.saveRequest();
 
-        _this2.initForm();
+        _this2.$message({
+          message: response.data.message,
+          type: "success"
+        });
       })["catch"](function (error) {
         _this2.errors = error.response.data.errors;
-        console.log(_this2.errors);
 
         _this2.$message.error("Sucedió un error.");
       });
@@ -179,13 +200,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.$http.post("/".concat(this.resource), this.formRequest).then(function (response) {
+        _this3.initForm();
+
         _this3.$message({
           message: response.data.message,
           type: "success"
         });
       })["catch"](function (error) {
-        console.log(error.response.data.errors);
-
         _this3.$message.error("Sucedió un error.");
       });
     }
@@ -273,12 +294,40 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm._l(_vm.keywords, function(item, index) {
-              return _c("div", { key: index, staticClass: "col-md-12" }, [
-                _c("label", { staticClass: "control-label" }, [
-                  _vm._v(_vm._s(item) + " ")
-                ])
-              ])
+            _vm._l(_vm.form.keyword, function(item, index) {
+              return _c(
+                "div",
+                { key: index, staticClass: "col-md-12" },
+                [
+                  _c(
+                    "el-input",
+                    {
+                      staticClass: "input-with-select",
+                      attrs: { placeholder: item },
+                      model: {
+                        value: _vm.form.keyword[index],
+                        callback: function($$v) {
+                          _vm.$set(_vm.form.keyword, index, $$v)
+                        },
+                        expression: "form.keyword[index]"
+                      }
+                    },
+                    [
+                      _c("el-button", {
+                        attrs: { slot: "append", icon: "el-icon-delete" },
+                        on: {
+                          click: function($event) {
+                            return _vm.form.keyword.splice(index, 1)
+                          }
+                        },
+                        slot: "append"
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             })
           ],
           2
@@ -362,23 +411,25 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "col-md-12",
-            staticStyle: { display: "flex", "justify-content": "flex-end" }
-          },
-          [
-            _c("el-button", { on: { click: _vm.saveDraft } }, [
-              _vm._v("Guardar como borrador")
-            ]),
-            _vm._v(" "),
-            _c("el-button", { on: { click: _vm.savePending } }, [
-              _vm._v("Enviar solicitud")
-            ])
-          ],
-          1
-        )
+        _vm.showButtons
+          ? _c(
+              "div",
+              {
+                staticClass: "col-md-12",
+                staticStyle: { display: "flex", "justify-content": "flex-end" }
+              },
+              [
+                _c("el-button", { on: { click: _vm.saveDraft } }, [
+                  _vm._v("Guardar como borrador")
+                ]),
+                _vm._v(" "),
+                _c("el-button", { on: { click: _vm.savePending } }, [
+                  _vm._v("Enviar solicitud")
+                ])
+              ],
+              1
+            )
+          : _vm._e()
       ])
     ])
   ])

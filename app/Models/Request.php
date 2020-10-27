@@ -11,6 +11,7 @@ class Request extends Model
         'state',
         'type',
         'level',
+        'request',
         'keyword_id',
         'campaign_id',
         'ad_id',

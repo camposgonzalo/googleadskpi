@@ -176,10 +176,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["groups", "campaigns", "request"],
+  props: ["groups", "campaigns", "form", "showButtons"],
   data: function data() {
     return {
       textarea: "",
@@ -190,24 +188,18 @@ __webpack_require__.r(__webpack_exports__);
         type: "Crear",
         level: "Anuncio"
       },
-      formAd: {},
       showDraftButton: true
     };
   },
-  created: function created() {
-    //this.getRecords()
-    if (this.request.id) {
-      this.formRequest = this.request;
-      this.formAd = this.request.ad;
-    }
-  },
+  created: function created() {},
   methods: {
     initForm: function initForm() {
-      this.formAd = {};
+      this.form = {};
     },
     saveDraft: function saveDraft() {
       this.formRequest.state = "Borrador";
-      this.saveAd();
+      this.formRequest.request = JSON.stringify(this.form);
+      this.saveAd(); // this.initForm();
     },
     savePending: function savePending() {
       this.formRequest.state = "Pendiente";
@@ -216,7 +208,7 @@ __webpack_require__.r(__webpack_exports__);
     saveAd: function saveAd() {
       var _this = this;
 
-      this.$http.post("/".concat(this.resource, "/ad"), this.formAd).then(function (response) {
+      this.$http.post("/".concat(this.resource, "/ad"), this.form).then(function (response) {
         _this.formRequest.ad_id = response.data.record.id;
 
         _this.initForm();
@@ -236,7 +228,6 @@ __webpack_require__.r(__webpack_exports__);
     saveRequest: function saveRequest() {
       var _this2 = this;
 
-      console.log(this.formRequest);
       this.$http.post("/".concat(this.resource), this.formRequest).then(function (response) {
         _this2.$message({
           message: response.data.message,
@@ -291,11 +282,11 @@ var render = function() {
                 _c("el-input", {
                   attrs: { dusk: "title_one" },
                   model: {
-                    value: _vm.formAd.title_one,
+                    value: _vm.form.title_one,
                     callback: function($$v) {
-                      _vm.$set(_vm.formAd, "title_one", $$v)
+                      _vm.$set(_vm.form, "title_one", $$v)
                     },
-                    expression: "formAd.title_one"
+                    expression: "form.title_one"
                   }
                 }),
                 _vm._v(" "),
@@ -325,11 +316,11 @@ var render = function() {
                 _c("el-input", {
                   attrs: { dusk: "title_two" },
                   model: {
-                    value: _vm.formAd.title_two,
+                    value: _vm.form.title_two,
                     callback: function($$v) {
-                      _vm.$set(_vm.formAd, "title_two", $$v)
+                      _vm.$set(_vm.form, "title_two", $$v)
                     },
-                    expression: "formAd.title_two"
+                    expression: "form.title_two"
                   }
                 }),
                 _vm._v(" "),
@@ -359,11 +350,11 @@ var render = function() {
                 _c("el-input", {
                   attrs: { dusk: "description" },
                   model: {
-                    value: _vm.formAd.description,
+                    value: _vm.form.description,
                     callback: function($$v) {
-                      _vm.$set(_vm.formAd, "description", $$v)
+                      _vm.$set(_vm.form, "description", $$v)
                     },
-                    expression: "formAd.description"
+                    expression: "form.description"
                   }
                 }),
                 _vm._v(" "),
@@ -395,11 +386,11 @@ var render = function() {
                 _c("el-input", {
                   attrs: { dusk: "url" },
                   model: {
-                    value: _vm.formAd.url,
+                    value: _vm.form.url,
                     callback: function($$v) {
-                      _vm.$set(_vm.formAd, "url", $$v)
+                      _vm.$set(_vm.form, "url", $$v)
                     },
-                    expression: "formAd.url"
+                    expression: "form.url"
                   }
                 }),
                 _vm._v(" "),
@@ -427,11 +418,11 @@ var render = function() {
                     {
                       attrs: { placeholder: "Grupo" },
                       model: {
-                        value: _vm.formAd.group,
+                        value: _vm.form.group,
                         callback: function($$v) {
-                          _vm.$set(_vm.formAd, "group", $$v)
+                          _vm.$set(_vm.form, "group", $$v)
                         },
-                        expression: "formAd.group"
+                        expression: "form.group"
                       }
                     },
                     _vm._l(_vm.groups, function(item) {
@@ -462,11 +453,11 @@ var render = function() {
                     {
                       attrs: { placeholder: "Campaña" },
                       model: {
-                        value: _vm.formAd.campaign,
+                        value: _vm.form.campaign,
                         callback: function($$v) {
-                          _vm.$set(_vm.formAd, "campaign", $$v)
+                          _vm.$set(_vm.form, "campaign", $$v)
                         },
-                        expression: "formAd.campaign"
+                        expression: "form.campaign"
                       }
                     },
                     _vm._l(_vm.campaigns, function(item) {
@@ -517,25 +508,27 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "col-md-12",
-            staticStyle: { display: "flex", "justify-content": "flex-end" }
-          },
-          [
-            _vm.showDraftButton
-              ? _c("el-button", { on: { click: _vm.saveDraft } }, [
-                  _vm._v("Guardar como borrador")
+        _vm.showButtons
+          ? _c(
+              "div",
+              {
+                staticClass: "col-md-12",
+                staticStyle: { display: "flex", "justify-content": "flex-end" }
+              },
+              [
+                _vm.showDraftButton
+                  ? _c("el-button", { on: { click: _vm.saveDraft } }, [
+                      _vm._v("Guardar como borrador")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("el-button", { on: { click: _vm.savePending } }, [
+                  _vm._v("Enviar solicitud")
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("el-button", { on: { click: _vm.savePending } }, [
-              _vm._v("Enviar solicitud")
-            ])
-          ],
-          1
-        )
+              ],
+              1
+            )
+          : _vm._e()
       ])
     ])
   ])

@@ -16,12 +16,8 @@
                             >Actualizar confguración</el-button
                         >
                     </div>
-
-                    <!--end /div-->
                 </div>
-                <!--end card-body-->
             </div>
-            <!--end card-->
         </div>
     </div>
 </template>
@@ -37,17 +33,8 @@ export default {
     data() {
         return {
             resource: "ads-campaign",
-            record: {},
             locations: [],
-            schedules: [
-                { day: "Lunes", start: 0, end: 0, selected: false },
-                { day: "Martes", start: 0, end: 0, selected: false },
-                { day: "Miercoles", start: 0, end: 0, selected: false },
-                { day: "Jueves", start: 0, end: 0, selected: false },
-                { day: "Viernes", start: 0, end: 0, selected: false },
-                { day: "Sabado", start: 0, end: 0, selected: false },
-                { day: "Domingo", start: 0, end: 0, selected: false }
-            ],
+            schedules: [],
             form: {},
             formRequest: {
                 type: "Modificar",
@@ -63,18 +50,8 @@ export default {
         update() {
             this.form.locations = JSON.stringify(this.locations);
             this.form.ad_schedule = JSON.stringify(this.schedules);
+            this.formRequest.request = JSON.stringify(this.form);
             this.saveRequest();
-        },
-        save() {
-            this.$http
-                .post(`/${this.resource}`, this.form)
-                .then(response => {
-                    this.saveRequest();
-                })
-                .catch(error => {
-                    this.errors = error.response.data.errors;
-                    this.$message.error("Sucedió un error.");
-                });
         },
         saveRequest() {
             this.$http
@@ -93,15 +70,14 @@ export default {
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}`)
                 .then(response => {
-                    this.record = response.data;
                     this.formRequest.campaign_id = response.data.id;
-                    this.initData();
+                    this.initData(response.data);
                 });
         },
-        initData() {
-            this.form = this.record;
-            this.schedules = JSON.parse(this.record.ad_schedule);
-            this.locations = JSON.parse(this.record.locations);
+        initData(record) {
+            this.form = record;
+            this.schedules = JSON.parse(record.ad_schedule);
+            this.locations = JSON.parse(record.locations);
         }
     }
 };

@@ -128,6 +128,16 @@
                             </el-checkbox-group>
                         </fieldset>
                     </form>
+                    <br />
+                    <div class="row" v-if="showGoogleId">
+                        <div class="col-md-6">
+                            <el-input v-model="form.campaign_id"
+                                ><template slot="prepend"
+                                    >Google Id</template
+                                ></el-input
+                            >
+                        </div>
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -135,7 +145,7 @@
 </template>
 <script>
 export default {
-    props: ["locations", "schedules", "form"],
+    props: ["locations", "schedules", "form", "showGoogleId"],
     data() {
         return {
             checkList: [],
@@ -154,6 +164,7 @@ export default {
             resource: "ads-campaign"
         };
     },
+    created() {},
     methods: {
         handleSelectCountry(item) {
             this.departments = item.departments;

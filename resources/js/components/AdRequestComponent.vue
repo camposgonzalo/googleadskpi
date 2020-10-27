@@ -20,7 +20,7 @@
                                 ></label
                             >
                             <el-input
-                                v-model="formAd.title_one"
+                                v-model="form.title_one"
                                 dusk="title_one"
                             ></el-input>
                             <small
@@ -44,7 +44,7 @@
                                 ></label
                             >
                             <el-input
-                                v-model="formAd.title_two"
+                                v-model="form.title_two"
                                 dusk="title_two"
                             ></el-input>
                             <small
@@ -69,7 +69,7 @@
                                 ></label
                             >
                             <el-input
-                                v-model="formAd.description"
+                                v-model="form.description"
                                 dusk="description"
                             ></el-input>
                             <small
@@ -90,10 +90,7 @@
                             <label class="control-label"
                                 >Enlace<span class="text-danger">*</span></label
                             >
-                            <el-input
-                                v-model="formAd.url"
-                                dusk="url"
-                            ></el-input>
+                            <el-input v-model="form.url" dusk="url"></el-input>
                             <small
                                 class="form-control-feedback"
                                 v-if="errors.url"
@@ -107,7 +104,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <el-select
-                                    v-model="formAd.group"
+                                    v-model="form.group"
                                     placeholder="Grupo"
                                 >
                                     <el-option
@@ -125,7 +122,7 @@
                             </div>
                             <div class="col-md-6">
                                 <el-select
-                                    v-model="formAd.campaign"
+                                    v-model="form.campaign"
                                     placeholder="Campaña"
                                 >
                                     <el-option
@@ -155,6 +152,7 @@
                     </div>
                 </div>
                 <div
+                    v-if="showButtons"
                     class="col-md-12"
                     style="display: flex; justify-content: flex-end"
                 >
@@ -169,7 +167,7 @@
 </template>
 <script>
 export default {
-    props: ["groups", "campaigns", "request"],
+    props: ["groups", "campaigns", "form", "showButtons"],
     data() {
         return {
             textarea: "",
@@ -180,24 +178,19 @@ export default {
                 type: "Crear",
                 level: "Anuncio"
             },
-            formAd: {},
             showDraftButton: true
         };
     },
-    created() {
-        //this.getRecords()
-        if (this.request.id) {
-            this.formRequest = this.request;
-            this.formAd = this.request.ad;
-        }
-    },
+    created() {},
     methods: {
         initForm() {
-            this.formAd = {};
+            this.form = {};
         },
         saveDraft() {
             this.formRequest.state = "Borrador";
+            this.formRequest.request = JSON.stringify(this.form);
             this.saveAd();
+            // this.initForm();
         },
         savePending() {
             this.formRequest.state = "Pendiente";
@@ -205,7 +198,7 @@ export default {
         },
         saveAd() {
             this.$http
-                .post(`/${this.resource}/ad`, this.formAd)
+                .post(`/${this.resource}/ad`, this.form)
                 .then(response => {
                     this.formRequest.ad_id = response.data.record.id;
                     this.initForm();
@@ -221,7 +214,6 @@ export default {
                 });
         },
         saveRequest() {
-            console.log(this.formRequest);
             this.$http
                 .post(`/${this.resource}`, this.formRequest)
                 .then(response => {

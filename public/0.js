@@ -144,8 +144,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["locations", "schedules", "form"],
+  props: ["locations", "schedules", "form", "showGoogleId"],
   data: function data() {
     return {
       checkList: [],
@@ -169,6 +179,7 @@ __webpack_require__.r(__webpack_exports__);
       resource: "ads-campaign"
     };
   },
+  created: function created() {},
   methods: {
     handleSelectCountry: function handleSelectCountry(item) {
       this.departments = item.departments;
@@ -491,7 +502,39 @@ var render = function() {
               ],
               1
             )
-          ])
+          ]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _vm.showGoogleId
+            ? _c("div", { staticClass: "row" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-md-6" },
+                  [
+                    _c(
+                      "el-input",
+                      {
+                        model: {
+                          value: _vm.form.campaign_id,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "campaign_id", $$v)
+                          },
+                          expression: "form.campaign_id"
+                        }
+                      },
+                      [
+                        _c("template", { slot: "prepend" }, [
+                          _vm._v("Google Id")
+                        ])
+                      ],
+                      2
+                    )
+                  ],
+                  1
+                )
+              ])
+            : _vm._e()
         ])
       ])
     ])

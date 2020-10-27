@@ -287,14 +287,7 @@ export default {
             records: [],
             value1: true,
             errors: {},
-            form: {
-                objective: "llamadas",
-                apply_billing: false,
-                type: null,
-                mode: null,
-                daily_cost: 0,
-                monthly_cost: 0
-            },
+            form: {},
             active: 1,
             formRequest: {
                 type: "Crear",
@@ -305,6 +298,7 @@ export default {
     },
     created() {
         //this.getRecords()
+        this.initForm();
     },
     methods: {
         handleSelectCountry(item) {
@@ -364,7 +358,6 @@ export default {
             this.$http
                 .post(`/${this.resource}`, this.form)
                 .then(response => {
-                    console.log(response);
                     this.formRequest.campaign_id = response.data.record.id;
                     this.initForm();
                     this.saveRequest();
@@ -383,7 +376,7 @@ export default {
                         message: response.data.message,
                         type: "success"
                     });
-                    window.location.href = "/ads-request/create";
+                    window.location.href = "/ads-request/create/Anuncio";
                 })
                 .catch(error => {
                     this.$message.error("Sucedió un error.");

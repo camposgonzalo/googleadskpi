@@ -19,7 +19,7 @@ class CreateRequestsTable extends Migration
             $table->enum('state', ['Borrador', 'Pendiente', 'Aprobado', 'Rechazado']);
             $table->enum('type', ['Crear', 'Modificar']);
             $table->enum('level', ['Campaña', 'Anuncio', 'Palabra Clave', 'Palabra Negativa ']);
-            $table->string('request', 400)->nullable();
+            $table->string('request', 1000)->nullable();
 
             $table->unsignedBigInteger('ad_id')->nullable();
             $table->foreign('ad_id')->references('id')->on('ads');

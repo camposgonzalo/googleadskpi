@@ -22,17 +22,20 @@
                     <br />
                     <el-card class="box-card" v-if="active == 'Anuncio'">
                         <AdRequestComponent
-                            v-bind:request="request"
+                            v-bind:form="form"
                             v-bind:groups="groups"
                             v-bind:campaigns="campaigns"
+                            v-bind:showButtons="true"
                         ></AdRequestComponent>
                     </el-card>
                     <!-- step2    -->
                     <el-card class="box-card" v-if="active == 'Palabra Clave'">
                         <KeywordRequestComponent
+                            v-bind:form="form"
                             v-bind:groups="groups"
                             v-bind:campaigns="campaigns"
                             v-bind:type="'Clave'"
+                            v-bind:showButtons="true"
                         ></KeywordRequestComponent>
                     </el-card>
                     <!-- step3   -->
@@ -41,9 +44,11 @@
                         v-if="active == 'Palabra Negativa'"
                     >
                         <KeywordRequestComponent
+                            v-bind:form="form"
                             v-bind:groups="groups"
                             v-bind:campaigns="campaigns"
                             v-bind:type="'Negativa'"
+                            v-bind:showButtons="true"
                         ></KeywordRequestComponent>
                     </el-card>
 
@@ -75,14 +80,17 @@ export default {
             errors: {},
             active: this.requestLevel,
             levels: ["Campaña", "Anuncio", "Palabra Clave", "Palabra Negativa"],
-            request: {
-                ad: {}
+            form: {
+                keyword: []
             }
         };
     },
     created() {},
     methods: {
         requestSelected() {
+            this.form = {
+                keyword: []
+            };
             if (this.active == "Campaña")
                 window.location.href = "/ads-campaign/create";
         }
