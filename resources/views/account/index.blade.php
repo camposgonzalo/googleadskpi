@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <account-index></account-index>
+    <account-index :current-user="{{ $vc_user }}"></account-index>
 
 @endsection

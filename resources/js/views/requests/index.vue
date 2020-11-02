@@ -102,6 +102,9 @@
                                     </td>
                                     <td>{{ row.level }}</td>
                                     <td>{{ row.created_at }}</td>
+                                    <td v-if="currentUser.role == 'admin'">
+                                        {{ row.user.name }}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -125,7 +128,7 @@
 
 <script>
 export default {
-    props: {},
+    props: ["currentUser"],
     data() {
         return {
             resource: "ads-request",
@@ -143,12 +146,14 @@ export default {
     },
     created() {
         this.getRecords();
+        if (this.currentUser.role == "admin") this.headers.push("Usuario");
     },
     methods: {
         getRecords() {
             this.$http.get(`/${this.resource}/records`).then(response => {
                 this.records = response.data;
                 this.filterRecords = response.data;
+                console.log(this.records);
             });
         },
         viewInformation(id) {

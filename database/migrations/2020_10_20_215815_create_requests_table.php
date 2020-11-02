@@ -29,6 +29,9 @@ class CreateRequestsTable extends Migration
 
             $table->unsignedBigInteger('keyword_id')->nullable();
             $table->foreign('keyword_id')->references('id')->on('keywords');
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

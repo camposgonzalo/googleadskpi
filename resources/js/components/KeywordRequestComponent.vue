@@ -112,24 +112,29 @@
 </template>
 <script>
 export default {
-    props: ["type", "groups", "campaigns", "form", "showButtons"],
+    props: [
+        "type",
+        "groups",
+        "campaigns",
+        "form",
+        "showButtons",
+        "currentUser"
+    ],
     data() {
         return {
             keyword: "",
             keywords: [],
             formRequest: {
                 type: "Crear",
-                level: `Palabra ${this.type}`
+                level: `Palabra ${this.type}`,
+                user_id: this.currentUser.id
             },
             resource: "ads-request",
             records: [],
             errors: {}
         };
     },
-    created() {
-        // console.log(this.form);
-        // if (this.form.keyword != null) this.form.keyword = this.form.keyword;
-    },
+    created() {},
     methods: {
         addKeyword() {
             if (this.keyword != "") {
@@ -141,11 +146,11 @@ export default {
             this.form = {
                 keyword: []
             };
-            // this.keywords = [];
             this.errors = {};
             this.formRequest = {
                 type: "Crear",
-                level: `Palabra ${this.type}`
+                level: `Palabra ${this.type}`,
+                user_id: this.currentUser.id
             };
         },
         getRecords() {
@@ -163,10 +168,8 @@ export default {
         },
         saveKeyword() {
             this.form.type = this.type;
-            // if (this.keywords.length) {
             this.form.keyword = JSON.stringify(this.form.keyword);
             this.formRequest.request = JSON.stringify(this.form);
-            // }
             this.$http
                 .post(`/${this.resource}/keyword`, this.form)
                 .then(response => {

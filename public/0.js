@@ -190,29 +190,19 @@ __webpack_require__.r(__webpack_exports__);
     },
     queryCountrySearch: function queryCountrySearch(queryString, cb) {
       var countrys = this.countrys;
-      var results = queryString ? countrys.filter(this.createFilter(queryString)) : countrys; // call callback function to return suggestions
-
+      var results = queryString ? countrys.filter(this.createFilter(queryString)) : countrys;
       cb(results);
     },
     queryDepartmentSearch: function queryDepartmentSearch(queryString, cb) {
       var departments = this.departments;
-      var results = queryString ? departments.filter(this.createFilter(queryString)) : departments; // call callback function to return suggestions
-
+      var results = queryString ? departments.filter(this.createFilter(queryString)) : departments;
       cb(results);
     },
     createFilter: function createFilter(queryString) {
       return function (link) {
         return link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
       };
-    } // getRecords() {
-    //     this.$http.get(`/${this.resource}/records`).then(response => {
-    //         this.records = response.data.data;
-    //     });
-    // },
-    // save() {
-    //     console.log(this.form);
-    // }
-
+    }
   }
 });
 

@@ -175,7 +175,7 @@ export default {
             this.form = {};
         },
         getRecords() {
-            this.$http.get(`/${this.resource}/records`).then(response => {
+            this.$http.get(`/${this.resource}/googleRecords`).then(response => {
                 this.records = response.data.data;
             });
         },

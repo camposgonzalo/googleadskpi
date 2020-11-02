@@ -12,10 +12,10 @@
 
                 <a href="{{route('billing.index')}}"><i class="ti-server"></i><span>Facturación</span><span
                         class="menu-arrow"></span></a>
-
+                @if ($vc_user->role === 'admin')
                 <a href="{{route('user.index')}}"><i class="ti-server"></i><span>Usuarios</span><span
                         class="menu-arrow"></span></a>
-
+                @endif
 
                 {{--<ul class="nav-second-level" aria-expanded="false">
                     <li class="nav-item">

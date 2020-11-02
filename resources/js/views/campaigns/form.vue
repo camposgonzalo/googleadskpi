@@ -40,7 +40,10 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
+                                        <div
+                                            class="col-md-12"
+                                            v-if="currentUser.apply_billing"
+                                        >
                                             <div
                                                 class="form-group"
                                                 :class="{
@@ -233,6 +236,7 @@
 const Configuration = () =>
     import("../../components/CampaignConfigurationComponent");
 export default {
+    props: ["currentUser"],
     components: {
         Configuration
     },
@@ -292,7 +296,8 @@ export default {
             formRequest: {
                 type: "Crear",
                 level: "Campaña",
-                state: "Pendiente"
+                state: "Pendiente",
+                user_id: this.currentUser.id
             }
         };
     },
@@ -346,11 +351,12 @@ export default {
                 type: null,
                 mode: null,
                 daily_cost: 0,
-                monthly_cost: 0
+                monthly_cost: 0,
+                user_id: this.currentUser.id
             };
         },
         getRecords() {
-            this.$http.get(`/${this.resource}/records`).then(response => {
+            this.$http.get(`/${this.resource}/googleRecords`).then(response => {
                 this.records = response.data.data;
             });
         },

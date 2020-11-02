@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <campaigns-index></campaigns-index>
+    <campaigns-index :current-user="{{ $vc_user }}"></campaigns-index>
 
 @endsection

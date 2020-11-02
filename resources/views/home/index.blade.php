@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <dashboard-index></dashboard-index>
+    <dashboard-index :current-user="{{ $vc_user }}"></dashboard-index>
 
 @endsection

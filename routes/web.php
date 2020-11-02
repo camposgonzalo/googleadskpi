@@ -38,7 +38,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('ads-campaign')->group(function () {
 
         Route::get('', 'CampaignController@index')->name('campaign.index');
+        Route::get('googleRecords', 'CampaignController@googleRecords');
         Route::get('records', 'CampaignController@records');
+        Route::get('user/{id}/records', 'CampaignController@recordsByUser');
         Route::get('api/record/{id}', 'CampaignController@recordApi');
         Route::get('record/{id}', 'CampaignController@record');
         Route::get('record/{id}/keywords', 'CampaignController@keywords');
@@ -54,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('ads-dashboard')->group(function () {
         Route::get('records', 'DashboardController@records');
+        Route::get('user/{id}/records', 'DashboardController@recordsByUser');
     });
 
     Route::prefix('ads-request')->group(function () {
@@ -69,11 +72,18 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('ads-billing')->group(function () {
         Route::get('', 'BillingController@index')->name('billing.index');
+        Route::post('', 'BillingController@store');
+        Route::get('records/group/users', 'BillingController@recordsGroupByUser');
+        Route::get('user/{id}/records', 'BillingController@recordsByUser');
+        Route::get('details', 'BillingController@details');
     });
 
     Route::prefix('ads-user')->group(function () {
         Route::get('', 'UserController@index')->name('user.index');
         Route::get('records', 'UserController@records');
+        Route::get('record/{id}', 'UserController@recordById');
+        Route::get('create', 'UserController@create');
+        Route::post('', 'UserController@store');
     });
 
     Route::prefix('account')->group(function () {

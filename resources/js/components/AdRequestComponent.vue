@@ -167,7 +167,7 @@
 </template>
 <script>
 export default {
-    props: ["groups", "campaigns", "form", "showButtons"],
+    props: ["groups", "campaigns", "form", "showButtons", "currentUser"],
     data() {
         return {
             textarea: "",
@@ -176,12 +176,16 @@ export default {
             errors: {},
             formRequest: {
                 type: "Crear",
-                level: "Anuncio"
+                level: "Anuncio",
+                user_id: this.currentUser.id
             },
             showDraftButton: true
         };
     },
-    created() {},
+    created() {
+        console.log(this.currentUser);
+        console.log(this.form);
+    },
     methods: {
         initForm() {
             this.form = {};
@@ -190,7 +194,6 @@ export default {
             this.formRequest.state = "Borrador";
             this.formRequest.request = JSON.stringify(this.form);
             this.saveAd();
-            // this.initForm();
         },
         savePending() {
             this.formRequest.state = "Pendiente";

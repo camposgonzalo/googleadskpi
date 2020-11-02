@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <requests-index></requests-index>
+    <requests-index :current-user="{{ $vc_user }}"></requests-index>
 
 @endsection

@@ -25,13 +25,13 @@ class RequestController extends Controller
 
     public function records()
     {
-        $records = Request::all();
+        $records = Request::with('user')->get();
         return $records;
     }
 
     public function record($id)
     {
-        $record = Request::with('ad', 'campaign', 'keyword')->find($id);
+        $record = Request::with('ad', 'campaign', 'keyword', 'user')->find($id);
         return $record;
     }
 

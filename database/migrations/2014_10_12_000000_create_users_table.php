@@ -20,10 +20,14 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['admin', 'user']);
-            $table->string('phone');
+            // $table->string('phone');
             $table->boolean('state')->default(true);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->boolean('apply_billing')->default(false);
+            $table->string('ruc', 20)->nullable();
+            $table->string('business_name', 200)->nullable();
         });
     }
 

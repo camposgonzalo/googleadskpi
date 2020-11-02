@@ -22,6 +22,7 @@
                     <br />
                     <el-card class="box-card" v-if="active == 'Anuncio'">
                         <AdRequestComponent
+                            v-bind:currentUser="currentUser"
                             v-bind:form="form"
                             v-bind:groups="groups"
                             v-bind:campaigns="campaigns"
@@ -31,6 +32,7 @@
                     <!-- step2    -->
                     <el-card class="box-card" v-if="active == 'Palabra Clave'">
                         <KeywordRequestComponent
+                            v-bind:currentUser="currentUser"
                             v-bind:form="form"
                             v-bind:groups="groups"
                             v-bind:campaigns="campaigns"
@@ -44,6 +46,7 @@
                         v-if="active == 'Palabra Negativa'"
                     >
                         <KeywordRequestComponent
+                            v-bind:currentUser="currentUser"
                             v-bind:form="form"
                             v-bind:groups="groups"
                             v-bind:campaigns="campaigns"
@@ -66,7 +69,7 @@ const AdRequestComponent = () => import("../../components/AdRequestComponent");
 const KeywordRequestComponent = () =>
     import("../../components/KeywordRequestComponent");
 export default {
-    props: ["requestLevel"],
+    props: ["requestLevel", "currentUser"],
     components: {
         AdRequestComponent,
         KeywordRequestComponent

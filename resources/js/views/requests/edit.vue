@@ -8,6 +8,7 @@
                     </h4>
                     <el-card class="box-card" v-if="active == 'Anuncio'">
                         <AdRequestComponent
+                            v-bind:currentUser="request.user"
                             v-bind:form="form"
                             v-bind:groups="groups"
                             v-bind:campaigns="campaigns"
@@ -16,6 +17,7 @@
                     <!-- step2    -->
                     <el-card class="box-card" v-if="active == 'Palabra Clave'">
                         <KeywordRequestComponent
+                            v-bind:currentUser="request.user"
                             v-bind:form="form"
                             v-bind:groups="groups"
                             v-bind:campaigns="campaigns"
@@ -28,6 +30,7 @@
                         v-if="active == 'Palabra Negativa'"
                     >
                         <KeywordRequestComponent
+                            v-bind:currentUser="request.user"
                             v-bind:form="form"
                             v-bind:groups="groups"
                             v-bind:campaigns="campaigns"
@@ -118,10 +121,12 @@ export default {
     },
     methods: {
         getRecord() {
+            console.log("buah");
             this.$http
                 .get(`/${this.resource}/record/${this.requestId}`)
                 .then(response => {
                     this.request = response.data;
+                    console.log(this.request);
                     this.active = response.data.level;
                     if (this.active == "Campaña") this.initCampaignData();
                     else if (this.active == "Anuncio") this.initAdData();
@@ -140,6 +145,7 @@ export default {
             else if (this.request.state == "Pendiente")
                 this.form = this.request.ad;
             else this.form = this.request.ad;
+            console.log(this.form);
         },
         initKeyWord() {
             if (this.request.state == "Borrador") {

@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <requests-form :request-level="{{ json_encode($level) }}"></requests-form>
+    <requests-form :request-level="{{ json_encode($level) }}" :current-user="{{ $vc_user }}"></requests-form>
 
 @endsection

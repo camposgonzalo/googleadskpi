@@ -51,9 +51,11 @@ Vue.component('dashboard-index', require('./views/dashboard/index.vue').default)
 Vue.component('account-index', require('./views/account/index.vue').default);
 Vue.component('requests-index', require('./views/requests/index.vue').default);
 Vue.component('users-index', require('./views/users/index.vue').default);
+Vue.component('users-form', require('./views/users/form.vue').default);
 Vue.component('requests-form', require('./views/requests/form.vue').default);
 Vue.component('requests-edit', require('./views/requests/edit.vue').default);
 Vue.component('billings-index', require('./views/billings/index.vue').default);
+Vue.component('billings-details', require('./views/billings/details.vue').default);
 
 
 

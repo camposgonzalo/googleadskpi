@@ -178,7 +178,6 @@ export default {
             var results = queryString
                 ? countrys.filter(this.createFilter(queryString))
                 : countrys;
-            // call callback function to return suggestions
             cb(results);
         },
         queryDepartmentSearch(queryString, cb) {
@@ -186,7 +185,6 @@ export default {
             var results = queryString
                 ? departments.filter(this.createFilter(queryString))
                 : departments;
-            // call callback function to return suggestions
             cb(results);
         },
         createFilter(queryString) {
@@ -198,14 +196,6 @@ export default {
                 );
             };
         }
-        // getRecords() {
-        //     this.$http.get(`/${this.resource}/records`).then(response => {
-        //         this.records = response.data.data;
-        //     });
-        // },
-        // save() {
-        //     console.log(this.form);
-        // }
     }
 };
 </script>

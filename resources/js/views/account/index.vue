@@ -15,24 +15,71 @@
                                 </div>
                                 <form autocomplete="off">
                                     <div class="col-md-12">
-                                        <div class="form-group" :class="{'has-danger': errors.description}">
-                                            <label class="control-label">Nombres<span class="text-danger">*</span></label>
-                                            <el-input v-model="form.description" dusk="description"></el-input>
-                                            <small class="form-control-feedback" v-if="errors.description" v-text="errors.description[0]"></small>
+                                        <div
+                                            class="form-group"
+                                            :class="{
+                                                'has-danger': errors.name
+                                            }"
+                                        >
+                                            <label class="control-label"
+                                                >Nombres<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <el-input
+                                                v-model="form.name"
+                                            ></el-input>
+                                            <small
+                                                class="form-control-feedback"
+                                                v-if="errors.name"
+                                                v-text="errors.name[0]"
+                                            ></small>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-group" :class="{'has-danger': errors.description}">
-                                            <label class="control-label">Email<span class="text-danger">*</span></label>
-                                            <el-input v-model="form.description" dusk="description"></el-input>
-                                            <small class="form-control-feedback" v-if="errors.description" v-text="errors.description[0]"></small>
+                                        <div
+                                            class="form-group"
+                                            :class="{
+                                                'has-danger': errors.email
+                                            }"
+                                        >
+                                            <label class="control-label"
+                                                >Email<span class="text-danger"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <el-input
+                                                v-model="form.email"
+                                            ></el-input>
+                                            <small
+                                                class="form-control-feedback"
+                                                v-if="errors.email"
+                                                v-text="errors.email[0]"
+                                            ></small>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-group" :class="{'has-danger': errors.description}">
-                                            <label class="control-label">Contraseña<span class="text-danger">*</span></label>
-                                            <el-input v-model="form.description" dusk="description"></el-input>
-                                            <small class="form-control-feedback" v-if="errors.description" v-text="errors.description[0]"></small>
+                                        <div
+                                            class="form-group"
+                                            :class="{
+                                                'has-danger': errors.password
+                                            }"
+                                        >
+                                            <label class="control-label"
+                                                >Contraseña<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <el-input
+                                                v-model="form.password"
+                                            ></el-input>
+                                            <small
+                                                class="form-control-feedback"
+                                                v-if="errors.password"
+                                                v-text="errors.password[0]"
+                                            ></small>
                                         </div>
                                     </div>
                                 </form>
@@ -45,65 +92,126 @@
                                 </div>
                                 <form autocomplete="off">
                                     <div class="col-md-12">
-                                        <div class="form-group" :class="{'has-danger': errors.description}">
-                                            <el-checkbox v-model="form.checked">Activar Facturación</el-checkbox>
-                                            <small class="form-control-feedback" v-if="errors.description" v-text="errors.description[0]"></small>
+                                        <div
+                                            class="form-group"
+                                            :class="{
+                                                'has-danger':
+                                                    errors.apply_billing
+                                            }"
+                                        >
+                                            <el-checkbox
+                                                v-model="form.apply_billing"
+                                                >Activar
+                                                Facturación</el-checkbox
+                                            >
+                                            <small
+                                                class="form-control-feedback"
+                                                v-if="errors.apply_billing"
+                                                v-text="errors.apply_billing[0]"
+                                            ></small>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-group" :class="{'has-danger': errors.description}">
-                                            <label class="control-label">Ruc</label>
-                                            <el-input v-model="form.description" dusk="description"></el-input>
-                                            <small class="form-control-feedback" v-if="errors.description" v-text="errors.description[0]"></small>
+                                        <div
+                                            class="form-group"
+                                            :class="{
+                                                'has-danger': errors.ruc
+                                            }"
+                                        >
+                                            <label class="control-label"
+                                                >Ruc</label
+                                            >
+                                            <el-input
+                                                v-model="form.ruc"
+                                            ></el-input>
+                                            <small
+                                                class="form-control-feedback"
+                                                v-if="errors.ruc"
+                                                v-text="errors.ruc[0]"
+                                            ></small>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-group" :class="{'has-danger': errors.description}">
-                                            <label class="control-label">Razon Social</label>
-                                            <el-input v-model="form.description" dusk="description"></el-input>
-                                            <small class="form-control-feedback" v-if="errors.description" v-text="errors.description[0]"></small>
+                                        <div
+                                            class="form-group"
+                                            :class="{
+                                                'has-danger':
+                                                    errors.business_name
+                                            }"
+                                        >
+                                            <label class="control-label"
+                                                >Razon Social</label
+                                            >
+                                            <el-input
+                                                v-model="form.business_name"
+                                            ></el-input>
+                                            <small
+                                                class="form-control-feedback"
+                                                v-if="errors.business_name"
+                                                v-text="errors.business_name[0]"
+                                            ></small>
                                         </div>
                                     </div>
                                 </form>
                             </el-card>
                         </div>
                     </div>
-
-                    <!--end /div-->
+                    <el-button
+                        class="float-right"
+                        style="margin-top: 12px;"
+                        @click="save"
+                        >Guardar</el-button
+                    >
                 </div>
-                <!--end card-body-->
             </div>
-            <!--end card-->
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props:{
-
-    },
-    data(){
-        return{
-            resource: 'ads-campaign',
+    props: ["currentUser"],
+    data() {
+        return {
+            resource: "ads-user",
             records: [],
-            value1:true,
-            errors:[],
+            value1: true,
+            errors: [],
             form: {}
-        }
+        };
     },
-    created(){
-        //this.getRecords()
+    created() {
+        console.log(this.currentUser);
+        this.currentUser.apply_billing = this.currentUser.apply_billing == 1;
+        this.form = this.currentUser;
+        // this.getRecord();
     },
-    methods:{
-        getRecords()
-        {
-            this.$http.get(`/${this.resource}/records`)
-                    .then(response => {
-                        this.records = response.data.data
-                    })
+    methods: {
+        // getRecord() {
+        //     this.$http
+        //         .get(`/${this.resource}/record/${this.currentUser.id}`)
+        //         .then(response => {
+        //             // this.form = response.data;
+        //             console.log(this.form);
+        //         })
+        //         .catch(error => {
+        //             this.$message.error("Sucedió un error.");
+        //         });
+        // },
+        save() {
+            this.$http
+                .post(`/${this.resource}`, this.form)
+                .then(response => {
+                    this.$message({
+                        message: response.data.message,
+                        type: "success"
+                    });
+                })
+                .catch(error => {
+                    this.errors = error.response.data.errors;
+                    this.$message.error("Sucedió un error.");
+                });
         }
     }
-
-}
+};
 </script>

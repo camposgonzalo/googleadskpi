@@ -739,16 +739,19 @@ export default {
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/keywords`)
                 .then(response => {
+                    console.log(response);
                     this.keywords = response.data.data;
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/ads`)
                 .then(response => {
+                    console.log(response);
                     this.ads = response.data.data;
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/search_terms`)
                 .then(response => {
+                    console.log(response);
                     this.searchTerms = response.data.data;
                 });
         }

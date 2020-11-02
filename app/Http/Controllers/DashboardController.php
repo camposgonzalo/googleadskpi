@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\GoogleAdsReport;
 use App\Http\Resources\CampaignCollection;
-use App\Http\Resources\CampaignPerformanceCollection;
+use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -18,9 +17,22 @@ class DashboardController extends Controller
 
     public function records(Request $request)
     {
-        $records = GoogleAdsReport::getCampaignsPerformance();
+        $records = Campaign::whereNotNull("campaign_id")->get();
         return new CampaignCollection($records);
-        return $records;
-        return new CampaignPerformanceCollection($records);
+        // $records = GoogleAdsReport::getCampaignsPerformance();
+        // return new CampaignCollection($records);
+        // return $records;
+        // return new CampaignPerformanceCollection($records);
+    }
+
+    public function recordsByUser($id)
+    {
+        $records = Campaign::whereNotNull("campaign_id")->whereUser_id($id)->get();
+        return new CampaignCollection($records);
+        // return Campaign::all();
+        // $records = GoogleAdsReport::getCampaignsPerformance();
+        // return new CampaignCollection($records);
+        // return $records;
+        // return new CampaignPerformanceCollection($records);
     }
 }

@@ -11,7 +11,9 @@
                                 >
                                     Campañas activas
                                 </p>
-                                <h3 class="my-3">{{totalValues.campaigns}}</h3>
+                                <h3 class="my-3">
+                                    {{ totalValues.campaigns }}
+                                </h3>
                                 <p class="mb-0 text-truncate">
                                     <span class="text-success"
                                         ><i class="mdi mdi-trending-up"></i
@@ -41,7 +43,7 @@
                                 >
                                     Total Clicks
                                 </p>
-                                <h3 class="my-3">{{totalValues.clicks}}</h3>
+                                <h3 class="my-3">{{ totalValues.clicks }}</h3>
                                 <p class="mb-0 text-truncate">
                                     <span class="text-success"
                                         ><i class="mdi mdi-trending-up"></i
@@ -71,7 +73,9 @@
                                 >
                                     Total de Impresiones
                                 </p>
-                                <h3 class="my-3">{{totalValues.impressions}}</h3>
+                                <h3 class="my-3">
+                                    {{ totalValues.impressions }}
+                                </h3>
                                 <p class="mb-0 text-truncate">
                                     <span class="text-success"
                                         ><i class="mdi mdi-trending-up"></i
@@ -213,7 +217,12 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title mt-0">Sessions Device</h4>
-                        <apexchart type="pie" width="380" :options="chartOptionsPie" :series="seriesPie"></apexchart>
+                        <apexchart
+                            type="pie"
+                            width="380"
+                            :options="chartOptionsPie"
+                            :series="seriesPie"
+                        ></apexchart>
                         <div class="table-responsive mt-4">
                             <table class="table mb-0">
                                 <thead class="thead-light">
@@ -256,10 +265,15 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-
                     <div class="card-body bg-light chart-report-card">
                         <div class="row d-flex justify-content-center">
-                            <a href="https://www.youtube.com/" target="_blank"  class="btn btn-sm btn-gradient-primary float-right" onclick="update()">Visitar Blog</a>
+                            <a
+                                href="https://www.youtube.com/"
+                                target="_blank"
+                                class="btn btn-sm btn-gradient-primary float-right"
+                                onclick="update()"
+                                >Visitar Blog</a
+                            >
                         </div>
                         <!--end row-->
                     </div>
@@ -267,14 +281,13 @@
                 </div>
                 <!--end card-->
             </div>
-            
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: {},
+    props: ["currentUser"],
     data() {
         return {
             resource: "ads-dashboard",
@@ -331,43 +344,53 @@ export default {
             seriesPie: [44, 55, 13, 43, 22],
             chartOptionsPie: {
                 chart: {
-                width: 380,
-                type: 'pie',
+                    width: 380,
+                    type: "pie"
                 },
-                labels: ['UNKNOWN', 'DESKTOP', 'HIGH_END_MOBILE', 'TABLET', 'CONNECTED_TV'],
-                responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                    width: 200
-                    },
-                    legend: {
-                    position: 'bottom'
+                labels: [
+                    "UNKNOWN",
+                    "DESKTOP",
+                    "HIGH_END_MOBILE",
+                    "TABLET",
+                    "CONNECTED_TV"
+                ],
+                responsive: [
+                    {
+                        breakpoint: 480,
+                        options: {
+                            chart: {
+                                width: 200
+                            },
+                            legend: {
+                                position: "bottom"
+                            }
+                        }
                     }
-                }
-                }]
-            },
-
-
+                ]
+            }
         };
     },
     created() {
         this.getRecords();
+        console.log(this.currentUser);
     },
     methods: {
         getRecords() {
-            this.$http.get(`/${this.resource}/records`).then(response => {
+            let url = `/${this.resource}/records`;
+            if (this.currentUser.role != "admin")
+                url = `/${this.resource}/user/${this.currentUser.id}/records`;
+            this.$http.get(url).then(response => {
                 this.records = response.data.data;
-                let campaignsId = []
+                let campaignsId = [];
                 this.records.map(r => {
-                    this.totalValues.clicks += Number(r.clicks)
-                    this.totalValues.impressions += Number(r.impressions)
-                    console.log(campaignsId.indexOf(r.id))
-                    if (campaignsId.indexOf(r.id) <0) {
-                        campaignsId.push(r.id)
-                        this.totalValues.campaigns++
-                    }
-                })
+                    this.totalValues.clicks += Number(r.clicks);
+                    this.totalValues.impressions += Number(r.impressions);
+                    this.totalValues.campaigns++;
+                    // if (campaignsId.indexOf(r.id) < 0) {
+                    //     campaignsId.push(r.id);
+                    //     this.totalValues.campaigns++;
+                    // }
+                });
             });
         }
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\GoogleAdsReport;
 use App\Http\Requests\CampaignRequest;
 use App\Http\Resources\AdPerformanceResource;
+use App\Http\Resources\CampaignCollection;
 use App\Http\Resources\CampaignModelResource;
 use App\Http\Resources\CampaignResource;
 use App\Http\Resources\KeywordPerformanceResource;
@@ -40,7 +41,7 @@ class CampaignController extends Controller
         return view('campaigns.create');
     }
 
-    public function records()
+    public function googleRecords()
     {
         $records = GoogleAdsReport::getCampaignsPerformance();
         return CampaignResource::collection($records);
@@ -48,6 +49,20 @@ class CampaignController extends Controller
         // return new CampaignCollection($records);
         $records = Campaign::all();
         return CampaignModelResource::collection($records);
+    }
+
+    public function records()
+    {
+        // $records = Campaign::all();
+        // return $records;
+        $records = Campaign::with('user')->whereNotNull("campaign_id")->get();
+        return new CampaignCollection($records);
+    }
+
+    public function recordsByUser($id)
+    {
+        $records = Campaign::whereNotNull("campaign_id")->whereUser_id($id)->get();
+        return new CampaignCollection($records);
     }
 
     public function recordApi($id)

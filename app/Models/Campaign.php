@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Campaign extends Model
 {
     protected $fillable = [
-        // 'campaign_id',
         'name',
         'objective',
         'url',
@@ -20,7 +19,12 @@ class Campaign extends Model
         'monthly_cost',
         'daily_cost',
         'campaign_id',
-        // 'description',
+        'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
 }

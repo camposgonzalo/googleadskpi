@@ -69,10 +69,10 @@
                     <!--end /div-->
                     <br />
                     <a
-                        href="/ads-campaign/create"
+                        href="/ads-user/create"
                         class="btn btn-sm btn-gradient-primary float-right"
                         onclick="update()"
-                        >Nueva Campaña</a
+                        >Nuevo Usuario</a
                     >
                 </div>
                 <!--end card-body-->

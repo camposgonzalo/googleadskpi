@@ -15,7 +15,13 @@ class Request extends Model
         'keyword_id',
         'campaign_id',
         'ad_id',
+        'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
     public function ad()
     {

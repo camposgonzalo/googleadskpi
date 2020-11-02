@@ -10,28 +10,25 @@
                         <table class="table mb-0">
                             <thead class="thead-light">
                                 <tr>
-                                    <!--<th class="border-top-0">Id</th>-->
                                     <th class="border-top-0">Estado</th>
                                     <th class="border-top-0">Nombre</th>
                                     <th class="border-top-0">Consumo</th>
                                     <th class="border-top-0">Clics</th>
                                     <th class="border-top-0">Impresiones</th>
                                     <th class="border-top-0">CTR</th>
-                                    <!-- <th class="border-top-0">Objetivo</th>
-                                    <th class="border-top-0">Url</th>
-                                    <th class="border-top-0">Contacto</th> -->
-                                    <!-- <th class="border-top-0">AdvertisingChannelSubType</th>-->
+                                    <th
+                                        v-if="currentUser.role == 'admin'"
+                                        class="border-top-0"
+                                    >
+                                        Usuario
+                                    </th>
                                 </tr>
-                                <!--end tr-->
                             </thead>
                             <tbody>
                                 <tr
                                     v-for="(row, index) in records"
                                     :key="index + 'R'"
                                 >
-                                    <!--<td>
-                                        {{ row.id}}
-                                    </td>-->
                                     <td>
                                         <el-switch v-model="row.status_2">
                                         </el-switch>
@@ -91,10 +88,9 @@
                                     <td>{{ row.clicks }}</td>
                                     <td>{{ row.impressions }}</td>
                                     <td>{{ row.ctr }}</td>
-                                    <!-- <td>{{ row.objective }}</td>
-                                    <td>{{ row.url }}</td>
-                                    <td>{{ row.phone }}</td> -->
-                                    <!--<td> {{ row.advertisingChannelSubType}}</td>-->
+                                    <td v-if="currentUser.role == 'admin'">
+                                        {{ row.user.name }}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -118,7 +114,7 @@
 
 <script>
 export default {
-    props: {},
+    props: ["currentUser"],
     data() {
         return {
             resource: "ads-campaign",
@@ -131,7 +127,10 @@ export default {
     },
     methods: {
         getRecords() {
-            this.$http.get(`/${this.resource}/records`).then(response => {
+            let url = `/${this.resource}/records`;
+            if (this.currentUser.role != "admin")
+                url = `/${this.resource}/user/${this.currentUser.id}/records`;
+            this.$http.get(url).then(response => {
                 this.records = response.data.data;
             });
         },

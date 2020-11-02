@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <campaigns-form ></campaigns-form>
+    <campaigns-form :current-user="{{ $vc_user }}"></campaigns-form>
 
 @endsection
