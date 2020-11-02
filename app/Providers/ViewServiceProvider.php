@@ -23,13 +23,13 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // view()->composer(
-        //     '*',
-        //     'App\Http\ViewComposers\UserViewComposer'
-        // );
         view()->composer(
-            'layouts.app',
+            '*',
             'App\Http\ViewComposers\UserViewComposer'
         );
+        // view()->composer(
+        //     'layouts.app',
+        //     'App\Http\ViewComposers\UserViewComposer'
+        // );
     }
 }
