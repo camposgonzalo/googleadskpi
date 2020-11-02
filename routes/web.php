@@ -31,7 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get(
         '/',
         function () {
-            return view('home.index');
+            return view('home.index', [
+                'auth_user' => Auth::user(),
+            ]);
         }
     )->name('home');
 
