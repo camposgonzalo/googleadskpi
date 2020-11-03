@@ -29,6 +29,12 @@ class RequestController extends Controller
         return $records;
     }
 
+    public function recordsByUser($id)
+    {
+        $records = Request::whereUser_id($id)->with('user')->get();
+        return $records;
+    }
+
     public function record($id)
     {
         $record = Request::with('ad', 'campaign', 'keyword', 'user')->find($id);

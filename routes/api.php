@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('records', 'CampaignController@records');
-Route::get('user/{id}/records', 'DashboardController@recordsByUser');
+Route::get('user/{id}/records', 'RequestController@recordsByUser');

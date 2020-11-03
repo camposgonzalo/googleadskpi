@@ -150,7 +150,10 @@ export default {
     },
     methods: {
         getRecords() {
-            this.$http.get(`/${this.resource}/records`).then(response => {
+            let url = `/${this.resource}/records`;
+            if (this.currentUser.role != "admin")
+                url = `/${this.resource}/user/${this.currentUser.id}/records`;
+            this.$http.get(url).then(response => {
                 this.records = response.data;
                 this.filterRecords = response.data;
                 console.log(this.records);

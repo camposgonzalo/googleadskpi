@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('ads-request')->group(function () {
         Route::get('', 'RequestController@index')->name('request.index');
         Route::get('records', 'RequestController@records');
+        Route::get('user/{id}/records', 'RequestController@recordsByUser');
         Route::get('create/{level}', 'RequestController@create');
         Route::get('edit/{id}', 'RequestController@edit');
         Route::get('record/{id}', 'RequestController@record');
