@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('', 'CampaignController@index')->name('campaign.index');
         Route::get('googleRecords', 'CampaignController@googleRecords');
+        Route::get('local/records', 'CampaignController@localRecords');
         Route::get('records', 'CampaignController@records');
         Route::get('user/{id}/records', 'CampaignController@recordsByUser');
         Route::get('api/record/{id}', 'CampaignController@recordApi');

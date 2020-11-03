@@ -43,7 +43,7 @@
                                             <el-row>
                                                 <a
                                                     :href="
-                                                        `/ads-campaign/details/${row.id}`
+                                                        `/ads-campaign/details/${row.campaign_id}`
                                                     "
                                                     size="mini"
                                                     plain
@@ -54,7 +54,7 @@
                                             <el-row>
                                                 <a
                                                     :href="
-                                                        `/ads-campaign/configuration/${row.id}`
+                                                        `/ads-campaign/configuration/${row.campaign_id}`
                                                     "
                                                     size="mini"
                                                     plain

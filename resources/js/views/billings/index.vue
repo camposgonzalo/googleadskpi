@@ -135,13 +135,14 @@ export default {
                     )
                     .then(response => {
                         this.records = this.formatData(response.data);
+                        console.log(this.records);
                         this.filterRecords = this.records;
                     });
         },
         formatData(records) {
             let dict = {};
             records.map(r => {
-                let periodo = r.created_at.split(" ")[0];
+                let periodo = r.created_at.split(" ")[0].substr(0, 7);
                 if (!dict[periodo])
                     dict[periodo] = {
                         periodo: periodo,

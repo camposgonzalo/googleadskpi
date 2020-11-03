@@ -250,7 +250,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getCampaigns: function getCampaigns() {
       var _this3 = this;
 
-      this.$http.get("/ads-campaign/records").then(function (response) {
+      this.$http.get("/ads-campaign/local/records").then(function (response) {
         _this3.campaigns = response.data;
         console.log(_this3.campaigns);
       });
@@ -260,8 +260,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.$http.get("/ads-user/records").then(function (response) {
         _this4.users = response.data;
-        console.log("user");
-        console.log(_this4.users);
       });
     },
     cerrar: function cerrar() {

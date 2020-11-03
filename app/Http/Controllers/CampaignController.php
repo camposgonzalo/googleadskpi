@@ -59,6 +59,12 @@ class CampaignController extends Controller
         return new CampaignCollection($records);
     }
 
+    public function localRecords()
+    {
+        $records = Campaign::all();
+        return $records;
+    }
+
     public function recordsByUser($id)
     {
         $records = Campaign::whereNotNull("campaign_id")->whereUser_id($id)->get();

@@ -19,7 +19,8 @@ class CampaignCollection extends ResourceCollection
 
             $record = GoogleAdsReport::getCampaignPerformance($row->campaign_id);
             return [
-                'id' => $record['@attributes']['campaignID'],
+                'id' => $row->id,
+                'campaign_id' => $record['@attributes']['campaignID'],
                 'name' => $record['@attributes']['campaign'],
                 'status' => $record['@attributes']['campaignState'],
                 'clicks' => $record['@attributes']['clicks'],

@@ -212,7 +212,7 @@ export default {
                 });
         },
         getCampaigns() {
-            this.$http.get(`/ads-campaign/records`).then(response => {
+            this.$http.get(`/ads-campaign/local/records`).then(response => {
                 this.campaigns = response.data;
                 console.log(this.campaigns);
             });
@@ -220,8 +220,6 @@ export default {
         getUsers() {
             this.$http.get(`/ads-user/records`).then(response => {
                 this.users = response.data;
-                console.log("user");
-                console.log(this.users);
             });
         },
         cerrar() {
