@@ -10,6 +10,7 @@ use Google\AdsApi\AdWords\Reporting\v201809\DownloadFormat;
 use Google\AdsApi\AdWords\Reporting\v201809\ReportDownloader;
 use Google\AdsApi\AdWords\ReportSettingsBuilder;
 use Google\AdsApi\AdWords\v201809\cm\AdGroupCriterionService;
+use Google\AdsApi\AdWords\v201809\cm\AdGroupService;
 use Google\AdsApi\AdWords\v201809\cm\CampaignService;
 use Google\AdsApi\AdWords\v201809\cm\ReportDefinitionReportType;
 
@@ -40,6 +41,18 @@ class GoogleAdsData
         $page = $campaignService->query("$query");
         $records = $page->getEntries();
 
+        return collect($records);
+    }
+
+    public static function getGroups()
+    {
+        $campaignService = (new AdWordsServices())->get(GoogleAdsSession::getSession(), AdGroupService::class);
+        $query = (new ServiceQueryBuilder())
+            ->select(['Id', 'Name'])
+            ->build();
+
+        $page = $campaignService->query("$query");
+        $records = $page->getEntries();
         return collect($records);
     }
 

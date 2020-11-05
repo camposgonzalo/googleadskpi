@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Campaign;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CampaignResource extends JsonResource
@@ -24,6 +25,7 @@ class CampaignResource extends JsonResource
             'ctr' => $this->resource['@attributes']['ctr'],
             'cost' => $this->resource['@attributes']['cost'],
             'currency' => $this->resource['@attributes']['currency'],
+            'campaign' => Campaign::whereCampaign_id($this->resource['@attributes']['campaignID'])->first(),
         ];
     }
 }

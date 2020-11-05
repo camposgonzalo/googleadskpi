@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GoogleAdsData;
 use App\Http\Requests\RequestRequest;
+use App\Http\Resources\GroupResource;
 use App\Models\Request;
 
 class RequestController extends Controller
@@ -27,6 +29,12 @@ class RequestController extends Controller
     {
         $records = Request::with('user')->get();
         return $records;
+    }
+
+    public function groups()
+    {
+        $records = GoogleAdsData::getGroups();
+        return GroupResource::collection($records);
     }
 
     public function recordsByUser($id)

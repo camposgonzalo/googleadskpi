@@ -18,6 +18,16 @@ class User extends Authenticatable
         'name', 'email', 'password', 'role', 'apply_billing', 'ruc', 'business_name', 'state',
     ];
 
+    public function bills()
+    {
+        return $this->hasMany('App\Models\Bill');
+    }
+
+    public function campaigns()
+    {
+        return $this->hasMany('App\Models\Campaign');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

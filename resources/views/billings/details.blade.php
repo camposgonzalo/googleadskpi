@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <billings-details :current-user="{{ $vc_user }}"></billings-details>
+    <billings-details :detail-id="{{ json_encode($id) }}"></billings-details>
 
 @endsection

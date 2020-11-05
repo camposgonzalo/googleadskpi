@@ -95,17 +95,19 @@
                                         <div
                                             class="form-group"
                                             :class="{
-                                                'has-danger': errors.description
+                                                'has-danger':
+                                                    errors.apply_billing
                                             }"
                                         >
-                                            <el-checkbox v-model="form.checked"
+                                            <el-checkbox
+                                                v-model="form.apply_billing"
                                                 >Activar
                                                 Facturación</el-checkbox
                                             >
                                             <small
                                                 class="form-control-feedback"
-                                                v-if="errors.description"
-                                                v-text="errors.description[0]"
+                                                v-if="errors.apply_billing"
+                                                v-text="errors.apply_billing[0]"
                                             ></small>
                                         </div>
                                     </div>
@@ -113,19 +115,19 @@
                                         <div
                                             class="form-group"
                                             :class="{
-                                                'has-danger': errors.description
+                                                'has-danger': errors.ruc
                                             }"
                                         >
                                             <label class="control-label"
                                                 >Ruc</label
                                             >
                                             <el-input
-                                                v-model="form.description"
+                                                v-model="form.ruc"
                                             ></el-input>
                                             <small
                                                 class="form-control-feedback"
-                                                v-if="errors.description"
-                                                v-text="errors.description[0]"
+                                                v-if="errors.ruc"
+                                                v-text="errors.ruc[0]"
                                             ></small>
                                         </div>
                                     </div>
@@ -133,19 +135,20 @@
                                         <div
                                             class="form-group"
                                             :class="{
-                                                'has-danger': errors.description
+                                                'has-danger':
+                                                    errors.business_name
                                             }"
                                         >
                                             <label class="control-label"
                                                 >Razon Social</label
                                             >
                                             <el-input
-                                                v-model="form.description"
+                                                v-model="form.business_name"
                                             ></el-input>
                                             <small
                                                 class="form-control-feedback"
-                                                v-if="errors.description"
-                                                v-text="errors.description[0]"
+                                                v-if="errors.business_name"
+                                                v-text="errors.business_name[0]"
                                             ></small>
                                         </div>
                                     </div>
@@ -186,7 +189,6 @@ export default {
             this.errors = [];
         },
         save() {
-            console.log(this.form);
             this.$http
                 .post(`/${this.resource}`, this.form)
                 .then(response => {

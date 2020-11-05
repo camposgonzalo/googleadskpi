@@ -17,5 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('records', 'CampaignController@records');
-Route::get('user/{id}/records', 'RequestController@recordsByUser');
+Route::get('groups', 'RequestController@groups');

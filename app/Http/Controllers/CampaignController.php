@@ -6,7 +6,6 @@ use App\Helpers\GoogleAdsReport;
 use App\Http\Requests\CampaignRequest;
 use App\Http\Resources\AdPerformanceResource;
 use App\Http\Resources\CampaignCollection;
-use App\Http\Resources\CampaignModelResource;
 use App\Http\Resources\CampaignResource;
 use App\Http\Resources\KeywordPerformanceResource;
 use App\Http\Resources\SearchTermPerformanceResource;
@@ -45,10 +44,6 @@ class CampaignController extends Controller
     {
         $records = GoogleAdsReport::getCampaignsPerformance();
         return CampaignResource::collection($records);
-        // $records = GoogleAdsData::getCampaigns();
-        // return new CampaignCollection($records);
-        $records = Campaign::all();
-        return CampaignModelResource::collection($records);
     }
 
     public function records()
@@ -71,10 +66,20 @@ class CampaignController extends Controller
         return new CampaignCollection($records);
     }
 
+    public function localRecordsByUser($id)
+    {
+        $records = Campaign::whereUser_id($id)->get();
+        return $records;
+    }
+
     public function recordApi($id)
     {
         $record = GoogleAdsReport::getCampaignPerformance($id);
         return CampaignResource::make($record);
+
+        // $record = Campaign::with('user')->find($id);
+        // return CampaignResource::make($record);
+
     }
 
     public function record($id)

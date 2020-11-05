@@ -69,7 +69,7 @@
                                         </td>
                                         <td>{{ row.abono }}</td>
                                         <td>{{ row.cargo }}</td>
-                                        <td>{{ row.cargo - row.abono }}</td>
+                                        <td>{{ row.abono - row.cargo }}</td>
                                         <td v-if="role == 'admin'">
                                             {{ row.user.name }}
                                         </td>
@@ -114,12 +114,13 @@ export default {
                 this.$http
                     .get(`/${this.resource}/records/group/users`)
                     .then(response => {
-                        Object.values(response.data).map(r => {
+                        Object.values(response.data.bills).map(r => {
                             this.records = this.records.concat(
                                 this.formatData(r)
                             );
-                            this.filterRecords = this.records;
                         });
+                        this.addCost(response.data.costs);
+                        this.filterRecords = this.records;
                     });
                 this.$http.get(`/ads-user/records`).then(response => {
                     this.users = response.data.map(r => {
@@ -134,10 +135,29 @@ export default {
                         `/${this.resource}/user/${this.currentUser.id}/records`
                     )
                     .then(response => {
-                        this.records = this.formatData(response.data);
-                        console.log(this.records);
+                        this.records = this.formatData(response.data.bills);
+                        this.addCost(response.data.costs);
                         this.filterRecords = this.records;
                     });
+        },
+        addCost(records) {
+            records.map(r => {
+                let record = this.records.filter(
+                    record =>
+                        record.periodo == r.periodo &&
+                        record.user.id == r.user.id
+                );
+                if (record.length) {
+                    record[0].cargo += parseFloat(r.cost);
+                } else {
+                    this.records.push({
+                        periodo: r.periodo,
+                        abono: 0,
+                        cargo: parseFloat(r.cost),
+                        user: r.user
+                    });
+                }
+            });
         },
         formatData(records) {
             let dict = {};

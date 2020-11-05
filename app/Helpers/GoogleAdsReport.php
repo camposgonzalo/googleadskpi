@@ -215,4 +215,51 @@ class GoogleAdsReport
 
     }
 
+    public static function getCampaignPerformancePerPeriod($id, $iniDate, $endDate)
+    {
+        $session = GoogleAdsSession::getSession();
+        $query = (new ReportQueryBuilder())
+            ->select([
+                'CampaignId',
+                'CampaignName',
+                'CampaignStatus',
+                'Clicks',
+                'Impressions',
+                'Ctr',
+                'Cost',
+                'AccountCurrencyCode',
+                'AverageTimeOnSite',
+                'CrossDeviceConversions',
+                'StartDate',
+                'EndDate',
+                'Labels',
+            ])
+            ->from(ReportDefinitionReportType::CAMPAIGN_PERFORMANCE_REPORT)
+            ->where('CampaignId')->in([$id])
+            ->during($iniDate, $endDate)
+            ->build();
+
+        //
+
+        $reportDownloader = new ReportDownloader($session);
+        $reportSettingsOverride = (new ReportSettingsBuilder())
+            ->includeZeroImpressions(true)
+            ->skipReportSummary(false)
+            ->build();
+        $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
+            sprintf('%s', $query),
+            DownloadFormat::XML,
+            $reportSettingsOverride
+        );
+        $cadena = $reportDownloadResult->getAsString();
+        $xml = simplexml_load_string($cadena);
+        $json = json_encode($xml->table);
+        $array = json_decode($json, true);
+        if (array_key_exists('row', $array)) {
+            return collect($array['row']);
+        } else {
+            return collect([]);
+        }
+    }
+
 }

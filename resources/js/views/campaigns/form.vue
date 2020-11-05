@@ -288,7 +288,6 @@ export default {
                     value: "ventas"
                 }
             ],
-            records: [],
             value1: true,
             errors: {},
             form: {},
@@ -302,7 +301,6 @@ export default {
         };
     },
     created() {
-        //this.getRecords()
         this.initForm();
     },
     methods: {
@@ -354,11 +352,6 @@ export default {
                 monthly_cost: 0,
                 user_id: this.currentUser.id
             };
-        },
-        getRecords() {
-            this.$http.get(`/${this.resource}/googleRecords`).then(response => {
-                this.records = response.data.data;
-            });
         },
         save() {
             this.$http

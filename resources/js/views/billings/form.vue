@@ -30,6 +30,9 @@
                                                     <el-select
                                                         v-model="form.user_id"
                                                         placeholder="Seleccionar campaña"
+                                                        @change="
+                                                            selectCampaigns
+                                                        "
                                                     >
                                                         <el-option
                                                             v-for="item in users"
@@ -67,7 +70,7 @@
                                                             placeholder="Seleccionar campaña"
                                                         >
                                                             <el-option
-                                                                v-for="item in campaigns"
+                                                                v-for="item in filterCampaigns"
                                                                 :key="item.id"
                                                                 :value="item.id"
                                                                 :label="
@@ -161,6 +164,9 @@
                                             <el-button @click="save"
                                                 >Guardar y crear
                                             </el-button>
+                                            <el-button @click="cerrar"
+                                                >Cerrar
+                                            </el-button>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -182,6 +188,7 @@ export default {
             types: ["Pago", "Credito", "Asesoria"],
             resource: "ads-billing",
             campaigns: [],
+            filterCampaigns: [],
             users: []
         };
     },
@@ -214,7 +221,6 @@ export default {
         getCampaigns() {
             this.$http.get(`/ads-campaign/local/records`).then(response => {
                 this.campaigns = response.data;
-                console.log(this.campaigns);
             });
         },
         getUsers() {
@@ -224,6 +230,11 @@ export default {
         },
         cerrar() {
             this.$emit("cerrar");
+        },
+        selectCampaigns() {
+            this.filterCampaigns = this.campaigns.filter(
+                c => c.user_id == this.form.user_id
+            );
         }
     }
 };

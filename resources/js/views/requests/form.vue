@@ -76,8 +76,8 @@ export default {
     },
     data() {
         return {
-            groups: ["group1", "group2"],
-            campaigns: ["campaign1", "campaign2"],
+            groups: [],
+            campaigns: [],
             resource: "ads-request",
             records: [],
             errors: {},
@@ -88,7 +88,9 @@ export default {
             }
         };
     },
-    created() {},
+    created() {
+        this.getRecords();
+    },
     methods: {
         requestSelected() {
             this.form = {
@@ -96,6 +98,23 @@ export default {
             };
             if (this.active == "Campaña")
                 window.location.href = "/ads-campaign/create";
+        },
+        getRecords() {
+            this.$http.get(`/${this.resource}/groups`).then(response => {
+                response.data.data.map(r => this.groups.push(r.name));
+            });
+            if (this.currentUser.role == "admin") {
+                this.$http.get(`/ads-campaign/local/records`).then(response => {
+                    response.data.map(r => this.campaigns.push(r.name));
+                });
+            } else
+                this.$http
+                    .get(
+                        `/ads-campaign/local/user/${this.currentUser.id}/records`
+                    )
+                    .then(response => {
+                        response.data.map(r => this.campaigns.push(r.name));
+                    });
         }
     }
 };

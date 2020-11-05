@@ -21,6 +21,7 @@
                             >
                             <el-input
                                 v-model="form.title_one"
+                                @change="updateTextArea"
                                 dusk="title_one"
                             ></el-input>
                             <small
@@ -46,6 +47,7 @@
                             <el-input
                                 v-model="form.title_two"
                                 dusk="title_two"
+                                @change="updateTextArea"
                             ></el-input>
                             <small
                                 class="form-control-feedback"
@@ -71,6 +73,7 @@
                             <el-input
                                 v-model="form.description"
                                 dusk="description"
+                                @change="updateTextArea"
                             ></el-input>
                             <small
                                 class="form-control-feedback"
@@ -90,7 +93,11 @@
                             <label class="control-label"
                                 >Enlace<span class="text-danger">*</span></label
                             >
-                            <el-input v-model="form.url" dusk="url"></el-input>
+                            <el-input
+                                v-model="form.url"
+                                dusk="url"
+                                @change="updateTextArea"
+                            ></el-input>
                             <small
                                 class="form-control-feedback"
                                 v-if="errors.url"
@@ -182,10 +189,7 @@ export default {
             showDraftButton: true
         };
     },
-    created() {
-        console.log(this.currentUser);
-        console.log(this.form);
-    },
+    created() {},
     methods: {
         initForm() {
             this.form = {};
@@ -229,6 +233,14 @@ export default {
                     console.log(error);
                     this.$message.error("Sucedió un error.");
                 });
+        },
+        updateTextArea() {
+            this.textarea = `${
+                this.form.title_one ? this.form.title_one : ""
+            } ${this.form.title_two ? this.form.title_two : ""}\n
+            ${this.form.description ? this.form.description : ""}\n${
+                this.form.url ? this.form.url : ""
+            }`;
         }
     }
 };

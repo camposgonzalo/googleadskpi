@@ -84,7 +84,14 @@
                                             ></el-button>
                                         </el-popover>
                                     </td>
-                                    <td>{{ row.currency }} {{ row.cost }}</td>
+                                    <td>
+                                        {{ row.currency }}
+                                        {{
+                                            row.mode == "Administrado"
+                                                ? row.cost * 1.5 * 3.5
+                                                : row.cost * 3.5
+                                        }}
+                                    </td>
                                     <td>{{ row.clicks }}</td>
                                     <td>{{ row.impressions }}</td>
                                     <td>{{ row.ctr }}</td>
@@ -118,8 +125,7 @@ export default {
     data() {
         return {
             resource: "ads-campaign",
-            records: [],
-            value1: true
+            records: []
         };
     },
     created() {

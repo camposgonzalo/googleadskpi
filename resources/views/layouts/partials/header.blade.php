@@ -31,7 +31,7 @@
                                 height="14" /></a>
                     </div>
                 </li> --}}
-                <li class="dropdown notification-list">
+                <!-- <li class="dropdown notification-list">
                     <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown"
                         href="#" role="button" aria-haspopup="false" aria-expanded="false"><i
                             class="ti-bell noti-icon"></i>
@@ -43,7 +43,7 @@
                             <span class="badge badge-light badge-pill">2</span>
                         </h6>
                         <div class="slimscroll notification-list">
-                            <!-- item--><a href="#" class="dropdown-item py-3"><small
+                            <a href="#" class="dropdown-item py-3"><small
                                     class="float-right text-muted pl-2">2 min ago</small>
                                 <div class="media">
                                     <div class="avatar-md bg-primary">
@@ -55,12 +55,9 @@
                                         </h6>
                                         <small class="text-muted mb-0">Dummy text of the printing and industry.</small>
                                     </div>
-                                    <!--end media-body-->
                                 </div>
-                                <!--end media-->
                             </a>
-                            <!--end-item-->
-                            <!-- item--><a href="#" class="dropdown-item py-3"><small
+                            <a href="#" class="dropdown-item py-3"><small
                                     class="float-right text-muted pl-2">10 min ago</small>
                                 <div class="media">
                                     <div class="avatar-md bg-success">
@@ -73,12 +70,9 @@
                                         <small class="text-muted mb-0">It is a long established fact that a
                                             reader.</small>
                                     </div>
-                                    <!--end media-body-->
                                 </div>
-                                <!--end media-->
                             </a>
-                            <!--end-item-->
-                            <!-- item--><a href="#" class="dropdown-item py-3"><small
+                            <a href="#" class="dropdown-item py-3"><small
                                     class="float-right text-muted pl-2">40 min ago</small>
                                 <div class="media">
                                     <div class="avatar-md bg-pink">
@@ -90,12 +84,9 @@
                                         </h6>
                                         <small class="text-muted mb-0">Dummy text of the printing.</small>
                                     </div>
-                                    <!--end media-body-->
                                 </div>
-                                <!--end media-->
                             </a>
-                            <!--end-item-->
-                            <!-- item--><a href="#" class="dropdown-item py-3"><small
+                            <a href="#" class="dropdown-item py-3"><small
                                     class="float-right text-muted pl-2">1 hr ago</small>
                                 <div class="media">
                                     <div class="avatar-md bg-warning">
@@ -108,12 +99,9 @@
                                         <small class="text-muted mb-0">It is a long established fact that a
                                             reader.</small>
                                     </div>
-                                    <!--end media-body-->
                                 </div>
-                                <!--end media-->
                             </a>
-                            <!--end-item-->
-                            <!-- item--><a href="#" class="dropdown-item py-3"><small
+                            <a href="#" class="dropdown-item py-3"><small
                                     class="float-right text-muted pl-2">2 hrs ago</small>
                                 <div class="media">
                                     <div class="avatar-md bg-info">
@@ -125,25 +113,22 @@
                                         </h6>
                                         <small class="text-muted mb-0">Dummy text of the printing.</small>
                                     </div>
-                                    <!--end media-body-->
                                 </div>
-                                <!--end media-->
                             </a>
-                            <!--end-item-->
                         </div>
-                        <!-- All--><a href="javascript:void(0);" class="dropdown-item text-center text-primary">View all
+                        <a href="javascript:void(0);" class="dropdown-item text-center text-primary">View all
                             <i class="fi-arrow-right"></i></a>
                     </div>
-                </li>
+                </li> -->
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown"
                         href="#" role="button" aria-haspopup="false" aria-expanded="false"><img
                             src="{{ asset('crovex/assets/images/users/user-1.png') }}" alt="profile-user" class="rounded-circle" />
-                        <span class="ml-1 nav-user-name hidden-sm">Cristian Gonzalez <i
+                        <span class="ml-1 nav-user-name hidden-sm">{{$vc_user->name}}<i
                                 class="mdi mdi-chevron-down"></i></span></a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i class="ti-user text-muted mr-2"></i> Profile</a>
-                        <a class="dropdown-item" href="#"><i class="ti-wallet text-muted mr-2"></i> My Wallet</a>
+                        <!-- <a class="dropdown-item" href="#"><i class="ti-user text-muted mr-2"></i> Profile</a>
+                        <a class="dropdown-item" href="#"><i class="ti-wallet text-muted mr-2"></i> My Wallet</a> -->
                         <a class="dropdown-item"href="{{ route('account.index') }}""><i class="ti-settings text-muted mr-2"></i> Mi Cuenta</a>
                         {{--<a class="dropdown-item" href=""><i class="ti-lock text-muted mr-2"></i> Lock screen</a> --}}
                         <div class="dropdown-divider mb-0"></div>

@@ -97,7 +97,13 @@
             ></Kpi>
             <Kpi v-bind:value="record.ctr" v-bind:title="'CTR'"></Kpi>
             <Kpi
-                v-bind:value="`${record.currency} ${record.cost}`"
+                v-bind:value="
+                    `${record.currency} ${
+                        mode == 'Administrado'
+                            ? record.cost * 1.5 * 3.5
+                            : record.cost * 3.5
+                    }`
+                "
                 v-bind:title="'Consumo'"
             ></Kpi>
         </div>
@@ -380,7 +386,12 @@
                                         <td>{{ row.impressions }}</td>
                                         <td>{{ row.ctr }}</td>
                                         <td>
-                                            {{ row.currency }} {{ row.cost }}
+                                            {{ row.currency }}
+                                            {{
+                                                mode == "Administrado"
+                                                    ? row.cost * 1.5 * 3.5
+                                                    : row.cost * 3.5
+                                            }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -437,6 +448,7 @@
                                             Impr
                                         </th>
                                         <th class="border-top-0">CTR</th>
+                                        <th class="border-top-0">Consumo</th>
 
                                         <!-- <th class="border-top-0">AdvertisingChannelSubType</th>-->
                                     </tr>
@@ -479,8 +491,14 @@
                                         <td>{{ row.clicks }}</td>
                                         <td>{{ row.impressions }}</td>
                                         <td>{{ row.ctr }}</td>
-
-                                        <!--<td> {{ row.advertisingChannelSubType}}</td>-->
+                                        <td>
+                                            {{ row.currency }}
+                                            {{
+                                                mode == "Administrado"
+                                                    ? row.cost * 1.5 * 3.5
+                                                    : row.cost * 3.5
+                                            }}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -576,6 +594,7 @@ export default {
     },
     data() {
         return {
+            mode: "",
             startDate: null,
             resource: "ads-campaign",
             records: [],
@@ -735,24 +754,28 @@ export default {
                 .get(`/${this.resource}/api/record/${this.campaignId}`)
                 .then(response => {
                     this.record = response.data.data;
+                    this.mode = this.record.campaign.mode;
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/keywords`)
                 .then(response => {
-                    console.log(response);
                     this.keywords = response.data.data;
+                    console.log("keywords");
+                    console.log(this.keywords);
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/ads`)
                 .then(response => {
-                    console.log(response);
                     this.ads = response.data.data;
+                    console.log("ads");
+                    console.log(this.ads);
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/search_terms`)
                 .then(response => {
-                    console.log(response);
                     this.searchTerms = response.data.data;
+                    console.log("serchterms");
+                    console.log(this.searchTerms);
                 });
         }
     }
