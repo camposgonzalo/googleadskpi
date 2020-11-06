@@ -76,10 +76,14 @@ class CampaignController extends Controller
     {
         $record = GoogleAdsReport::getCampaignPerformance($id);
         return CampaignResource::make($record);
-
         // $record = Campaign::with('user')->find($id);
         // return CampaignResource::make($record);
+    }
 
+    public function recordApiInPeriod($id, $startDate, $endDate)
+    {
+        $record = GoogleAdsReport::getCampaignPerformancePerPeriod($id, $startDate, $endDate);
+        return CampaignResource::make($record);
     }
 
     public function record($id)
@@ -93,15 +97,33 @@ class CampaignController extends Controller
         return AdPerformanceResource::collection($records);
     }
 
+    public function adsInPeriod($id, $startDate, $endDate)
+    {
+        $records = GoogleAdsReport::getAdPerformanceInPeriodByCampaignId($id, $startDate, $endDate);
+        return AdPerformanceResource::collection($records);
+    }
+
     public function keywords($id)
     {
         $records = GoogleAdsReport::getKeywordsPerformance($id);
         return KeywordPerformanceResource::collection($records);
     }
 
+    public function keywordsInPeriod($id, $startDate, $endDate)
+    {
+        $records = GoogleAdsReport::getKeywordsInPeriodPerformance($id, $startDate, $endDate);
+        return KeywordPerformanceResource::collection($records);
+    }
+
     public function searchTerms($id)
     {
         $records = GoogleAdsReport::getSearchTermPerformanceByCampaignId($id);
+        return SearchTermPerformanceResource::collection($records);
+    }
+
+    public function searchTermsInPeriod($id, $startDate, $endDate)
+    {
+        $records = GoogleAdsReport::getSearchTermPerformanceInPeriodByCampaignId($id, $startDate, $endDate);
         return SearchTermPerformanceResource::collection($records);
     }
 

@@ -45,10 +45,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('records', 'CampaignController@records');
         Route::get('user/{id}/records', 'CampaignController@recordsByUser');
         Route::get('api/record/{id}', 'CampaignController@recordApi');
+        Route::get('api/record/{id}/period/{startDate}/{endDate}', 'CampaignController@recordApiInPeriod');
         Route::get('record/{id}', 'CampaignController@record');
         Route::get('record/{id}/keywords', 'CampaignController@keywords');
         Route::get('record/{id}/ads', 'CampaignController@ads');
         Route::get('record/{id}/search_terms', 'CampaignController@searchTerms');
+        Route::get('record/{id}/keywords/period/{startDate}/{endDate}', 'CampaignController@keywordsInPeriod');
+        Route::get('record/{id}/ads/period/{startDate}/{endDate}', 'CampaignController@adsInPeriod');
+        Route::get('record/{id}/search_terms/period/{startDate}/{endDate}', 'CampaignController@searchTermsInPeriod');
         Route::get('information/{id}', 'CampaignController@information');
         Route::get('configuration/{id}', 'CampaignController@configuration');
         Route::get('details/{id}', 'CampaignController@details');

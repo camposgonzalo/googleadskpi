@@ -61,6 +61,7 @@
                                         v-model="startDate"
                                         type="date"
                                         placeholder="Pick a day"
+                                        @change="filterDate"
                                     >
                                     </el-date-picker>
                                 </div>
@@ -70,9 +71,10 @@
                                     <h4 class="header-title mt-0">hasta :</h4>
 
                                     <el-date-picker
-                                        v-model="startDate"
+                                        v-model="endDate"
                                         type="date"
                                         placeholder="Pick a day"
+                                        @change="filterDate"
                                     >
                                     </el-date-picker>
                                 </div>
@@ -596,6 +598,7 @@ export default {
         return {
             mode: "",
             startDate: null,
+            endDate: null,
             resource: "ads-campaign",
             records: [],
             keywords: [],
@@ -749,6 +752,18 @@ export default {
         this.getRecord();
     },
     methods: {
+        filterDate() {
+            if (this.startDate == null || this.endDate == null) return;
+            let starDate = this.startDate
+                .toISOString()
+                .split("T")[0]
+                .replaceAll("-", "");
+            let endDate = this.endDate
+                .toISOString()
+                .split("T")[0]
+                .replaceAll("-", "");
+            this.getRecordInPeriod(starDate, endDate);
+        },
         getRecord() {
             this.$http
                 .get(`/${this.resource}/api/record/${this.campaignId}`)
@@ -760,22 +775,47 @@ export default {
                 .get(`/${this.resource}/record/${this.campaignId}/keywords`)
                 .then(response => {
                     this.keywords = response.data.data;
-                    console.log("keywords");
-                    console.log(this.keywords);
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/ads`)
                 .then(response => {
                     this.ads = response.data.data;
-                    console.log("ads");
-                    console.log(this.ads);
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/search_terms`)
                 .then(response => {
                     this.searchTerms = response.data.data;
-                    console.log("serchterms");
-                    console.log(this.searchTerms);
+                });
+        },
+        getRecordInPeriod(startDate, endDate) {
+            this.$http
+                .get(
+                    `/${this.resource}/api/record/${this.campaignId}/period/${startDate}/${endDate}`
+                )
+                .then(response => {
+                    this.record = response.data.data;
+                    this.mode = this.record.campaign.mode;
+                });
+            this.$http
+                .get(
+                    `/${this.resource}/record/${this.campaignId}/keywords/period/${startDate}/${endDate}`
+                )
+                .then(response => {
+                    this.keywords = response.data.data;
+                });
+            this.$http
+                .get(
+                    `/${this.resource}/record/${this.campaignId}/ads/period/${startDate}/${endDate}`
+                )
+                .then(response => {
+                    this.ads = response.data.data;
+                });
+            this.$http
+                .get(
+                    `/${this.resource}/record/${this.campaignId}/search_terms/period/${startDate}/${endDate}`
+                )
+                .then(response => {
+                    this.searchTerms = response.data.data;
                 });
         }
     }
