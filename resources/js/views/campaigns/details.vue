@@ -459,7 +459,12 @@
                                         :key="index + 'R'"
                                     >
                                         <td>
-                                            <el-popover
+                                            <el-button
+                                                @click="modififyKeyWord(row)"
+                                            >
+                                                M
+                                            </el-button>
+                                            <!-- <el-popover
                                                 placement="right"
                                                 width="200"
                                                 trigger="click"
@@ -480,7 +485,7 @@
                                                     icon="el-icon-menu"
                                                     circle
                                                 ></el-button>
-                                            </el-popover>
+                                            </el-popover> -->
                                             {{ row.text }}
                                         </td>
                                         <td>{{ row.adGroup }}</td>
@@ -811,6 +816,49 @@ export default {
                 )
                 .then(response => {
                     this.searchTerms = response.data.data;
+                });
+        },
+        modififyKeyWord(item) {
+            let formKeyword = {
+                type: item.isNegative ? "Negativa" : "Clave",
+                keyword: `["${item.text}"]`,
+                group: item.adGroup,
+                campaign: item.campaign
+            };
+
+            let formRequest = {
+                type: "Crear",
+                level: item.isNegative ? "Palabra Negativa" : "Palabra Clave",
+                user_id: this.record.campaign.user_id,
+                state: "Pendiente",
+                request: JSON.stringify(formKeyword)
+            };
+
+            this.$http
+                .post(`/ads-request/keyword`, formKeyword)
+                .then(response => {
+                    formRequest.keyword_id = response.data.record.id;
+                    this.saveRequest(formRequest);
+                    this.$message({
+                        message: response.data.message,
+                        type: "success"
+                    });
+                })
+                .catch(error => {
+                    this.$message.error("Sucedió un error.");
+                });
+        },
+        saveRequest(formRequest) {
+            this.$http
+                .post(`/ads-request`, formRequest)
+                .then(response => {
+                    this.$message({
+                        message: response.data.message,
+                        type: "success"
+                    });
+                })
+                .catch(error => {
+                    this.$message.error("Sucedió un error.");
                 });
         }
     }

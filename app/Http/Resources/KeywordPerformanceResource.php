@@ -25,7 +25,8 @@ class KeywordPerformanceResource extends JsonResource
             'currency' => $this->resource['@attributes']['currency'],
             'id' => $this->resource['@attributes']['keywordID'],
             'text' => GoogleAdsData::getKeyWordTextById($this->resource['@attributes']['keywordID']),
-            'isNegative' => $this->resource['@attributes']['isNegative'],
+            'isNegative' => $this->resource['@attributes']['isNegative'] == "true",
+            'campaign' => $this->resource['@attributes']['campaign'],
         ];
     }
 }

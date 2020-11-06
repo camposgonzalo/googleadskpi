@@ -109,6 +109,7 @@ class GoogleAdsReport
                 'Id',
                 'AdGroupId',
                 'IsNegative',
+                'CampaignName',
             ])
             ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
             ->where('CampaignId')->in([$id])
@@ -150,6 +151,7 @@ class GoogleAdsReport
                 'Id',
                 'AdGroupId',
                 'IsNegative',
+                'CampaignName',
             ])
             ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
             ->where('CampaignId')->in([$id])
