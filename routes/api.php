@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('groups', 'RequestController@groups');
+Route::get('record/{id}/keywords', 'CampaignController@keywords');

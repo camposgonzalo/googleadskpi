@@ -40,13 +40,11 @@
                                 >Campaña: {{ record.name }}
                             </h2>
                         </div>
-                        <!--end row-->
                     </div>
-                    <!--end card-body-->
                 </div>
-                <!--end card-->
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -80,11 +78,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!--end row-->
                     </div>
-                    <!--end card-body-->
                 </div>
-                <!--end card-->
             </div>
         </div>
 
@@ -109,6 +104,7 @@
                 v-bind:title="'Consumo'"
             ></Kpi>
         </div>
+
         <div class="row">
             <div class="col-lg-4">
                 <div class="card">
@@ -324,6 +320,7 @@
                 <!--end card-->
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -486,9 +483,6 @@
                                             </el-popover>
                                             {{ row.text }}
                                         </td>
-                                        <!-- <td>
-                                            {{ row.text }}
-                                        </td> -->
                                         <td>{{ row.adGroup }}</td>
                                         <td>{{ row.clicks }}</td>
                                         <td>{{ row.impressions }}</td>
@@ -775,6 +769,7 @@ export default {
                 .get(`/${this.resource}/record/${this.campaignId}/keywords`)
                 .then(response => {
                     this.keywords = response.data.data;
+                    console.log(this.keywords);
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/ads`)

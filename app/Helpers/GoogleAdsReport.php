@@ -108,9 +108,11 @@ class GoogleAdsReport
                 'AccountCurrencyCode',
                 'Id',
                 'AdGroupId',
+                'IsNegative',
             ])
             ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
             ->where('CampaignId')->in([$id])
+            ->where("IsNegative")->in(["true", "false"])
             ->build();
 
         $reportDownloader = new ReportDownloader($session);
@@ -147,9 +149,11 @@ class GoogleAdsReport
                 'AccountCurrencyCode',
                 'Id',
                 'AdGroupId',
+                'IsNegative',
             ])
             ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
             ->where('CampaignId')->in([$id])
+            ->where("IsNegative")->in(["true", "false"])
             ->during($startDate, $endDate)
             ->build();
 

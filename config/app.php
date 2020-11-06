@@ -244,6 +244,6 @@ return [
 
     ],
 
-    // 'adsapi_php_path' => realpath(base_path('adsapi_php.ini')),
-    'adsapi_php_path' => pwd . '/adsapi_php.ini',
+    'adsapi_php_path' => realpath(base_path('adsapi_php.ini')),
+    // 'adsapi_php_path' => pwd . '/adsapi_php.ini',
 ];
