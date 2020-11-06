@@ -93,7 +93,7 @@ const KeywordRequestComponent = () =>
 const Configuration = () =>
     import("../../components/CampaignConfigurationComponent");
 export default {
-    props: ["requestId"],
+    props: ["requestId", "currentUser"],
     components: {
         AdRequestComponent,
         KeywordRequestComponent,
@@ -102,8 +102,8 @@ export default {
     data() {
         return {
             buttonText: "Aprobar",
-            groups: ["group1", "group2"],
-            campaigns: ["campaign1", "campaign2"],
+            groups: [],
+            campaigns: [],
             resource: "ads-request",
             record: {},
             errors: {},
@@ -118,20 +118,36 @@ export default {
     },
     created() {
         this.getRecord();
+        this.getRecords();
     },
     methods: {
         getRecord() {
-            console.log("buah");
             this.$http
                 .get(`/${this.resource}/record/${this.requestId}`)
                 .then(response => {
                     this.request = response.data;
-                    console.log(this.request);
                     this.active = response.data.level;
                     if (this.active == "Campaña") this.initCampaignData();
                     else if (this.active == "Anuncio") this.initAdData();
                     else this.initKeyWord();
                 });
+        },
+        getRecords() {
+            this.$http.get(`/${this.resource}/groups`).then(response => {
+                response.data.data.map(r => this.groups.push(r.name));
+            });
+            if (this.currentUser.role == "admin") {
+                this.$http.get(`/ads-campaign/local/records`).then(response => {
+                    response.data.map(r => this.campaigns.push(r.name));
+                });
+            } else
+                this.$http
+                    .get(
+                        `/ads-campaign/local/user/${this.currentUser.id}/records`
+                    )
+                    .then(response => {
+                        response.data.map(r => this.campaigns.push(r.name));
+                    });
         },
         initCampaignData() {
             if (this.request.type == "Crear") this.showGoogleId = true;
@@ -145,7 +161,6 @@ export default {
             else if (this.request.state == "Pendiente")
                 this.form = this.request.ad;
             else this.form = this.request.ad;
-            console.log(this.form);
         },
         initKeyWord() {
             if (this.request.state == "Borrador") {

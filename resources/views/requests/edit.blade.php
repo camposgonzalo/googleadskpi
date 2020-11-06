@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <requests-edit :request-id="{{ json_encode($id) }}"></requests-edit>
+    <requests-edit :request-id="{{ json_encode($id) }}" :current-user="{{ $vc_user }}"></requests-edit>
 
 @endsection
