@@ -25,6 +25,12 @@ class AdPerformanceResource extends JsonResource
             'currency' => $this->resource['@attributes']['currency'],
             'headline1' => $this->resource['@attributes']['headline1'],
             'headline2' => $this->resource['@attributes']['headline2'],
+            'description' => $this->resource['@attributes']['description'],
+            'campaign' => $this->resource['@attributes']['campaign'],
+            'path1' => $this->resource['@attributes']['path1'],
+            'path2' => $this->resource['@attributes']['path2'],
+            'displayURL' => $this->resource['@attributes']['displayURL'],
+            'finalURL' => $this->resource['@attributes']['finalURL'],
         ];
     }
 }

@@ -17,7 +17,7 @@ class DashboardController extends Controller
 
     public function records(Request $request)
     {
-        $records = Campaign::whereNotNull("campaign_id")->get();
+        $records = Campaign::whereNotNull("campaign_id")->whereActive(true)->get();
         return new CampaignCollection($records);
         // $records = GoogleAdsReport::getCampaignsPerformance();
         // return new CampaignCollection($records);

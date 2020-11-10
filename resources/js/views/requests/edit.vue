@@ -222,6 +222,7 @@ export default {
                 });
         },
         saveCampaign() {
+            if (this.request.state == "Aprobado") this.form.active = true;
             this.$http
                 .post(`/ads-campaign`, this.form)
                 .then(response => {

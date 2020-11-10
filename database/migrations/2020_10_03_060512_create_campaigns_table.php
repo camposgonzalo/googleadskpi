@@ -15,7 +15,11 @@ class CreateCampaignsTable extends Migration
     {
         Schema::create('campaigns', function (Blueprint $table) {
             $table->bigIncrements('id');
+            //google api
             $table->unsignedBigInteger('campaign_id')->nullable();
+            $table->unsignedBigInteger('account_id')->nullable();
+            $table->unsignedBigInteger('group_id')->nullable();
+            //
             $table->string('name');
             $table->string('objective');
             $table->string('url');
@@ -27,6 +31,7 @@ class CreateCampaignsTable extends Migration
             $table->integer('monthly_cost');
             $table->integer('daily_cost');
             $table->boolean('apply_billing')->default(false);
+            $table->boolean('active')->default(false);
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');

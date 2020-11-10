@@ -25,6 +25,11 @@ class RequestController extends Controller
         return view('requests.edit', compact('id'));
     }
 
+    public function modify($id)
+    {
+        return view('requests.modify', compact('id'));
+    }
+
     public function records()
     {
         $records = Request::with('user')->get();

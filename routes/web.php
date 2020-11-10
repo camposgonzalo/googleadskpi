@@ -38,21 +38,22 @@ Route::group(['middleware' => 'auth'], function () {
     )->name('home');
 
     Route::prefix('ads-campaign')->group(function () {
-
+        Route::get('{id}/activate', 'CampaignController@activate');
+        Route::get('{id}/deactivate', 'CampaignController@deactivate');
         Route::get('', 'CampaignController@index')->name('campaign.index');
         Route::get('local/records', 'CampaignController@localRecords');
         Route::get('local/user/{id}/records', 'CampaignController@localRecordsByUser');
         Route::get('records', 'CampaignController@records');
         Route::get('user/{id}/records', 'CampaignController@recordsByUser');
         Route::get('api/record/{id}', 'CampaignController@recordApi');
-        Route::get('api/record/{id}/period/{startDate}/{endDate}', 'CampaignController@recordApiInPeriod');
+        Route::get('api/record/{id}/period/{startDate}/{endDate}', 'CampaignController@recordApi');
         Route::get('record/{id}', 'CampaignController@record');
         Route::get('record/{id}/keywords', 'CampaignController@keywords');
         Route::get('record/{id}/ads', 'CampaignController@ads');
         Route::get('record/{id}/search_terms', 'CampaignController@searchTerms');
-        Route::get('record/{id}/keywords/period/{startDate}/{endDate}', 'CampaignController@keywordsInPeriod');
-        Route::get('record/{id}/ads/period/{startDate}/{endDate}', 'CampaignController@adsInPeriod');
-        Route::get('record/{id}/search_terms/period/{startDate}/{endDate}', 'CampaignController@searchTermsInPeriod');
+        Route::get('record/{id}/keywords/period/{startDate}/{endDate}', 'CampaignController@keywords');
+        Route::get('record/{id}/ads/period/{startDate}/{endDate}', 'CampaignController@ads');
+        Route::get('record/{id}/search_terms/period/{startDate}/{endDate}', 'CampaignController@searchTerms');
         Route::get('information/{id}', 'CampaignController@information');
         Route::get('configuration/{id}', 'CampaignController@configuration');
         Route::get('details/{id}', 'CampaignController@details');
@@ -72,6 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('user/{id}/records', 'RequestController@recordsByUser');
         Route::get('create/{level}', 'RequestController@create');
         Route::get('edit/{id}', 'RequestController@edit');
+        Route::get('modify/{id}', 'RequestController@modify');
         Route::get('record/{id}', 'RequestController@record');
         Route::post('', 'RequestController@store');
         Route::post('keyword', 'KeywordController@store');
@@ -95,6 +97,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('records', 'UserController@records');
         Route::get('record/{id}', 'UserController@recordById');
         Route::get('create', 'UserController@create');
+        Route::get('{id}/activate', 'UserController@activate');
+        Route::get('{id}/deactivate', 'UserController@deactivate');
         Route::post('', 'UserController@store');
     });
 

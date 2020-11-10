@@ -72,60 +72,60 @@ class CampaignController extends Controller
         return $records;
     }
 
-    public function recordApi($id)
+    public function recordApi($id, $startDate = null, $endDate = null)
     {
-        $record = GoogleAdsReport::getCampaignPerformance($id);
+        $record = GoogleAdsReport::getCampaignPerformance($id, $startDate, $endDate);
         return CampaignResource::make($record);
         // $record = Campaign::with('user')->find($id);
         // return CampaignResource::make($record);
     }
 
-    public function recordApiInPeriod($id, $startDate, $endDate)
-    {
-        $record = GoogleAdsReport::getCampaignPerformancePerPeriod($id, $startDate, $endDate);
-        return CampaignResource::make($record);
-    }
+    // public function recordApiInPeriod($id, $startDate, $endDate)
+    // {
+    //     $record = GoogleAdsReport::getCampaignPerformancePerPeriod($id, $startDate, $endDate);
+    //     return CampaignResource::make($record);
+    // }
 
     public function record($id)
     {
         return Campaign::whereCampaign_id($id)->first();
     }
 
-    public function ads($id)
+    public function ads($id, $startDate = null, $endDate = null)
     {
-        $records = GoogleAdsReport::getAdPerformanceByCampaignId($id);
+        $records = GoogleAdsReport::getAdPerformanceByCampaignId($id, $startDate, $endDate);
         return AdPerformanceResource::collection($records);
     }
 
-    public function adsInPeriod($id, $startDate, $endDate)
-    {
-        $records = GoogleAdsReport::getAdPerformanceInPeriodByCampaignId($id, $startDate, $endDate);
-        return AdPerformanceResource::collection($records);
-    }
+    // public function adsInPeriod($id, $startDate, $endDate)
+    // {
+    //     $records = GoogleAdsReport::getAdPerformanceInPeriodByCampaignId($id, $startDate, $endDate);
+    //     return AdPerformanceResource::collection($records);
+    // }
 
-    public function keywords($id)
+    public function keywords($id, $startDate = null, $endDate = null)
     {
-        $records = GoogleAdsReport::getKeywordsPerformance($id);
+        $records = GoogleAdsReport::getKeywordsPerformance($id, $startDate, $endDate);
         return KeywordPerformanceResource::collection($records);
     }
 
-    public function keywordsInPeriod($id, $startDate, $endDate)
-    {
-        $records = GoogleAdsReport::getKeywordsInPeriodPerformance($id, $startDate, $endDate);
-        return KeywordPerformanceResource::collection($records);
-    }
+    // public function keywordsInPeriod($id, $startDate = null, $endDate = null)
+    // {
+    //     $records = GoogleAdsReport::getKeywordsInPeriodPerformance($id, $startDate, $endDate);
+    //     return KeywordPerformanceResource::collection($records);
+    // }
 
-    public function searchTerms($id)
+    public function searchTerms($id, $startDate = null, $endDate = null)
     {
-        $records = GoogleAdsReport::getSearchTermPerformanceByCampaignId($id);
+        $records = GoogleAdsReport::getSearchTermPerformanceByCampaignId($id, $startDate, $endDate);
         return SearchTermPerformanceResource::collection($records);
     }
 
-    public function searchTermsInPeriod($id, $startDate, $endDate)
-    {
-        $records = GoogleAdsReport::getSearchTermPerformanceInPeriodByCampaignId($id, $startDate, $endDate);
-        return SearchTermPerformanceResource::collection($records);
-    }
+    // public function searchTermsInPeriod($id, $startDate, $endDate)
+    // {
+    //     $records = GoogleAdsReport::getSearchTermPerformanceInPeriodByCampaignId($id, $startDate, $endDate);
+    //     return SearchTermPerformanceResource::collection($records);
+    // }
 
     public function store(CampaignRequest $request)
     {
@@ -138,6 +138,30 @@ class CampaignController extends Controller
             'success' => true,
             'record' => $record,
             'message' => ($id) ? 'Campaña editada con éxito' : 'Campaña registrada con éxito',
+        ];
+
+    }
+
+    public function activate($id)
+    {
+        $record = Campaign::find($id);
+        $record->active = true;
+        $record->save();
+        return [
+            'success' => true,
+            'message' => 'Campaña activada con éxito',
+        ];
+
+    }
+
+    public function deactivate($id)
+    {
+        $record = Campaign::find($id);
+        $record->active = false;
+        $record->save();
+        return [
+            'success' => true,
+            'message' => 'Campaña desactivada con éxito',
         ];
 
     }

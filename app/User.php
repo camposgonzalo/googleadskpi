@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'apply_billing', 'ruc', 'business_name', 'state',
+        'name', 'email', 'password', 'role', 'apply_billing', 'ruc', 'business_name', 'active',
     ];
 
     public function bills()

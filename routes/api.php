@@ -17,5 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('groups', 'RequestController@groups');
-Route::get('record/{id}/keywords', 'CampaignController@keywords');
+Route::get('record/{id}/keywords/period/{startDate}/{endDate}', 'CampaignController@keywordsInPeriod');
+Route::get('record/{id}/keywords', 'CampaignController@keywordsInPeriod');

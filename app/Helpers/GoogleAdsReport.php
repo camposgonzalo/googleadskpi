@@ -51,28 +51,51 @@ class GoogleAdsReport
         }
     }
 
-    public static function getCampaignPerformance($id)
+    public static function getCampaignPerformance($id, $startDate = null, $endDate = null)
     {
         $session = GoogleAdsSession::getSession();
-        $query = (new ReportQueryBuilder())
-            ->select([
-                'CampaignId',
-                'CampaignName',
-                'CampaignStatus',
-                'Clicks',
-                'Impressions',
-                'Ctr',
-                'Cost',
-                'AccountCurrencyCode',
-                'AverageTimeOnSite',
-                'CrossDeviceConversions',
-                'StartDate',
-                'EndDate',
-                'Labels',
-            ])
-            ->from(ReportDefinitionReportType::CAMPAIGN_PERFORMANCE_REPORT)
-            ->where('CampaignId')->in([$id])
-            ->build();
+        if (!$startDate) {
+            $query = (new ReportQueryBuilder())
+                ->select([
+                    'CampaignId',
+                    'CampaignName',
+                    'CampaignStatus',
+                    'Clicks',
+                    'Impressions',
+                    'Ctr',
+                    'Cost',
+                    'AccountCurrencyCode',
+                    'AverageTimeOnSite',
+                    'CrossDeviceConversions',
+                    'StartDate',
+                    'EndDate',
+                    'Labels',
+                ])
+                ->from(ReportDefinitionReportType::CAMPAIGN_PERFORMANCE_REPORT)
+                ->where('CampaignId')->in([$id])
+                ->build();
+        } else {
+            $query = (new ReportQueryBuilder())
+                ->select([
+                    'CampaignId',
+                    'CampaignName',
+                    'CampaignStatus',
+                    'Clicks',
+                    'Impressions',
+                    'Ctr',
+                    'Cost',
+                    'AccountCurrencyCode',
+                    'AverageTimeOnSite',
+                    'CrossDeviceConversions',
+                    'StartDate',
+                    'EndDate',
+                    'Labels',
+                ])
+                ->from(ReportDefinitionReportType::CAMPAIGN_PERFORMANCE_REPORT)
+                ->where('CampaignId')->in([$id])
+                ->during($startDate, $endDate)
+                ->build();
+        }
 
         $reportDownloader = new ReportDownloader($session);
         $reportSettingsOverride = (new ReportSettingsBuilder())
@@ -95,26 +118,47 @@ class GoogleAdsReport
         }
     }
 
-    public static function getKeywordsPerformance($id)
+    public static function getKeywordsPerformance($id, $startDate = null, $endDate = null)
     {
         $session = GoogleAdsSession::getSession();
-        $query = (new ReportQueryBuilder())
-            ->select([
-                'AdGroupName',
-                'Clicks',
-                'Impressions',
-                'Ctr',
-                'Cost',
-                'AccountCurrencyCode',
-                'Id',
-                'AdGroupId',
-                'IsNegative',
-                'CampaignName',
-            ])
-            ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
-            ->where('CampaignId')->in([$id])
-            ->where("IsNegative")->in(["true", "false"])
-            ->build();
+        if (!$startDate) {
+            $query = (new ReportQueryBuilder())
+                ->select([
+                    'AdGroupName',
+                    'Clicks',
+                    'Impressions',
+                    'Ctr',
+                    'Cost',
+                    'AccountCurrencyCode',
+                    'Id',
+                    'AdGroupId',
+                    'IsNegative',
+                    'CampaignName',
+                ])
+                ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
+                ->where('CampaignId')->in([$id])
+                ->where("IsNegative")->in(["true", "false"])
+                ->build();
+        } else {
+            $query = (new ReportQueryBuilder())
+                ->select([
+                    'AdGroupName',
+                    'Clicks',
+                    'Impressions',
+                    'Ctr',
+                    'Cost',
+                    'AccountCurrencyCode',
+                    'Id',
+                    'AdGroupId',
+                    'IsNegative',
+                    'CampaignName',
+                ])
+                ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
+                ->where('CampaignId')->in([$id])
+                ->where("IsNegative")->in(["true", "false"])
+                ->during($startDate, $endDate)
+                ->build();
+        }
 
         $reportDownloader = new ReportDownloader($session);
         $reportSettingsOverride = (new ReportSettingsBuilder())
@@ -137,69 +181,102 @@ class GoogleAdsReport
         }
     }
 
-    public static function getKeywordsInPeriodPerformance($id, $startDate, $endDate)
+    // public static function getKeywordsInPeriodPerformance($id, $startDate, $endDate)
+    // {
+    //     $session = GoogleAdsSession::getSession();
+    //     $query = (new ReportQueryBuilder())
+    //         ->select([
+    //             'AdGroupName',
+    //             'Clicks',
+    //             'Impressions',
+    //             'Ctr',
+    //             'Cost',
+    //             'AccountCurrencyCode',
+    //             'Id',
+    //             'AdGroupId',
+    //             'IsNegative',
+    //             'CampaignName',
+    //         ])
+    //         ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
+    //         ->where('CampaignId')->in([$id])
+    //         ->where("IsNegative")->in(["true", "false"])
+    //         ->during($startDate, $endDate)
+    //         ->build();
+
+    //     $reportDownloader = new ReportDownloader($session);
+    //     $reportSettingsOverride = (new ReportSettingsBuilder())
+    //         ->includeZeroImpressions(true)
+    //         ->skipReportSummary(false)
+    //         ->build();
+    //     $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
+    //         sprintf('%s', $query),
+    //         DownloadFormat::XML,
+    //         $reportSettingsOverride
+    //     );
+    //     $cadena = $reportDownloadResult->getAsString();
+    //     $xml = simplexml_load_string($cadena);
+    //     $json = json_encode($xml->table);
+    //     $array = json_decode($json, true);
+    //     if (array_key_exists('row', $array)) {
+    //         return collect($array['row']);
+    //     } else {
+    //         return collect([]);
+    //     }
+    // }
+
+    public static function getAdPerformanceByCampaignId($id, $startDate = null, $endDate = null)
     {
         $session = GoogleAdsSession::getSession();
-        $query = (new ReportQueryBuilder())
-            ->select([
-                'AdGroupName',
-                'Clicks',
-                'Impressions',
-                'Ctr',
-                'Cost',
-                'AccountCurrencyCode',
-                'Id',
-                'AdGroupId',
-                'IsNegative',
-                'CampaignName',
-            ])
-            ->from(ReportDefinitionReportType::KEYWORDS_PERFORMANCE_REPORT)
-            ->where('CampaignId')->in([$id])
-            ->where("IsNegative")->in(["true", "false"])
-            ->during($startDate, $endDate)
-            ->build();
-
-        $reportDownloader = new ReportDownloader($session);
-        $reportSettingsOverride = (new ReportSettingsBuilder())
-            ->includeZeroImpressions(true)
-            ->skipReportSummary(false)
-            ->build();
-        $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
-            sprintf('%s', $query),
-            DownloadFormat::XML,
-            $reportSettingsOverride
-        );
-        $cadena = $reportDownloadResult->getAsString();
-        $xml = simplexml_load_string($cadena);
-        $json = json_encode($xml->table);
-        $array = json_decode($json, true);
-        if (array_key_exists('row', $array)) {
-            return collect($array['row']);
+        if (!$startDate) {
+            $query = (new ReportQueryBuilder())
+                ->select([
+                    'Status',
+                    'Headline',
+                    'HeadlinePart1',
+                    'AdGroupName',
+                    'Clicks',
+                    'Impressions',
+                    'Ctr',
+                    'Cost',
+                    'AccountCurrencyCode',
+                    'HeadlinePart1',
+                    'HeadlinePart2',
+                    'CampaignName',
+                    'Description',
+                    'Path1',
+                    'Path2',
+                    'DisplayUrl',
+                    'CreativeFinalUrls',
+                ])
+                ->from(ReportDefinitionReportType::AD_PERFORMANCE_REPORT)
+                ->where('CampaignId')->in([$id])
+                ->build();
         } else {
-            return collect([]);
+            $query = (new ReportQueryBuilder())
+                ->select([
+                    'Status',
+                    'Headline',
+                    'HeadlinePart1',
+                    'AdGroupName',
+                    'Clicks',
+                    'Impressions',
+                    'Ctr',
+                    'Cost',
+                    'AccountCurrencyCode',
+                    'HeadlinePart1',
+                    'HeadlinePart2',
+                    'CampaignName',
+                    'Description',
+                    'Path1',
+                    'Path2',
+                    'DisplayUrl',
+                    'CreativeFinalUrls',
+                ])
+                ->from(ReportDefinitionReportType::AD_PERFORMANCE_REPORT)
+                ->where('CampaignId')->in([$id])
+                ->during($startDate, $endDate)
+                ->build();
         }
-    }
-
-    public static function getAdPerformanceByCampaignId($id)
-    {
-        $session = GoogleAdsSession::getSession();
-        $query = (new ReportQueryBuilder())
-            ->select([
-                'Status',
-                'Headline',
-                'HeadlinePart1',
-                'AdGroupName',
-                'Clicks',
-                'Impressions',
-                'Ctr',
-                'Cost',
-                'AccountCurrencyCode',
-                'HeadlinePart1',
-                'HeadlinePart2',
-            ])
-            ->from(ReportDefinitionReportType::AD_PERFORMANCE_REPORT)
-            ->where('CampaignId')->in([$id])
-            ->build();
 
         $reportDownloader = new ReportDownloader($session);
         $reportSettingsOverride = (new ReportSettingsBuilder())
@@ -238,6 +315,12 @@ class GoogleAdsReport
                 'AccountCurrencyCode',
                 'HeadlinePart1',
                 'HeadlinePart2',
+                'CampaignName',
+                'Description',
+                'Path1',
+                'Path2',
+                'DisplayUrl',
+                'CreativeFinalUrls',
             ])
             ->from(ReportDefinitionReportType::AD_PERFORMANCE_REPORT)
             ->where('CampaignId')->in([$id])
@@ -265,22 +348,40 @@ class GoogleAdsReport
         }
     }
 
-    public static function getSearchTermPerformanceByCampaignId($id)
+    public static function getSearchTermPerformanceByCampaignId($id, $startDate = null, $endDate = null)
     {
         $session = GoogleAdsSession::getSession();
-        $query = (new ReportQueryBuilder())
-            ->select([
-                'AdGroupName',
-                'Clicks',
-                'Impressions',
-                'Ctr',
-                'Cost',
-                'AccountCurrencyCode',
-                'Query',
-            ])
-            ->from(ReportDefinitionReportType::SEARCH_QUERY_PERFORMANCE_REPORT)
-            ->where('CampaignId')->in([$id])
-            ->build();
+        if (!$startDate) {
+
+            $query = (new ReportQueryBuilder())
+                ->select([
+                    'AdGroupName',
+                    'Clicks',
+                    'Impressions',
+                    'Ctr',
+                    'Cost',
+                    'AccountCurrencyCode',
+                    'Query',
+                ])
+                ->from(ReportDefinitionReportType::SEARCH_QUERY_PERFORMANCE_REPORT)
+                ->where('CampaignId')->in([$id])
+                ->build();
+        } else {
+            $query = (new ReportQueryBuilder())
+                ->select([
+                    'AdGroupName',
+                    'Clicks',
+                    'Impressions',
+                    'Ctr',
+                    'Cost',
+                    'AccountCurrencyCode',
+                    'Query',
+                ])
+                ->from(ReportDefinitionReportType::SEARCH_QUERY_PERFORMANCE_REPORT)
+                ->where('CampaignId')->in([$id])
+                ->during($startDate, $endDate)
+                ->build();
+        }
 
         $reportDownloader = new ReportDownloader($session);
         $reportSettingsOverride = (new ReportSettingsBuilder())
@@ -304,91 +405,91 @@ class GoogleAdsReport
 
     }
 
-    public static function getSearchTermPerformanceInPeriodByCampaignId($id, $startDate, $endDate)
-    {
-        $session = GoogleAdsSession::getSession();
-        $query = (new ReportQueryBuilder())
-            ->select([
-                'AdGroupName',
-                'Clicks',
-                'Impressions',
-                'Ctr',
-                'Cost',
-                'AccountCurrencyCode',
-                'Query',
-            ])
-            ->from(ReportDefinitionReportType::SEARCH_QUERY_PERFORMANCE_REPORT)
-            ->where('CampaignId')->in([$id])
-            ->during($startDate, $endDate)
-            ->build();
+    // public static function getSearchTermPerformanceInPeriodByCampaignId($id, $startDate, $endDate)
+    // {
+    //     $session = GoogleAdsSession::getSession();
+    //     $query = (new ReportQueryBuilder())
+    //         ->select([
+    //             'AdGroupName',
+    //             'Clicks',
+    //             'Impressions',
+    //             'Ctr',
+    //             'Cost',
+    //             'AccountCurrencyCode',
+    //             'Query',
+    //         ])
+    //         ->from(ReportDefinitionReportType::SEARCH_QUERY_PERFORMANCE_REPORT)
+    //         ->where('CampaignId')->in([$id])
+    //         ->during($startDate, $endDate)
+    //         ->build();
 
-        $reportDownloader = new ReportDownloader($session);
-        $reportSettingsOverride = (new ReportSettingsBuilder())
-            ->skipReportSummary(false)
-            ->build();
-        $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
-            sprintf('%s', $query),
-            DownloadFormat::XML,
-            $reportSettingsOverride
-        );
-        $cadena = $reportDownloadResult->getAsString();
-        $xml = simplexml_load_string($cadena);
-        $json = json_encode($xml->table);
-        $array = json_decode($json, true);
+    //     $reportDownloader = new ReportDownloader($session);
+    //     $reportSettingsOverride = (new ReportSettingsBuilder())
+    //         ->skipReportSummary(false)
+    //         ->build();
+    //     $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
+    //         sprintf('%s', $query),
+    //         DownloadFormat::XML,
+    //         $reportSettingsOverride
+    //     );
+    //     $cadena = $reportDownloadResult->getAsString();
+    //     $xml = simplexml_load_string($cadena);
+    //     $json = json_encode($xml->table);
+    //     $array = json_decode($json, true);
 
-        if (array_key_exists('row', $array)) {
-            return collect($array['row']);
-        } else {
-            return collect([]);
-        }
+    //     if (array_key_exists('row', $array)) {
+    //         return collect($array['row']);
+    //     } else {
+    //         return collect([]);
+    //     }
 
-    }
+    // }
 
-    public static function getCampaignPerformancePerPeriod($id, $iniDate, $endDate)
-    {
-        $session = GoogleAdsSession::getSession();
-        $query = (new ReportQueryBuilder())
-            ->select([
-                'CampaignId',
-                'CampaignName',
-                'CampaignStatus',
-                'Clicks',
-                'Impressions',
-                'Ctr',
-                'Cost',
-                'AccountCurrencyCode',
-                'AverageTimeOnSite',
-                'CrossDeviceConversions',
-                'StartDate',
-                'EndDate',
-                'Labels',
-            ])
-            ->from(ReportDefinitionReportType::CAMPAIGN_PERFORMANCE_REPORT)
-            ->where('CampaignId')->in([$id])
-            ->during($iniDate, $endDate)
-            ->build();
+    // public static function getCampaignPerformancePerPeriod($id, $iniDate, $endDate)
+    // {
+    //     $session = GoogleAdsSession::getSession();
+    //     $query = (new ReportQueryBuilder())
+    //         ->select([
+    //             'CampaignId',
+    //             'CampaignName',
+    //             'CampaignStatus',
+    //             'Clicks',
+    //             'Impressions',
+    //             'Ctr',
+    //             'Cost',
+    //             'AccountCurrencyCode',
+    //             'AverageTimeOnSite',
+    //             'CrossDeviceConversions',
+    //             'StartDate',
+    //             'EndDate',
+    //             'Labels',
+    //         ])
+    //         ->from(ReportDefinitionReportType::CAMPAIGN_PERFORMANCE_REPORT)
+    //         ->where('CampaignId')->in([$id])
+    //         ->during($iniDate, $endDate)
+    //         ->build();
 
-        //
+    //     //
 
-        $reportDownloader = new ReportDownloader($session);
-        $reportSettingsOverride = (new ReportSettingsBuilder())
-            ->includeZeroImpressions(true)
-            ->skipReportSummary(false)
-            ->build();
-        $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
-            sprintf('%s', $query),
-            DownloadFormat::XML,
-            $reportSettingsOverride
-        );
-        $cadena = $reportDownloadResult->getAsString();
-        $xml = simplexml_load_string($cadena);
-        $json = json_encode($xml->table);
-        $array = json_decode($json, true);
-        if (array_key_exists('row', $array)) {
-            return collect($array['row']);
-        } else {
-            return collect([]);
-        }
-    }
+    //     $reportDownloader = new ReportDownloader($session);
+    //     $reportSettingsOverride = (new ReportSettingsBuilder())
+    //         ->includeZeroImpressions(true)
+    //         ->skipReportSummary(false)
+    //         ->build();
+    //     $reportDownloadResult = $reportDownloader->downloadReportWithAwql(
+    //         sprintf('%s', $query),
+    //         DownloadFormat::XML,
+    //         $reportSettingsOverride
+    //     );
+    //     $cadena = $reportDownloadResult->getAsString();
+    //     $xml = simplexml_load_string($cadena);
+    //     $json = json_encode($xml->table);
+    //     $array = json_decode($json, true);
+    //     if (array_key_exists('row', $array)) {
+    //         return collect($array['row']);
+    //     } else {
+    //         return collect([]);
+    //     }
+    // }
 
 }

@@ -24,7 +24,7 @@
                                     :key="index + 'R'"
                                 >
                                     <td>
-                                        <el-switch v-model="row.state">
+                                        <el-switch v-model="row.active">
                                         </el-switch>
                                     </td>
                                     <td>

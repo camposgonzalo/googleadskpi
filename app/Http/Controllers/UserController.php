@@ -43,4 +43,29 @@ class UserController extends Controller
         ];
 
     }
+
+    public function activate($id)
+    {
+        $record = User::find($id);
+        $record->active = true;
+
+        $record->save();
+        return [
+            'success' => true,
+            'message' => 'Usuario activado con éxito',
+        ];
+
+    }
+
+    public function deactivate($id)
+    {
+        $record = User::find($id);
+        $record->active = false;
+        $record->save();
+        return [
+            'success' => true,
+            'message' => 'Usuario desactivado con éxito',
+        ];
+
+    }
 }

@@ -373,6 +373,9 @@
                                         :key="index + 'R'"
                                     >
                                         <td>
+                                            <el-button @click="modififyAd(row)">
+                                                M
+                                            </el-button>
                                             {{ row.status }}
                                         </td>
                                         <td>
@@ -774,7 +777,6 @@ export default {
                 .get(`/${this.resource}/record/${this.campaignId}/keywords`)
                 .then(response => {
                     this.keywords = response.data.data;
-                    console.log(this.keywords);
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/ads`)
@@ -827,7 +829,7 @@ export default {
             };
 
             let formRequest = {
-                type: "Crear",
+                type: "Modificar",
                 level: item.isNegative ? "Palabra Negativa" : "Palabra Clave",
                 user_id: this.record.campaign.user_id,
                 state: "Pendiente",
@@ -852,6 +854,38 @@ export default {
             this.$http
                 .post(`/ads-request`, formRequest)
                 .then(response => {
+                    this.$message({
+                        message: response.data.message,
+                        type: "success"
+                    });
+                })
+                .catch(error => {
+                    this.$message.error("Sucedió un error.");
+                });
+        },
+        modififyAd(item) {
+            let formAd = {
+                title_one: item.headline1,
+                title_two: item.headline2,
+                description: item.description,
+                url: JSON.parse(item.finalURL)[0],
+                group: item.adGroup,
+                campaign: item.campaign
+            };
+
+            let formRequest = {
+                type: "Modificar",
+                level: "Anuncio",
+                user_id: this.record.campaign.user_id,
+                state: "Pendiente",
+                request: JSON.stringify(formAd)
+            };
+
+            this.$http
+                .post(`/ads-request/ad`, formAd)
+                .then(response => {
+                    formRequest.ad_id = response.data.record.id;
+                    this.saveRequest(formRequest);
                     this.$message({
                         message: response.data.message,
                         type: "success"

@@ -81,7 +81,7 @@ class BillingController extends Controller
             $initDate = explode("-", $campaignReport["@attributes"]["startDate"]);
             $currentDate = $initDate[0] * 100 + $initDate[1];
             do {
-                $campaignReportPerPeriod = GoogleAdsReport::getCampaignPerformancePerPeriod($r->campaign_id, $currentDate . "01", $currentDate . cal_days_in_month(CAL_GREGORIAN, $initDate[1], $initDate[0]));
+                $campaignReportPerPeriod = GoogleAdsReport::getCampaignPerformance($r->campaign_id, $currentDate . "01", $currentDate . cal_days_in_month(CAL_GREGORIAN, $initDate[1], $initDate[0]));
                 $record =
                     [
                     // 'campaign_id' => $r->id,
@@ -110,7 +110,7 @@ class BillingController extends Controller
         $records = Campaign::whereUser_id($id)->whereNotNull("campaign_id")->with('user')->get();
 
         foreach ($records as $r) {
-            $campaignReportPerPeriod = GoogleAdsReport::getCampaignPerformancePerPeriod($r->campaign_id, $period . "01", $period . cal_days_in_month(CAL_GREGORIAN, $month, $year));
+            $campaignReportPerPeriod = GoogleAdsReport::getCampaignPerformance($r->campaign_id, $period . "01", $period . cal_days_in_month(CAL_GREGORIAN, $month, $year));
             $startDate = explode("-", $campaignReportPerPeriod["@attributes"]["startDate"]);
             if ($period - ($startDate[0] * 100 + $startDate[1]) >= 0) {
                 $record =

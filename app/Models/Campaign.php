@@ -20,6 +20,9 @@ class Campaign extends Model
         'daily_cost',
         'campaign_id',
         'user_id',
+        'active',
+        'account_id',
+        'group_id',
     ];
 
     public function user()
