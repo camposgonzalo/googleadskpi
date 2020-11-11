@@ -9,12 +9,12 @@
                     <div class="card-body">
                         <div class="px-3">
                             <div class="auth-logo-box">
-                                <img src="img/ads.png" height="55" alt="logo" class="auth-logo d-block" />
+                                <a href="#" class="logo logo-admin"><img src="{{ asset('img/ads.png') }}" height="85" alt="logo" class="auth-logo p-0" /></a>
                             </div>
                             <!--end auth-logo-box-->
                             <div class="text-center auth-logo-text">
-                                <h4 class="mt-0 mb-3 mt-5">{{ __('Login') }}</h4>
-                                <p class="text-muted mb-0">Google Ads - KPI</p>
+                                <h4 class="mt-0 mb-3 mt-5">Google Ads - KPI</h4>
+                                <p class="text-muted mb-0">{{ __('Login') }}</p>
                             </div>
                             <!--end auth-logo-text-->
                             <form class="form-horizontal auth-form my-4" method="POST" action="{{ route('login') }}">
@@ -23,11 +23,11 @@
                                     <label for="username">Correo</label>
                                     <div class="input-group mb-3">
                                         <span class="auth-form-icon"><i class="dripicons-user"></i> </span>
-                                        <input type="text" class="form-control  @error('email') is-invalid @enderror" id="username" value="{{ old('email') }}" required autocomplete="email" autofocus />
+                                        <input type="text" name="email" id="email" class="form-control  @error('email') is-invalid @enderror" id="username" value="{{ old('email') }}" required autocomplete="email" autofocus />
                                     </div>
                                     @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                        <span class="text-xs text-danger" role="alert">
+                                            {{ $message }}
                                         </span>
                                     @enderror
                                 </div>
@@ -36,11 +36,11 @@
                                     <label for="userpassword">Contraseña</label>
                                     <div class="input-group mb-3">
                                         <span class="auth-form-icon"><i class="dripicons-lock"></i> </span>
-                                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="userpassword" placeholder="Enter password" />
+                                        <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" id="userpassword" placeholder="Enter password" />
                                     </div>
                                     @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                        <span class="text-xs text-danger" role="alert">
+                                            {{ $message }}
                                         </span>
                                     @enderror
                                 </div>

@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-<!-- Mirrored from mannatthemes.com/crovex/crovex_live/dashboard/analytics-index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Aug 2020 23:25:48 GMT -->
-
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8" />
     <title>Crovex - Admin & Dashboard Template</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Google Ads kpi" name="description" />
     <meta content="" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="https://mannatthemes.com/crovex/crovex_live/assets/images/favicon.ico" />
+    <link rel="shortcut icon" href="img/ads.png" />
     <!-- jvectormap -->
     <link href="{{ asset('crovex/plugins/jvectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
     <!-- App css -->
@@ -65,6 +63,5 @@
     <script src="{{ asset('js/vendor.js') }}"></script>
 
 </body>
-<!-- Mirrored from mannatthemes.com/crovex/crovex_live/dashboard/analytics-index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Aug 2020 23:25:49 GMT -->
 
 </html>
