@@ -25,7 +25,6 @@ class CreateCampaignsTable extends Migration
             $table->string('url');
             $table->string('phone')->nullable();
             $table->string('ad_schedule', 400);
-            $table->string('locations', 400);
             $table->enum('mode', ['Administrado', 'No Administrado']);
             $table->enum('type', ['Libre', 'Fijo']);
             $table->integer('monthly_cost');
@@ -35,6 +34,8 @@ class CreateCampaignsTable extends Migration
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->char('location_id')->nullable();
+            $table->foreign('location_id')->references('id')->on('districts');
 
             // $table->string('description')->nullable();
             // $table->string('ruc', 20)->nullable();

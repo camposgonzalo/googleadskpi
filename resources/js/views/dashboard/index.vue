@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-4 col-lg-3">
+            <div class="col-lg-4">
                 <div class="card report-card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -33,7 +33,7 @@
                 </div>
                 <!--end card-->
             </div>
-            <div class="col-md-4 col-lg-3">
+            <div class="col-lg-4">
                 <div class="card report-card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -63,7 +63,7 @@
                 </div>
                 <!--end card-->
             </div>
-            <div class="col-md-4 col-lg-3">
+            <div class="col-lg-4">
                 <div class="card report-card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">

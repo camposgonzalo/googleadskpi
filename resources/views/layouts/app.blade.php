@@ -33,7 +33,7 @@
     <div class="page-wrapper">
         <!-- Page Content-->
         <div class="page-content">
-            <div class="container-fluid" id="main-wrapper" style="margin-top: 0.5%;">
+            <div class="container-fluid pt-4" id="main-wrapper">
                 @yield('content')
             </div>
             <!-- container -->
