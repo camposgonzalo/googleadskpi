@@ -23,7 +23,8 @@
 
 </head>
 
-<body>
+<body class="{{ Auth::user() ? '' : "account-body accountbg" }}">
+    @if(Auth::user())
     <!-- Top Bar Start -->
     @include('layouts.partials.header')
     <!-- Top Bar End -->
@@ -44,6 +45,9 @@
         <!-- end page content -->
     </div>
     <!-- end page-wrapper -->
+    @else
+        @yield('content')
+    @endif
     <!-- jQuery  -->
     <script src="{{ asset('crovex/assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('crovex/assets/js/bootstrap.bundle.min.js') }}"></script>
