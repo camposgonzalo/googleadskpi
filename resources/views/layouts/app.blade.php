@@ -9,7 +9,7 @@
     <meta content="" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="img/ads.png" />
+    <link rel="shortcut icon" href="{{ asset('img/ads.png') }}" />
     <!-- jvectormap -->
     <link href="{{ asset('crovex/plugins/jvectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
     <!-- App css -->

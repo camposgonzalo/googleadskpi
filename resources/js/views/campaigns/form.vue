@@ -335,7 +335,7 @@ export default {
         },
         next() {
             if (this.buttonText == "Crear campaña ->") {
-                this.form.locations = JSON.stringify(this.locations);
+                this.form.locations = JSON.stringify(this.form.locations);
                 this.form.ad_schedule = JSON.stringify(this.schedules);
                 this.save();
             } else {

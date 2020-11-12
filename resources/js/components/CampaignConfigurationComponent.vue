@@ -51,40 +51,17 @@
                     </form>
                     <br />
                     <div class="row">
-                        <div class="col-md-6">
-                            <el-autocomplete
-                                class="inline-input"
-                                v-model="formUbication.country"
-                                :fetch-suggestions="queryCountrySearch"
-                                placeholder="Ubicacion"
-                                @select="handleSelectCountry"
-                            ></el-autocomplete>
-                        </div>
-                        <div class="col-md-6">
-                            <el-autocomplete
-                                v-if="formUbication.country"
-                                class="inline-input"
-                                v-model="formUbication.department"
-                                :fetch-suggestions="queryDepartmentSearch"
-                                placeholder="Ubicacion"
-                                ><el-button
-                                    slot="append"
-                                    icon="el-icon-plus"
-                                    @click="saveLocation"
-                                ></el-button
-                            ></el-autocomplete>
-                        </div>
-                    </div>
-                    <br />
-                    <div
-                        class="row"
-                        v-for="(item, index) in locations"
-                        :key="index"
-                    >
-                        <div class="col-md-6">
-                            <label class="control-label"
-                                >{{ item.country }}-{{ item.department }}
-                            </label>
+                        <div class="col-md-12">
+                            <label for="ubigeo" class="control-label">Ubicación</label>
+                            <br>
+                            <el-cascader v-model="form.locations"
+                                        :value="locations"
+                                        :options="all_locations"
+                                        :props="props"
+                                        filterable
+                                        clearable
+                                        class="w-100"></el-cascader>
+                            <!-- <small class="form-control-feedback" v-if="errors.location_id" v-text="errors.location_id[0]"></small> -->
                         </div>
                     </div>
                 </div>
@@ -101,28 +78,20 @@
                                     :key="index"
                                     @change="item.selected = !item.selected"
                                 >
-                                    <div class="col-md-4">
-                                        <el-checkbox :label="item">{{
-                                            item.day
-                                        }}</el-checkbox>
+                                    <div class="col-md-3">
+                                        <el-checkbox :label="item" :checked="item.selected">{{item.day}}</el-checkbox>
                                     </div>
-                                    <div class="col-md-4">
-                                        <el-input-number
-                                            v-model="item.start"
-                                            controls-position="right"
-                                            :min="0"
-                                            :max="24"
-                                            :disabled="!item.selected"
-                                        ></el-input-number>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <el-input-number
-                                            v-model="item.end"
-                                            controls-position="right"
-                                            :min="0"
-                                            :max="24"
-                                            :disabled="!item.selected"
-                                        ></el-input-number>
+                                    <div class="col-md-6">
+                                        <el-time-picker
+                                            is-range
+                                            v-model="item.range"
+                                            range-separator="A"
+                                            start-placeholder="Hora inicio"
+                                            end-placeholder="Hora fin"
+                                            format="HH:mm A"
+                                            value-format="HH:mm A"
+                                            :disabled="!item.selected">
+                                        </el-time-picker>
                                     </div>
                                 </div>
                             </el-checkbox-group>
@@ -130,7 +99,7 @@
                     </form>
                     <br />
                     <div class="row" v-if="showGoogleId">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <el-input v-model="form.campaign_id"
                                 ><template slot="prepend"
                                     >Google Id</template
@@ -149,6 +118,7 @@ export default {
     data() {
         return {
             checkList: [],
+            props: { multiple: true },
             formUbication: {},
             departments: [],
             countrys: [
@@ -161,10 +131,25 @@ export default {
                     departments: [{ value: "D2.1" }, { value: "D2.2" }]
                 }
             ],
+            current_locations: [],
+            countries: [],
+            all_departments: [],
+            all_provinces: [],
+            all_districts: [],
+            all_locations: [],
             resource: "ads-campaign"
         };
     },
-    created() {},
+    created() {
+        this.$http.get(`/tables/locations`)
+            .then(response => {
+                this.countries = response.data.countries
+                this.all_departments = response.data.departments
+                this.all_provinces = response.data.provinces
+                this.all_districts = response.data.districts
+                this.all_locations = response.data.locations
+            })
+    },
     methods: {
         handleSelectCountry(item) {
             this.departments = item.departments;

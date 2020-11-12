@@ -30,12 +30,11 @@ class CreateCampaignsTable extends Migration
             $table->integer('monthly_cost');
             $table->integer('daily_cost');
             $table->boolean('apply_billing')->default(false);
+            $table->string('locations', 400)->nullable();
             $table->boolean('active')->default(false);
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->char('location_id')->nullable();
-            $table->foreign('location_id')->references('id')->on('districts');
 
             // $table->string('description')->nullable();
             // $table->string('ruc', 20)->nullable();
