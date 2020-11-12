@@ -106,6 +106,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('', 'AccountController@index')->name('account.index');
     });
 
+    Route::prefix('tables')->group(function () {
+        Route::get('locations', 'TableController@locations')->name('tables.locations');
+    });
+
 });
 
 Auth::routes();

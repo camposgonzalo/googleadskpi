@@ -1,10 +1,10 @@
 <div class="topbar">
         <!-- LOGO -->
         <div class="topbar-left">
-            <a href="crm-index.html" class="logo"><span><img src="{{ asset('crovex/assets/images/logo-sm.png') }}" alt="logo-small"
-                        class="logo-sm" /> </span><span><img src="{{ asset('crovex/assets/images/logo.png') }}" alt="logo-large"
+            <a href="crm-index.html" class="logo"><span><img src="{{ asset('img/ads.png') }}" alt="logo-small"
+                        class="logo-sm" /> </span><span><img src="{{ asset('img/ads.png') }}" alt="logo-large"
                         class="logo-lg logo-light" />
-                    <img src="{{ asset('crovex/assets/images/logo-dark.png') }}" alt="logo-large" class="logo-lg" /></span></a>
+                    <strong>ADS-KPI</strong></span></a>
         </div>
         <!--end logo-->
         <!-- Navbar -->

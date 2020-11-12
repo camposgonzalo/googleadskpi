@@ -25,12 +25,12 @@ class CreateCampaignsTable extends Migration
             $table->string('url');
             $table->string('phone')->nullable();
             $table->string('ad_schedule', 400);
-            $table->string('locations', 400);
             $table->enum('mode', ['Administrado', 'No Administrado']);
             $table->enum('type', ['Libre', 'Fijo']);
             $table->integer('monthly_cost');
             $table->integer('daily_cost');
             $table->boolean('apply_billing')->default(false);
+            $table->string('locations', 400)->nullable();
             $table->boolean('active')->default(false);
 
             $table->unsignedBigInteger('user_id')->nullable();

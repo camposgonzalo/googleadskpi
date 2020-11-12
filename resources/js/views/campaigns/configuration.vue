@@ -13,7 +13,7 @@
                             class="float-right"
                             style="margin-top: 12px;"
                             @click="update"
-                            >Actualizar confguración</el-button
+                            >Actualizar configuración</el-button
                         >
                     </div>
                 </div>
