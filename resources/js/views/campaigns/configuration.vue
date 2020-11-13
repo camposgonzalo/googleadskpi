@@ -10,6 +10,12 @@
                             v-bind:form="form"
                         ></Configuration>
                         <el-button
+                            class="float-left"
+                            style="margin-top: 12px;"
+                            @click="cancel()"
+                            >Cancelar</el-button
+                        >
+                        <el-button
                             class="float-right"
                             style="margin-top: 12px;"
                             @click="update"
@@ -78,6 +84,9 @@ export default {
             this.form = record;
             this.schedules = JSON.parse(record.ad_schedule);
             this.locations = JSON.parse(record.locations);
+        },
+        cancel() {
+            window.location.href = `/${this.resource}`;
         }
     }
 };

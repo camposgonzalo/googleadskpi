@@ -74,6 +74,7 @@
                                             >
                                             <el-input
                                                 v-model="form.password"
+                                                show-password
                                             ></el-input>
                                             <small
                                                 class="form-control-feedback"

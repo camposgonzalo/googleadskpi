@@ -17,5 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('record/{id}/keywords/period/{startDate}/{endDate}', 'CampaignController@keywordsInPeriod');
-Route::get('record/{id}/keywords', 'CampaignController@keywordsInPeriod');
+Route::get('records', 'UserController@records');
+Route::get('locations', 'TableController@locations')->name('tables.locations');

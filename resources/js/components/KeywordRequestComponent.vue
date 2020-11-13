@@ -167,11 +167,13 @@ export default {
             this.saveKeyword();
         },
         saveKeyword() {
+            let form = this.form;
             this.form.type = this.type;
-            this.form.keyword = JSON.stringify(this.form.keyword);
-            this.formRequest.request = JSON.stringify(this.form);
+            // this.form.keyword = JSON.stringify(this.form.keyword);
+            form.keyword = JSON.stringify(form.keyword);
+            this.formRequest.request = JSON.stringify(form);
             this.$http
-                .post(`/${this.resource}/keyword`, this.form)
+                .post(`/${this.resource}/keyword`, form)
                 .then(response => {
                     this.formRequest.keyword_id = response.data.record.id;
                     this.saveRequest();
@@ -194,10 +196,14 @@ export default {
                         message: response.data.message,
                         type: "success"
                     });
+                    this.cerrar();
                 })
                 .catch(error => {
                     this.$message.error("Sucedió un error.");
                 });
+        },
+        cerrar() {
+            this.$emit("cerrar");
         }
     }
 };

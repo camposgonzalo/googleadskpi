@@ -18,6 +18,7 @@
     <link href="{{ asset('crovex/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('crovex/assets/css/metisMenu.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('crovex/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/css.css') }}" rel="stylesheet">
 
 </head>
 

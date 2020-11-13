@@ -216,7 +216,12 @@
                             v-bind:form="form"
                         ></Configuration>
                     </el-card>
-
+                    <el-button
+                        class="float-left"
+                        style="margin-top: 12px;"
+                        @click="cancel()"
+                        >Cancelar</el-button
+                    >
                     <el-button
                         class="float-right"
                         style="margin-top: 12px;"
@@ -380,6 +385,9 @@ export default {
                 .catch(error => {
                     this.$message.error("Sucedió un error.");
                 });
+        },
+        cancel() {
+            window.location.href = `/${this.resource}`;
         }
     }
 };

@@ -228,6 +228,7 @@ export default {
                         message: response.data.message,
                         type: "success"
                     });
+                    this.cerrar();
                 })
                 .catch(error => {
                     console.log(error);
@@ -241,6 +242,9 @@ export default {
             ${this.form.description ? this.form.description : ""}\n${
                 this.form.url ? this.form.url : ""
             }`;
+        },
+        cerrar() {
+            this.$emit("cerrar");
         }
     }
 };

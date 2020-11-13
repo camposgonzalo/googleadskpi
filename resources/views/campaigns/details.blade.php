@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <campaigns-details :campaign-id="{{ json_encode($id) }}"></campaigns-details>
+    <campaigns-details :campaign-id="{{ json_encode($id) }}" :current-user="{{ $vc_user }}"></campaigns-details>
 
 @endsection

@@ -56,6 +56,12 @@
                     </el-card>
 
                     <!--end /div-->
+                    <el-button
+                        class="float-left"
+                        style="margin-top: 12px;"
+                        @click="cancel()"
+                        >Cancelar</el-button
+                    >
                 </div>
                 <!--end card-body-->
             </div>
@@ -115,6 +121,9 @@ export default {
                     .then(response => {
                         response.data.map(r => this.campaigns.push(r.name));
                     });
+        },
+        cancel() {
+            window.location.href = `/${this.resource}`;
         }
     }
 };

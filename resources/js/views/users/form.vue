@@ -74,6 +74,7 @@
                                             >
                                             <el-input
                                                 v-model="form.password"
+                                                show-password
                                             ></el-input>
                                             <small
                                                 class="form-control-feedback"
@@ -157,6 +158,12 @@
                         </div>
                     </div>
                     <el-button
+                        class="float-left"
+                        style="margin-top: 12px;"
+                        @click="cancel()"
+                        >Cancelar</el-button
+                    >
+                    <el-button
                         class="float-right"
                         style="margin-top: 12px;"
                         @click="save"
@@ -203,6 +210,9 @@ export default {
                     console.log(this.errors);
                     this.$message.error("Sucedió un error.");
                 });
+        },
+        cancel() {
+            window.location.href = `/${this.resource}`;
         }
     }
 };

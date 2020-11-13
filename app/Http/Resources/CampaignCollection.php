@@ -30,6 +30,7 @@ class CampaignCollection extends ResourceCollection
                 'currency' => $record['@attributes']['currency'],
                 'user' => $row->user,
                 'mode' => $row->mode,
+                'active' => $row->id == 0 ? false : true,
                 // 'id' => $row['@attributes']['campaignID'],
                 // 'name' => $row['@attributes']['campaign'],
                 // 'status' => $row['@attributes']['campaignState'],

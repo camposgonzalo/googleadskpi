@@ -46,6 +46,12 @@
                         ></Configuration>
                     </el-card>
                     <div>
+                        <el-button
+                            class="float-left"
+                            style="margin-top: 12px;"
+                            @click="cancel()"
+                            >Cancelar</el-button
+                        >
                         <div v-if="request.state == 'Borrador'">
                             <el-button
                                 class="float-right"
@@ -60,7 +66,12 @@
                                 >Guardar como borrador</el-button
                             >
                         </div>
-                        <div v-if="request.state == 'Pendiente'">
+                        <div
+                            v-if="
+                                request.state == 'Pendiente' &&
+                                    this.currentUser.role == 'admin'
+                            "
+                        >
                             <el-button
                                 class="float-right"
                                 style="margin-top: 12px;"
@@ -101,7 +112,6 @@ export default {
     },
     data() {
         return {
-            buttonText: "Aprobar",
             groups: [],
             campaigns: [],
             resource: "ads-request",
@@ -261,6 +271,9 @@ export default {
                 .catch(error => {
                     this.$message.error("Sucedió un error.");
                 });
+        },
+        cancel() {
+            window.location.href = `/${this.resource}`;
         }
     }
 };

@@ -52,6 +52,24 @@
                         <div class="row d-flex justify-content-end">
                             <div class="col-lg-3">
                                 <div class="row d-flex justify-content-center">
+                                    <span class="header-title mt-0">
+                                        Mostrar Desde :
+                                    </span>
+                                    <el-date-picker
+                                        v-model="rangeDate"
+                                        type="daterange"
+                                        align="right"
+                                        unlink-panels
+                                        range-separator="A"
+                                        start-placeholder="Fecha Inicio"
+                                        end-placeholder="Fecha Fin"
+                                        @change="filterDate"
+                                    >
+                                    </el-date-picker>
+                                </div>
+                            </div>
+                            <!-- <div class="col-lg-3">
+                                <div class="row d-flex justify-content-center">
                                     <h4 class="header-title mt-0">
                                         Mostrar datos desde :
                                     </h4>
@@ -76,7 +94,7 @@
                                     >
                                     </el-date-picker>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -348,7 +366,11 @@
                             </el-popover>
                             Anuncios
                         </h4>
-                        <div class="table-responsive browser_users">
+                        <div v-if="loadingAds" class="loader"></div>
+                        <div
+                            v-if="!loadingAds"
+                            class="table-responsive browser_users"
+                        >
                             <table class="table mb-0">
                                 <thead class="thead-light">
                                     <tr>
@@ -372,10 +394,42 @@
                                         v-for="(row, index) in ads"
                                         :key="index + 'R'"
                                     >
+                                        <el-dialog
+                                            :visible.sync="dialogAd"
+                                            width="40%"
+                                        >
+                                            <AdRequestComponent
+                                                v-bind:currentUser="currentUser"
+                                                v-bind:form="formAd"
+                                                v-bind:groups="[row.adGroup]"
+                                                v-bind:campaigns="[
+                                                    row.campaign
+                                                ]"
+                                                v-bind:showButtons="true"
+                                                v-on:cerrar="closeAd"
+                                            ></AdRequestComponent>
+                                        </el-dialog>
                                         <td>
-                                            <el-button @click="modififyAd(row)">
-                                                M
-                                            </el-button>
+                                            <el-popover
+                                                placement="right"
+                                                width="200"
+                                                trigger="click"
+                                            >
+                                                <el-row>
+                                                    <a
+                                                        @click="modififyAd(row)"
+                                                        size="mini"
+                                                        plain
+                                                        >- Modificar</a
+                                                    >
+                                                </el-row>
+                                                <el-button
+                                                    size="mini"
+                                                    slot="reference"
+                                                    icon="el-icon-more"
+                                                    circle
+                                                ></el-button>
+                                            </el-popover>
                                             {{ row.status }}
                                         </td>
                                         <td>
@@ -438,11 +492,14 @@
                             </el-popover>
                             Palabras Claves
                         </h4>
-                        <div class="table-responsive browser_users">
+                        <div v-if="loadingKeywords" class="loader"></div>
+                        <div
+                            v-if="!loadingKeywords"
+                            class="table-responsive browser_users"
+                        >
                             <table class="table mb-0">
                                 <thead class="thead-light">
                                     <tr>
-                                        <!--<th class="border-top-0">Id</th>-->
                                         <th class="border-top-0">Palabra</th>
                                         <th class="border-top-0">Grupo</th>
                                         <th class="border-top-0">Clic</th>
@@ -451,8 +508,6 @@
                                         </th>
                                         <th class="border-top-0">CTR</th>
                                         <th class="border-top-0">Consumo</th>
-
-                                        <!-- <th class="border-top-0">AdvertisingChannelSubType</th>-->
                                     </tr>
                                     <!--end tr-->
                                 </thead>
@@ -461,25 +516,36 @@
                                         v-for="(row, index) in keywords"
                                         :key="index + 'R'"
                                     >
+                                        <el-dialog
+                                            :visible.sync="dialogKeyWord"
+                                            width="40%"
+                                        >
+                                            <KeywordRequestComponent
+                                                v-bind:currentUser="currentUser"
+                                                v-bind:form="formKeyword"
+                                                v-bind:groups="[row.adGroup]"
+                                                v-bind:campaigns="[
+                                                    row.campaign
+                                                ]"
+                                                v-bind:type="formKeyword.type"
+                                                v-bind:showButtons="true"
+                                                v-on:cerrar="closeKeyWord"
+                                            ></KeywordRequestComponent>
+                                        </el-dialog>
                                         <td>
-                                            <el-button
-                                                @click="modififyKeyWord(row)"
-                                            >
-                                                M
-                                            </el-button>
-                                            <!-- <el-popover
+                                            <el-popover
                                                 placement="right"
                                                 width="200"
                                                 trigger="click"
                                             >
                                                 <el-row>
-                                                    <a size="mini" plain
-                                                        >- Ver reporte</a
-                                                    >
-                                                </el-row>
-                                                <el-row>
-                                                    <a size="mini" plain
-                                                        >- Ver configuracion</a
+                                                    <a
+                                                        @click="
+                                                            modififyKeyWord(row)
+                                                        "
+                                                        size="mini"
+                                                        plain
+                                                        >- Modificar</a
                                                     >
                                                 </el-row>
                                                 <el-button
@@ -488,7 +554,7 @@
                                                     icon="el-icon-menu"
                                                     circle
                                                 ></el-button>
-                                            </el-popover> -->
+                                            </el-popover>
                                             {{ row.text }}
                                         </td>
                                         <td>{{ row.adGroup }}</td>
@@ -591,14 +657,27 @@
 
 <script>
 const Kpi = () => import("../../components/KpiComponent");
+const AdRequestComponent = () => import("../../components/AdRequestComponent");
+const KeywordRequestComponent = () =>
+    import("../../components/KeywordRequestComponent");
 export default {
-    props: ["campaignId"],
+    props: ["campaignId", "currentUser"],
     components: {
-        Kpi
+        Kpi,
+        AdRequestComponent,
+        KeywordRequestComponent
     },
     data() {
         return {
+            dialogKeyWord: false,
+            formKeyword: {},
+            formAd: {},
+            dialogAd: false,
+            loadingAds: true,
+            loadingKeywords: true,
+            loadingSearchTerms: true,
             mode: "",
+            rangeDate: null,
             startDate: null,
             endDate: null,
             resource: "ads-campaign",
@@ -755,12 +834,13 @@ export default {
     },
     methods: {
         filterDate() {
-            if (this.startDate == null || this.endDate == null) return;
-            let starDate = this.startDate
+            if (!this.rangeDate) return;
+            // if (this.startDate == null || this.endDate == null) return;
+            let starDate = this.rangeDate[0]
                 .toISOString()
                 .split("T")[0]
                 .replaceAll("-", "");
-            let endDate = this.endDate
+            let endDate = this.rangeDate[1]
                 .toISOString()
                 .split("T")[0]
                 .replaceAll("-", "");
@@ -777,19 +857,25 @@ export default {
                 .get(`/${this.resource}/record/${this.campaignId}/keywords`)
                 .then(response => {
                     this.keywords = response.data.data;
+                    this.loadingKeywords = false;
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/ads`)
                 .then(response => {
                     this.ads = response.data.data;
+                    this.loadingAds = false;
                 });
             this.$http
                 .get(`/${this.resource}/record/${this.campaignId}/search_terms`)
                 .then(response => {
                     this.searchTerms = response.data.data;
+                    this.loadingSearchTerms = false;
                 });
         },
         getRecordInPeriod(startDate, endDate) {
+            this.loadingAds = true;
+            this.loadingKeywords = true;
+            this.loadingSearchTerms = true;
             this.$http
                 .get(
                     `/${this.resource}/api/record/${this.campaignId}/period/${startDate}/${endDate}`
@@ -804,6 +890,7 @@ export default {
                 )
                 .then(response => {
                     this.keywords = response.data.data;
+                    this.loadingKeywords = false;
                 });
             this.$http
                 .get(
@@ -811,6 +898,7 @@ export default {
                 )
                 .then(response => {
                     this.ads = response.data.data;
+                    this.loadingAds = false;
                 });
             this.$http
                 .get(
@@ -818,15 +906,20 @@ export default {
                 )
                 .then(response => {
                     this.searchTerms = response.data.data;
+                    this.loadingSearchTerms = false;
                 });
         },
         modififyKeyWord(item) {
+            this.dialogKeyWord = true;
             let formKeyword = {
                 type: item.isNegative ? "Negativa" : "Clave",
-                keyword: `["${item.text}"]`,
+                // keyword: `["${item.text}"]`,
+                keyword: [item.text],
                 group: item.adGroup,
                 campaign: item.campaign
             };
+            this.formKeyword = formKeyword;
+            return;
 
             let formRequest = {
                 type: "Modificar",
@@ -864,6 +957,7 @@ export default {
                 });
         },
         modififyAd(item) {
+            this.dialogAd = true;
             let formAd = {
                 title_one: item.headline1,
                 title_two: item.headline2,
@@ -872,6 +966,8 @@ export default {
                 group: item.adGroup,
                 campaign: item.campaign
             };
+            this.formAd = formAd;
+            return;
 
             let formRequest = {
                 type: "Modificar",
@@ -894,6 +990,12 @@ export default {
                 .catch(error => {
                     this.$message.error("Sucedió un error.");
                 });
+        },
+        closeAd() {
+            this.dialogAd = false;
+        },
+        closeKeyWord() {
+            this.dialogKeyWord = false;
         }
     }
 };

@@ -52,15 +52,19 @@
                     <br />
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="ubigeo" class="control-label">Ubicación</label>
-                            <br>
-                            <el-cascader v-model="form.locations"
-                                        :value="locations"
-                                        :options="all_locations"
-                                        :props="props"
-                                        filterable
-                                        clearable
-                                        class="w-100"></el-cascader>
+                            <label for="ubigeo" class="control-label"
+                                >Ubicación</label
+                            >
+                            <br />
+                            <el-cascader
+                                v-model="form.locations"
+                                :value="locations"
+                                :options="all_locations"
+                                :props="props"
+                                filterable
+                                clearable
+                                class="w-100"
+                            ></el-cascader>
                             <!-- <small class="form-control-feedback" v-if="errors.location_id" v-text="errors.location_id[0]"></small> -->
                         </div>
                     </div>
@@ -79,7 +83,11 @@
                                     @change="item.selected = !item.selected"
                                 >
                                     <div class="col-md-3">
-                                        <el-checkbox :label="item" :checked="item.selected">{{item.day}}</el-checkbox>
+                                        <el-checkbox
+                                            :label="item"
+                                            :checked="item.selected"
+                                            >{{ item.day }}</el-checkbox
+                                        >
                                     </div>
                                     <div class="col-md-6">
                                         <el-time-picker
@@ -90,7 +98,8 @@
                                             end-placeholder="Hora fin"
                                             format="HH:mm A"
                                             value-format="HH:mm A"
-                                            :disabled="!item.selected">
+                                            :disabled="!item.selected"
+                                        >
                                         </el-time-picker>
                                     </div>
                                 </div>
@@ -141,14 +150,14 @@ export default {
         };
     },
     created() {
-        this.$http.get(`/tables/locations`)
-            .then(response => {
-                this.countries = response.data.countries
-                this.all_departments = response.data.departments
-                this.all_provinces = response.data.provinces
-                this.all_districts = response.data.districts
-                this.all_locations = response.data.locations
-            })
+        console.log(this.schedules);
+        this.$http.get(`/tables/locations`).then(response => {
+            this.countries = response.data.countries;
+            this.all_departments = response.data.departments;
+            this.all_provinces = response.data.provinces;
+            this.all_districts = response.data.districts;
+            this.all_locations = response.data.locations;
+        });
     },
     methods: {
         handleSelectCountry(item) {

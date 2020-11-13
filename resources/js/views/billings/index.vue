@@ -8,7 +8,11 @@
                         <h4 class="header-title mt-0 mb-3">
                             Resumen de facturación
                         </h4>
-                        <div class="table-responsive browser_users">
+                        <div v-if="loadingData" class="loader"></div>
+                        <div
+                            v-if="!loadingData"
+                            class="table-responsive browser_users"
+                        >
                             <div v-if="role == 'admin'">
                                 Buscar:
                                 <el-select
@@ -65,6 +69,31 @@
                                         :key="index + 'R'"
                                     >
                                         <td>
+                                            <el-popover
+                                                placement="right"
+                                                width="200"
+                                                trigger="click"
+                                            >
+                                                <el-row>
+                                                    <a
+                                                        :href="
+                                                            `/${resource}/details/${row.periodo.replace(
+                                                                '-',
+                                                                ''
+                                                            )}${row.user.id}`
+                                                        "
+                                                        size="mini"
+                                                        plain
+                                                        >- detalle</a
+                                                    >
+                                                </el-row>
+                                                <el-button
+                                                    size="mini"
+                                                    slot="reference"
+                                                    icon="el-icon-menu"
+                                                    circle
+                                                ></el-button>
+                                            </el-popover>
                                             {{ row.periodo }}
                                         </td>
                                         <td>{{ row.abono }}</td>
@@ -94,6 +123,7 @@ export default {
     },
     data() {
         return {
+            loadingData: true,
             resource: "ads-billing",
             modalForm: false,
             filterRecords: [],
@@ -121,6 +151,7 @@ export default {
                         });
                         this.addCost(response.data.costs);
                         this.filterRecords = this.records;
+                        this.loadingData = false;
                     });
                 this.$http.get(`/ads-user/records`).then(response => {
                     this.users = response.data.map(r => {
@@ -138,6 +169,7 @@ export default {
                         this.records = this.formatData(response.data.bills);
                         this.addCost(response.data.costs);
                         this.filterRecords = this.records;
+                        this.loadingData = false;
                     });
         },
         addCost(records) {

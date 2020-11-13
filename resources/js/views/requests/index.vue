@@ -6,7 +6,8 @@
                     <h4 class="header-title mt-0 mb-3">
                         Solicitudes
                     </h4>
-                    <div class="table-responsive browser_users">
+                    <div v-if="loading" class="loader"></div>
+                    <div v-if="!loading" class="table-responsive browser_users">
                         Filtrar
                         <el-select
                             v-model="state"
@@ -79,10 +80,38 @@
                                                     "
                                                     size="mini"
                                                     plain
-                                                    >- Ver/Editar</a
+                                                    >- Ver</a
                                                 >
                                             </el-row>
-                                            <el-row>
+                                            <el-row
+                                                v-if="
+                                                    currentUser.role ==
+                                                        'admin' ||
+                                                        (currentUser.role ==
+                                                            'user' &&
+                                                            row.state !=
+                                                                'Aprobado')
+                                                "
+                                            >
+                                                <a
+                                                    :href="
+                                                        `/ads-request/edit/${row.id}`
+                                                    "
+                                                    size="mini"
+                                                    plain
+                                                    >- Editar</a
+                                                >
+                                            </el-row>
+                                            <el-row
+                                                v-if="
+                                                    currentUser.role ==
+                                                        'admin' ||
+                                                        (currentUser.role ==
+                                                            'user' &&
+                                                            row.state ==
+                                                                'Borrador')
+                                                "
+                                            >
                                                 <a size="mini" plain
                                                     >- Eliminar</a
                                                 >
@@ -131,6 +160,7 @@ export default {
     props: ["currentUser"],
     data() {
         return {
+            loading: true,
             resource: "ads-request",
             records: [],
             filterRecords: [],
@@ -156,7 +186,7 @@ export default {
             this.$http.get(url).then(response => {
                 this.records = response.data;
                 this.filterRecords = response.data;
-                console.log(this.records);
+                this.loading = false;
             });
         },
         viewInformation(id) {

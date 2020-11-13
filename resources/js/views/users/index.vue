@@ -6,7 +6,8 @@
                     <h4 class="header-title mt-0 mb-3">
                         Usuarios
                     </h4>
-                    <div class="table-responsive browser_users">
+                    <div v-if="loading" class="loader"></div>
+                    <div v-if="!loading" class="table-responsive browser_users">
                         <table class="table mb-0">
                             <thead class="thead-light">
                                 <tr>
@@ -43,13 +44,19 @@
                                                     >- editar</a
                                                 >
                                             </el-row>
-                                            <el-row>
-                                                <a size="mini" plain
+                                            <el-row v-if="row.active">
+                                                <a
+                                                    @click="deactivate(row)"
+                                                    size="mini"
+                                                    plain
                                                     >- desactivar</a
                                                 >
                                             </el-row>
-                                            <el-row>
-                                                <a size="mini" plain
+                                            <el-row v-if="!row.active">
+                                                <a
+                                                    @click="activate(row)"
+                                                    size="mini"
+                                                    plain
                                                     >- activar</a
                                                 >
                                             </el-row>
@@ -87,6 +94,7 @@ export default {
     props: {},
     data() {
         return {
+            loading: true,
             resource: "ads-user",
             records: [],
             value1: true
@@ -99,11 +107,40 @@ export default {
         getRecords() {
             this.$http.get(`/${this.resource}/records`).then(response => {
                 this.records = response.data;
-                console.log(response.data);
+                this.records.map(r => (r.active = r.active > 0));
+                this.loading = false;
             });
         },
         viewInformation(id) {
             location.href;
+        },
+        activate(row) {
+            this.$http
+                .get(`/${this.resource}/${row.id}/activate`)
+                .then(response => {
+                    row.active = true;
+                    this.$message({
+                        message: response.data.message,
+                        type: "success"
+                    });
+                })
+                .catch(error => {
+                    this.$message.error("Sucedió un error.");
+                });
+        },
+        deactivate(row) {
+            this.$http
+                .get(`/${this.resource}/${row.id}/deactivate`)
+                .then(response => {
+                    row.active = false;
+                    this.$message({
+                        message: response.data.message,
+                        type: "success"
+                    });
+                })
+                .catch(error => {
+                    this.$message.error("Sucedió un error.");
+                });
         }
     }
 };
