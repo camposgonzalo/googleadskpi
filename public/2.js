@@ -126,7 +126,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       keyword: "",
-      keywords: [],
+      keywords: this.form.keyword,
       formRequest: {
         type: "Crear",
         level: "Palabra ".concat(this.type),
@@ -141,12 +141,13 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     addKeyword: function addKeyword() {
       if (this.keyword != "") {
-        this.form.keyword.push(this.keyword);
+        this.keywords.push(this.keyword);
       }
 
       this.keyword = "";
     },
     initForm: function initForm() {
+      this.keywords = [];
       this.form = {
         keyword: []
       };
@@ -175,12 +176,10 @@ __webpack_require__.r(__webpack_exports__);
     saveKeyword: function saveKeyword() {
       var _this2 = this;
 
-      var form = this.form;
-      this.form.type = this.type; // this.form.keyword = JSON.stringify(this.form.keyword);
-
-      form.keyword = JSON.stringify(form.keyword);
-      this.formRequest.request = JSON.stringify(form);
-      this.$http.post("/".concat(this.resource, "/keyword"), form).then(function (response) {
+      this.form.type = this.type;
+      this.form.keyword = JSON.stringify(this.keywords);
+      this.formRequest.request = JSON.stringify(this.form);
+      this.$http.post("/".concat(this.resource, "/keyword"), this.form).then(function (response) {
         _this2.formRequest.keyword_id = response.data.record.id;
 
         _this2.saveRequest();
@@ -298,7 +297,7 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm._l(_vm.form.keyword, function(item, index) {
+            _vm._l(_vm.keywords, function(item, index) {
               return _c(
                 "div",
                 { key: index, staticClass: "col-md-12" },
@@ -309,11 +308,11 @@ var render = function() {
                       staticClass: "input-with-select",
                       attrs: { placeholder: item },
                       model: {
-                        value: _vm.form.keyword[index],
+                        value: _vm.keywords[index],
                         callback: function($$v) {
-                          _vm.$set(_vm.form.keyword, index, $$v)
+                          _vm.$set(_vm.keywords, index, $$v)
                         },
-                        expression: "form.keyword[index]"
+                        expression: "keywords[index]"
                       }
                     },
                     [
@@ -321,7 +320,7 @@ var render = function() {
                         attrs: { slot: "append", icon: "el-icon-delete" },
                         on: {
                           click: function($event) {
-                            return _vm.form.keyword.splice(index, 1)
+                            return _vm.keywords.splice(index, 1)
                           }
                         },
                         slot: "append"

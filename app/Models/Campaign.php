@@ -18,11 +18,15 @@ class Campaign extends Model
         'type',
         'monthly_cost',
         'daily_cost',
+        'total_cost',
         'campaign_id',
         'user_id',
         'active',
         'account_id',
         'group_id',
+        'campaign_name',
+        'account_name',
+        'group_name',
     ];
 
     public function user()

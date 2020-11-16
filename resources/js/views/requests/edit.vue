@@ -267,6 +267,7 @@ export default {
                         message: response.data.message,
                         type: "success"
                     });
+                    this.cancel();
                 })
                 .catch(error => {
                     this.$message.error("Sucedió un error.");

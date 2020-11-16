@@ -355,6 +355,7 @@ export default {
                 mode: null,
                 daily_cost: 0,
                 monthly_cost: 0,
+                total_cost: 0,
                 user_id: this.currentUser.id
             };
         },

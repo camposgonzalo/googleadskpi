@@ -21,7 +21,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <el-input v-model="form.monthly_cost"
+                                        <el-input
+                                            v-model="form.monthly_cost"
+                                            @change="monthlyCost"
                                             ><template slot="prepend"
                                                 >Mensual</template
                                             ></el-input
@@ -31,7 +33,9 @@
                                 <br />
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <el-input v-model="form.daily_cost"
+                                        <el-input
+                                            v-model="form.daily_cost"
+                                            @change="dailyCost"
                                             ><template slot="prepend"
                                                 >Diario</template
                                             ></el-input
@@ -40,10 +44,14 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <label class="control-label"
-                                            >Total a pagar:
-                                        </label>
+                                    <div class="col-md-6">
+                                        <el-input
+                                            v-model="form.total_cost"
+                                            @change="totalCost"
+                                            ><template slot="prepend"
+                                                >Total a pagar</template
+                                            ></el-input
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +73,6 @@
                                 clearable
                                 class="w-100"
                             ></el-cascader>
-                            <!-- <small class="form-control-feedback" v-if="errors.location_id" v-text="errors.location_id[0]"></small> -->
                         </div>
                     </div>
                 </div>
@@ -75,7 +82,10 @@
                             <legend class="w-auto">
                                 Programación de anuncios
                             </legend>
-                            <el-checkbox-group v-model="checkList">
+                            <el-checkbox-group
+                                v-model="checkList"
+                                @change="updateCost"
+                            >
                                 <div
                                     class="row"
                                     v-for="(item, index) in schedules"
@@ -126,6 +136,8 @@ export default {
     props: ["locations", "schedules", "form", "showGoogleId"],
     data() {
         return {
+            active_day_constant: 4.3,
+            buho_comision_constant: 1.1,
             checkList: [],
             props: { multiple: true },
             formUbication: {},
@@ -150,7 +162,6 @@ export default {
         };
     },
     created() {
-        console.log(this.schedules);
         this.$http.get(`/tables/locations`).then(response => {
             this.countries = response.data.countries;
             this.all_departments = response.data.departments;
@@ -189,6 +200,46 @@ export default {
                         .indexOf(queryString.toLowerCase()) === 0
                 );
             };
+        },
+        dailyCost() {
+            let t_camp = this.form.type == "Libre" ? 1.1 : 0.9;
+            let igv = this.form.apply_billing ? 1.8 : 1.0;
+            this.form.monthly_cost =
+                this.active_day_constant *
+                this.checkList.length *
+                this.form.daily_cost;
+            this.form.total_cost =
+                this.buho_comision_constant *
+                this.form.monthly_cost *
+                t_camp *
+                igv;
+        },
+        monthlyCost() {
+            let t_camp = this.form.type == "Libre" ? 1.1 : 0.9;
+            let igv = this.form.apply_billing ? 1.8 : 1.0;
+            this.form.daily_cost =
+                this.form.monthly_cost /
+                (this.active_day_constant * this.checkList.length);
+            this.form.total_cost =
+                this.buho_comision_constant *
+                this.form.monthly_cost *
+                t_camp *
+                igv;
+        },
+        totalCost() {
+            let t_camp = this.form.type == "Libre" ? 1.1 : 0.9;
+            let igv = this.form.apply_billing ? 1.8 : 1.0;
+            this.form.monthly_cost =
+                this.form.total_cost /
+                (this.buho_comision_constant * t_camp * igv);
+            this.form.daily_cost =
+                this.form.monthly_cost /
+                (this.active_day_constant * this.checkList.length);
+        },
+        updateCost() {
+            if (this.form.daily_cost != 0) this.dailyCost();
+            else if (this.form.monthly_cost != 0) this.monthlyCost();
+            else this.totalCost();
         }
     }
 };

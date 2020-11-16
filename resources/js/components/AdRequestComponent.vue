@@ -23,6 +23,8 @@
                                 v-model="form.title_one"
                                 @change="updateTextArea"
                                 dusk="title_one"
+                                maxlength="30"
+                                show-word-limit
                             ></el-input>
                             <small
                                 class="form-control-feedback"
@@ -48,6 +50,8 @@
                                 v-model="form.title_two"
                                 dusk="title_two"
                                 @change="updateTextArea"
+                                maxlength="30"
+                                show-word-limit
                             ></el-input>
                             <small
                                 class="form-control-feedback"
@@ -74,6 +78,8 @@
                                 v-model="form.description"
                                 dusk="description"
                                 @change="updateTextArea"
+                                maxlength="90"
+                                show-word-limit
                             ></el-input>
                             <small
                                 class="form-control-feedback"

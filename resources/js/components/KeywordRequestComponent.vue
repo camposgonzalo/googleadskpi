@@ -38,18 +38,18 @@
                     </div>
                     <div
                         class="col-md-12"
-                        v-for="(item, index) in form.keyword"
+                        v-for="(item, index) in keywords"
                         :key="index"
                     >
                         <el-input
                             :placeholder="item"
-                            v-model="form.keyword[index]"
+                            v-model="keywords[index]"
                             class="input-with-select"
                         >
                             <el-button
                                 slot="append"
                                 icon="el-icon-delete"
-                                @click="form.keyword.splice(index, 1)"
+                                @click="keywords.splice(index, 1)"
                             ></el-button>
                         </el-input>
                     </div>
@@ -123,7 +123,7 @@ export default {
     data() {
         return {
             keyword: "",
-            keywords: [],
+            keywords: this.form.keyword,
             formRequest: {
                 type: "Crear",
                 level: `Palabra ${this.type}`,
@@ -138,11 +138,12 @@ export default {
     methods: {
         addKeyword() {
             if (this.keyword != "") {
-                this.form.keyword.push(this.keyword);
+                this.keywords.push(this.keyword);
             }
             this.keyword = "";
         },
         initForm() {
+            this.keywords = [];
             this.form = {
                 keyword: []
             };
@@ -167,13 +168,11 @@ export default {
             this.saveKeyword();
         },
         saveKeyword() {
-            let form = this.form;
             this.form.type = this.type;
-            // this.form.keyword = JSON.stringify(this.form.keyword);
-            form.keyword = JSON.stringify(form.keyword);
-            this.formRequest.request = JSON.stringify(form);
+            this.form.keyword = JSON.stringify(this.keywords);
+            this.formRequest.request = JSON.stringify(this.form);
             this.$http
-                .post(`/${this.resource}/keyword`, form)
+                .post(`/${this.resource}/keyword`, this.form)
                 .then(response => {
                     this.formRequest.keyword_id = response.data.record.id;
                     this.saveRequest();
