@@ -17,5 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('records', 'UserController@records');
+Route::get('home', 'HomeController@home');
+Route::get('home2', 'HomeController@home2');
 Route::get('locations', 'TableController@locations')->name('tables.locations');
+Route::get('prueba/{account_id}', 'UserController@prueba');

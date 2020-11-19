@@ -34,6 +34,9 @@ class UserRequest extends FormRequest
             'password' => [
                 'required',
             ],
+            'account_id' => [
+                'required',
+            ],
         ];
     }
 }

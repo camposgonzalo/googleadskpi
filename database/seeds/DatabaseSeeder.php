@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'prueba@gmail.com',
             'password' => bcrypt('prueba12'),
             'role' => 'user',
+            'account_id' => '1',
             // 'phone' => '123456789',
         ]);
     }

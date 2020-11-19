@@ -95,11 +95,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('ads-user')->group(function () {
         Route::get('', 'UserController@index')->name('user.index');
         Route::get('records', 'UserController@records');
+        Route::get('users', 'UserController@users');
         Route::get('record/{id}', 'UserController@recordById');
         Route::get('create', 'UserController@create');
         Route::get('{id}/activate', 'UserController@activate');
         Route::get('{id}/deactivate', 'UserController@deactivate');
         Route::post('', 'UserController@store');
+    });
+
+    Route::prefix('ads-config')->group(function () {
+        Route::get('clientCustomerId/set/{id}', 'ConfigController@set');
     });
 
     Route::prefix('account')->group(function () {

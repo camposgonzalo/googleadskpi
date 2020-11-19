@@ -8,13 +8,28 @@
                         <h4 class="header-title mt-0 mb-3">
                             Resumen de facturación
                         </h4>
+                        <div v-if="currentUser.role == 'admin'">
+                            Cliente
+                            <el-select
+                                v-model="user"
+                                @change="setUser"
+                                :placeholder="userPlaceHolder"
+                            >
+                                <el-option
+                                    v-for="option in users"
+                                    v-bind:key="option.id"
+                                    :value="option"
+                                    >{{ option.name }}</el-option
+                                >
+                            </el-select>
+                        </div>
                         <div v-if="loadingData" class="loader"></div>
                         <div
                             v-if="!loadingData"
                             class="table-responsive browser_users"
                         >
                             <div v-if="role == 'admin'">
-                                Buscar:
+                                <!-- Buscar:
                                 <el-select
                                     v-model="userSearch"
                                     filterable
@@ -33,7 +48,7 @@
                                         :value="item.value"
                                     >
                                     </el-option>
-                                </el-select>
+                                </el-select> -->
                                 <el-button
                                     class="float-right"
                                     style="margin-top: 12px;"
@@ -123,7 +138,7 @@ export default {
     },
     data() {
         return {
-            loadingData: true,
+            loadingData: false,
             resource: "ads-billing",
             modalForm: false,
             filterRecords: [],
@@ -132,34 +147,60 @@ export default {
             filterUsers: [],
             userSearch: "",
             loading: false,
-            role: this.currentUser.role
+            role: this.currentUser.role,
+            user: null,
+            userPlaceHolder: "Seleccionar Cliente"
         };
     },
     created() {
-        this.getRecords();
+        if (this.currentUser.role == "user") this.getRecords();
+        else this.getUsers();
     },
     methods: {
+        setUser() {
+            this.$http
+                .get(`/ads-config/clientCustomerId/set/${this.user.id}`)
+                .then(response => {
+                    this.loadingData = true;
+                    this.userPlaceHolder = this.user.name;
+                    this.getRecords();
+                });
+            // this.getRecords();
+        },
+        getUsers() {
+            this.$http.get(`/ads-user/users`).then(response => {
+                this.users = response.data;
+            });
+        },
         getRecords() {
             if (this.role == "admin") {
+                // this.$http
+                //     .get(`/${this.resource}/records/group/users`)
+                //     .then(response => {
+                //         Object.values(response.data.bills).map(r => {
+                //             this.records = this.records.concat(
+                //                 this.formatData(r)
+                //             );
+                //         });
+                //         this.addCost(response.data.costs);
+                //         this.filterRecords = this.records;
+                //         this.loadingData = false;
+                //     });
+                // this.$http.get(`/ads-user/records`).then(response => {
+                //     this.users = response.data.map(r => {
+                //         r.value = r.name;
+                //         return r;
+                //     });
+                //     this.filterUsers = this.users;
+                // });
                 this.$http
-                    .get(`/${this.resource}/records/group/users`)
+                    .get(`/${this.resource}/user/${this.user.id}/records`)
                     .then(response => {
-                        Object.values(response.data.bills).map(r => {
-                            this.records = this.records.concat(
-                                this.formatData(r)
-                            );
-                        });
+                        this.records = this.formatData(response.data.bills);
                         this.addCost(response.data.costs);
                         this.filterRecords = this.records;
                         this.loadingData = false;
                     });
-                this.$http.get(`/ads-user/records`).then(response => {
-                    this.users = response.data.map(r => {
-                        r.value = r.name;
-                        return r;
-                    });
-                    this.filterUsers = this.users;
-                });
             } else
                 this.$http
                     .get(
@@ -211,31 +252,31 @@ export default {
         cerrar() {
             this.modalForm = false;
             this.getRecords();
-        },
-        filterTable() {
-            this.filterRecords = this.records;
-            if (this.userSearch != "")
-                this.filterRecords = this.filterRecords.filter(
-                    record => record.user.name == this.userSearch
-                );
-        },
-        remoteMethod(query) {
-            if (query !== "") {
-                this.loading = true;
-                setTimeout(() => {
-                    this.loading = false;
-                    this.filterUsers = this.users.filter(item => {
-                        return (
-                            item.name
-                                .toLowerCase()
-                                .indexOf(query.toLowerCase()) > -1
-                        );
-                    });
-                }, 200);
-            } else {
-                this.filterUsers = [];
-            }
         }
+        // filterTable() {
+        //     this.filterRecords = this.records;
+        //     if (this.userSearch != "")
+        //         this.filterRecords = this.filterRecords.filter(
+        //             record => record.user.name == this.userSearch
+        //         );
+        // },
+        // remoteMethod(query) {
+        //     if (query !== "") {
+        //         this.loading = true;
+        //         setTimeout(() => {
+        //             this.loading = false;
+        //             this.filterUsers = this.users.filter(item => {
+        //                 return (
+        //                     item.name
+        //                         .toLowerCase()
+        //                         .indexOf(query.toLowerCase()) > -1
+        //                 );
+        //             });
+        //         }, 200);
+        //     } else {
+        //         this.filterUsers = [];
+        //     }
+        // }
     }
 };
 </script>

@@ -19,9 +19,9 @@ class CreateCampaignsTable extends Migration
             $table->unsignedBigInteger('campaign_id')->nullable();
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('group_id')->nullable();
-            $table->unsignedBigInteger('campaign_name')->nullable();
-            $table->unsignedBigInteger('account_name')->nullable();
-            $table->unsignedBigInteger('group_name')->nullable();
+            $table->string('campaign_name')->nullable();
+            $table->string('account_name')->nullable();
+            $table->string('group_name')->nullable();
             //
             $table->string('name');
             $table->string('objective');

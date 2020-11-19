@@ -245,5 +245,6 @@ return [
     ],
 
     'adsapi_php_path' => realpath(base_path('adsapi_php.ini')),
+    'clientCustomerId' => '1',
     // 'adsapi_php_path' => pwd . '/adsapi_php.ini',
 ];

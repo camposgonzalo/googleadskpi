@@ -1,6 +1,33 @@
 <template>
     <div>
         <div class="row">
+            <div class="col-lg-12">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div v-if="currentUser.role == 'admin'">
+                                Cliente
+                                <el-select
+                                    v-model="user"
+                                    @change="setUser"
+                                    :placeholder="userPlaceHolder"
+                                >
+                                    <el-option
+                                        v-for="option in users"
+                                        v-bind:key="option.id"
+                                        :value="option"
+                                        >{{ option.name }}</el-option
+                                    >
+                                </el-select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-4">
                 <div class="card report-card">
                     <div class="card-body">
@@ -290,6 +317,9 @@ export default {
     props: ["currentUser"],
     data() {
         return {
+            userPlaceHolder: "Seleccionar Cliente",
+            users: [],
+            user: null,
             resource: "ads-dashboard",
             records: [],
             totalValues: {
@@ -371,14 +401,31 @@ export default {
         };
     },
     created() {
-        this.getRecords();
-        console.log(this.currentUser);
+        if (this.currentUser.role == "user") this.getRecords();
+        else this.getUsers();
     },
     methods: {
+        setUser() {
+            this.$http
+                .get(`/ads-config/clientCustomerId/set/${this.user.id}`)
+                .then(response => {
+                    // this.loadingData = true;
+                    this.userPlaceHolder = this.user.name;
+                    this.getRecords();
+                });
+            // this.getRecords();
+        },
+        getUsers() {
+            this.$http.get(`/ads-user/users`).then(response => {
+                this.users = response.data;
+            });
+        },
         getRecords() {
-            let url = `/${this.resource}/records`;
-            if (this.currentUser.role != "admin")
-                url = `/${this.resource}/user/${this.currentUser.id}/records`;
+            // let url = `/${this.resource}/records`;
+            let url = `/${this.resource}/user/${this.currentUser.id}/records`;
+            if (this.currentUser.role == "admin")
+                url = `/${this.resource}/user/${this.user.id}/records`;
+            console.log(url);
             this.$http.get(url).then(response => {
                 this.records = response.data.data;
                 let campaignsId = [];

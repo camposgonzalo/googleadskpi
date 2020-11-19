@@ -153,6 +153,47 @@
                                             ></small>
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div
+                                            class="form-group"
+                                            :class="{
+                                                'has-danger': errors.account_id
+                                            }"
+                                        >
+                                            <label class="control-label"
+                                                >Google Account Id</label
+                                            >
+                                            <el-input
+                                                v-model="form.account_id"
+                                            ></el-input>
+                                            <small
+                                                class="form-control-feedback"
+                                                v-if="errors.account_id"
+                                                v-text="errors.account_id[0]"
+                                            ></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div
+                                            class="form-group"
+                                            :class="{
+                                                'has-danger':
+                                                    errors.account_name
+                                            }"
+                                        >
+                                            <label class="control-label"
+                                                >Google Account Name</label
+                                            >
+                                            <el-input
+                                                v-model="form.account_name"
+                                            ></el-input>
+                                            <small
+                                                class="form-control-feedback"
+                                                v-if="errors.account_name"
+                                                v-text="errors.account_name[0]"
+                                            ></small>
+                                        </div>
+                                    </div>
                                 </form>
                             </el-card>
                         </div>

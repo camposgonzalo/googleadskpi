@@ -5,7 +5,6 @@ namespace App\Helpers;
 use Google\AdsApi\AdWords\AdWordsSessionBuilder;
 use Google\AdsApi\Common\OAuth2TokenBuilder;
 
-
 class GoogleAdsSession
 {
     public static function getSession()

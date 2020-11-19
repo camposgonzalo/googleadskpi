@@ -25,6 +25,9 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
+            $table->string('account_id')->nullable();
+            $table->string('account_name')->nullable();
+
             $table->boolean('apply_billing')->default(false);
             $table->string('ruc', 20)->nullable();
             $table->string('business_name', 200)->nullable();
