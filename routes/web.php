@@ -101,6 +101,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('{id}/activate', 'UserController@activate');
         Route::get('{id}/deactivate', 'UserController@deactivate');
         Route::post('', 'UserController@store');
+        Route::get('{id}/set/account_id/{account_id}', 'UserController@setAccountId');
     });
 
     Route::prefix('ads-config')->group(function () {

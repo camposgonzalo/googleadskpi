@@ -6,6 +6,22 @@
                     <h4 class="header-title mt-0 mb-3">
                         Solicitudes
                     </h4>
+                    <div v-if="currentUser.role == 'admin'">
+                        Cliente
+                        <el-select
+                            v-model="user"
+                            @change="setUser"
+                            :placeholder="userPlaceHolder"
+                        >
+                            <el-option
+                                v-for="option in users"
+                                v-bind:key="option.id"
+                                :value="option"
+                                >{{ option.name }}</el-option
+                            >
+                        </el-select>
+                    </div>
+                    <br />
                     <div v-if="loading" class="loader"></div>
                     <div v-if="!loading" class="table-responsive browser_users">
                         Filtrar
@@ -160,7 +176,7 @@ export default {
     props: ["currentUser"],
     data() {
         return {
-            loading: true,
+            loading: false,
             resource: "ads-request",
             records: [],
             filterRecords: [],
@@ -171,18 +187,47 @@ export default {
             levels: ["Campaña", "Anuncio", "Palabra Clave", "Palabra Negativa"],
             state: "",
             type: "",
-            level: ""
+            level: "",
+            users: [],
+            user: null
         };
     },
     created() {
-        this.getRecords();
+        if (this.currentUser.role == "user") this.getRecords();
+        else this.getUsers();
         if (this.currentUser.role == "admin") this.headers.push("Usuario");
     },
     methods: {
+        setUser() {
+            this.$http
+                .get(
+                    `ads-user/${this.currentUser.id}/set/account_id/${this.user.account_id}`
+                )
+                .then(response => {
+                    this.userPlaceHolder = this.user.name;
+                    this.getRecords();
+                });
+
+            // this.$http
+            //     .get(`/ads-config/clientCustomerId/set/${this.user.id}`)
+            //     .then(response => {
+            //         this.loading = true;
+            //         this.userPlaceHolder = this.user.name;
+            //         this.getRecords();
+            //     });
+            // this.getRecords();
+        },
+        getUsers() {
+            this.$http.get(`/ads-user/users`).then(response => {
+                this.users = response.data;
+            });
+        },
         getRecords() {
-            let url = `/${this.resource}/records`;
-            if (this.currentUser.role != "admin")
-                url = `/${this.resource}/user/${this.currentUser.id}/records`;
+            // let url = `/${this.resource}/records`;
+            this.loading = true;
+            let url = `/${this.resource}/user/${this.currentUser.id}/records`;
+            if (this.currentUser.role == "admin")
+                url = `/${this.resource}/user/${this.user.id}/records`;
             this.$http.get(url).then(response => {
                 this.records = response.data;
                 this.filterRecords = response.data;

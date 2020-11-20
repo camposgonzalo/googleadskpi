@@ -101,4 +101,16 @@ class UserController extends Controller
         ];
 
     }
+
+    public function setAccountId($id, $account_id)
+    {
+        $record = User::find($id);
+        $record->account_id = $account_id;
+        $record->save();
+        return [
+            'success' => true,
+            'message' => 'Usuario account id actualizado con éxito',
+        ];
+
+    }
 }

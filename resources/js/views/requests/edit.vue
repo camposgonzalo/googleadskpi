@@ -162,6 +162,7 @@ export default {
         initCampaignData() {
             if (this.request.type == "Crear") this.showGoogleId = true;
             this.form = this.request.campaign;
+            this.form.locations = JSON.parse(this.form.locations);
             this.schedules = JSON.parse(this.request.campaign.ad_schedule);
             this.locations = JSON.parse(this.request.campaign.locations);
         },

@@ -407,9 +407,10 @@ export default {
     methods: {
         setUser() {
             this.$http
-                .get(`/ads-config/clientCustomerId/set/${this.user.id}`)
+                .get(
+                    `ads-user/${this.currentUser.id}/set/account_id/${this.user.account_id}`
+                )
                 .then(response => {
-                    // this.loadingData = true;
                     this.userPlaceHolder = this.user.name;
                     this.getRecords();
                 });
@@ -425,7 +426,6 @@ export default {
             let url = `/${this.resource}/user/${this.currentUser.id}/records`;
             if (this.currentUser.role == "admin")
                 url = `/${this.resource}/user/${this.user.id}/records`;
-            console.log(url);
             this.$http.get(url).then(response => {
                 this.records = response.data.data;
                 let campaignsId = [];
