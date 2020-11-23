@@ -45,13 +45,13 @@ class UserController extends Controller
         $record->fill($request->all());
         Log::info($record->account_id);
         if ($record->account_id) {
-            $newFolder = rtrim(realpath(base_path('adsapi_php')) . "\\$record->account_id", '\\/');
+            $newFolder = realpath(base_path('adsapi_php')) . "/$record->account_id";
             if (!file_exists($newFolder)) {
                 mkdir($newFolder, 0777, true);
-                copy(realpath(base_path('adsapi_php.ini')), $newFolder . '\adsapi_php.ini');
-                $content = file_get_contents($newFolder . '\adsapi_php.ini');
+                copy(realpath(base_path('adsapi_php.ini')), $newFolder . '/adsapi_php.ini');
+                $content = file_get_contents($newFolder . '/adsapi_php.ini');
                 $content = str_replace('$clientCustomerId', $record->account_id, $content);
-                file_put_contents($newFolder . '\adsapi_php.ini', $content);
+                file_put_contents($newFolder . '/adsapi_php.ini', $content);
             }
         }
 

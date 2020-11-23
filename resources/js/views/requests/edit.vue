@@ -234,6 +234,7 @@ export default {
         },
         saveCampaign() {
             if (this.request.state == "Aprobado") this.form.active = true;
+            this.form.locations = JSON.stringify(this.form.locations);
             this.$http
                 .post(`/ads-campaign`, this.form)
                 .then(response => {
