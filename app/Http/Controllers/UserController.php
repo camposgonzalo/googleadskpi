@@ -66,7 +66,7 @@ class UserController extends Controller
     public function prueba($account_id)
     {
         Log::info($account_id);
-        $newFolder = rtrim(realpath(base_path('adsapi_php')) . "\ $account_id", '\\/');
+        $newFolder = rtrim(realpath(base_path('adsapi_php')) . "\\$account_id", '\\/');
         if (!file_exists($newFolder)) {
             mkdir($newFolder, 0777, true);
             copy(realpath(base_path('adsapi_php.ini')), $newFolder . '\adsapi_php.ini');
